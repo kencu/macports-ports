@@ -1,7 +1,7 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem  1.0
-PortGroup           muniversal 1.0
+#PortGroup           muniversal 1.0
 
 name                nspr
 version             4.34
@@ -21,6 +21,8 @@ checksums           rmd160  797348539b26183f33871093699fcf0b5064176c \
                     size    1096407
 
 worksrcdir          ${worksrcdir}/nspr
+
+#patchfiles-append   patch-nspr-no-cross-changes.diff
 
 post-patch {
     reinplace "s:@LDFLAGS@:${configure.ldflags}:" \

@@ -1,0 +1,20 @@
+--- config/rules.mk.orig	2022-07-28 10:30:38.000000000 -0700
++++ config/rules.mk	2022-07-28 10:31:03.000000000 -0700
+@@ -50,17 +50,6 @@
+ include $(topsrcdir)/config/config.mk
+ endif
+ 
+-ifdef USE_AUTOCONF
+-ifdef CROSS_COMPILE
+-ifdef INTERNAL_TOOLS
+-CC=$(HOST_CC)
+-CCC=$(HOST_CXX)
+-CFLAGS=$(HOST_CFLAGS)
+-CXXFLAGS=$(HOST_CXXFLAGS)
+-LDFLAGS=$(HOST_LDFLAGS)
+-endif
+-endif
+-endif
+ 
+ #
+ # This makefile contains rules for building the following kinds of
