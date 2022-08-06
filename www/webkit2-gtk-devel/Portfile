@@ -13,8 +13,8 @@ cmake.generator     Ninja
 
 name                webkit2-gtk-devel
 conflicts           webkit2-gtk
-version             2.27.3
-revision            3
+version             2.37.1
+revision            0
 
 description         Apple's WebKit2 HTML rendering library for GTK+3
 long_description    ${description}
@@ -30,13 +30,14 @@ distname            webkitgtk-${version}
 
 dist_subdir         webkit-gtk
 
-checksums           rmd160  b297a1aaae881d702d4b95f15fffc261c2608087 \
-                    sha256  5390d0b41957834202893887f1ac04e3264b6a3d98160d4166e3c8c16bdb7492 \
-                    size    20912420
+checksums           rmd160  e674821b4ad0cf06784a50022754bdadc687b1b5 \
+                    sha256  c53326b1751f8c6da3db2f4bfa91c1801755893e287d0e1f6c07344589d4a6a7 \
+                    size    32930172
 
 depends_build-append \
                     port:gperf \
                     port:gtk-doc \
+                    port:gi-docgen \
                     port:pkgconfig \
                     port:python27 \
                     port:py27-simplejson
@@ -63,6 +64,7 @@ depends_lib-append  port:atk \
                     port:libnotify \
                     port:libpng \
                     port:libsecret \
+                    port:libsoup \
                     path:lib/pkgconfig/libsoup-2.4.pc:libsoup \
                     port:libxml2 \
                     port:libxslt \
@@ -77,29 +79,29 @@ depends_lib-append  port:atk \
 # 3. add missing WebCore include directory used only on Apple webkit builds
 # 4. add a missing Apple-only header found in the WebKit project
 # 5. change some int64_t to gint64 to stop typedef errors in gstreamer
-patchfiles-append   patch-webkit2gtk-macports.diff
+#patchfiles-append   patch-webkit2gtk-macports.diff
 
 # and a few more for webkit2-gtk-2.27.2
-patchfiles-append   patch-webkit2gtk-272-macports.diff
+#patchfiles-append   patch-webkit2gtk-272-macports.diff
 
 # enable Netscape plugin architecture on macOS
 # or can be explicitly disabled with the following addition if preferred
 # configure.args-append -DENABLE_NETSCAPE_PLUGIN_API=OFF
-patchfiles-append    patch-enable-plugin-architecture-unix.diff
+#patchfiles-append    patch-enable-plugin-architecture-unix.diff
 
 # add a link library to WebCore. I am not sure this is still needed; builds and
 # runs without this patch.
-patchfiles-append    patch-bundle-link-webcore.diff
+#patchfiles-append    patch-bundle-link-webcore.diff
 
 # allow the webkit executables typically located in libexec to be
 # dynamically located, this is useful for app bundling
-patchfiles-append    process-executable-path.diff
+#patchfiles-append    process-executable-path.diff
 
 # add new sources for NSApplicationActivationPolicy.mm
-patchfiles-append    patch-sources-gtk.diff
+#patchfiles-append    patch-sources-gtk.diff
 
 # patch web process to add call to SetActivationPolicyProhibited
-patchfiles-append    patch-web-process-main.diff
+#patchfiles-append    patch-web-process-main.diff
 
 # it is preferred to use the WebKit built in bmalloc if it builds on a given os.
 # it has improved security features, but not all systems can build it at present.
@@ -109,7 +111,15 @@ configure.args-append \
     -DENABLE_INTROSPECTION=ON \
     -DENABLE_MINIBROWSER=OFF \
     -DENABLE_VIDEO=ON \
-    -DUSE_SYSTEM_MALLOC=OFF
+    -DUSE_SYSTEM_MALLOC=OFF \
+    -DUSE_SOUP2=ON \
+    -DUSE_WPE_RENDERER=OFF
+
+#  libmanette is required for ENABLE_GAMEPAD
+configure.args-append -DENABLE_GAMEPAD=OFF
+
+#  libsystemd or libelogind are needed for ENABLE_JOURNALD_LOG
+configure.args-append -DENABLE_JOURNALD_LOG=OFF
 
 pre-configure {
     if {![variant_isset quartz] && ![variant_isset x11]} {
@@ -118,8 +128,8 @@ pre-configure {
 }
 
 post-patch {
-    file copy ${filespath}/NSApplicationActivationPolicy.h ${worksrcpath}/Source/WebKit/WebProcess/gtk/NSApplicationActivationPolicy.h
-    file copy ${filespath}/NSApplicationActivationPolicy.mm ${worksrcpath}/Source/WebKit/WebProcess/gtk/NSApplicationActivationPolicy.mm
+#    file copy ${filespath}/NSApplicationActivationPolicy.h ${worksrcpath}/Source/WebKit/WebProcess/gtk/NSApplicationActivationPolicy.h
+#    file copy ${filespath}/NSApplicationActivationPolicy.mm ${worksrcpath}/Source/WebKit/WebProcess/gtk/NSApplicationActivationPolicy.mm
 }
 
 if {![variant_isset quartz]} {
@@ -132,10 +142,10 @@ default_variants-append +minibrowser
 variant quartz conflicts x11 {
     require_active_variants path:lib/pkgconfig/gtk+-3.0.pc:gtk3 quartz
 
-    configure.args-append \
-        -DENABLE_QUARTZ_TARGET=ON \
-        -DENABLE_X11_TARGET=OFF \
-        -DENABLE_OPENGL=OFF
+#    configure.args-append \
+#        -DENABLE_QUARTZ_TARGET=ON \
+#        -DENABLE_X11_TARGET=OFF
+#        -DENABLE_OPENGL=OFF
 
 # OPENGL does not work with +quartz, eg: https://trac.macports.org/ticket/52495
 # OPENGL must be explicitly turned off, otherwise GLX is found, but X11 is not, and:
@@ -216,8 +226,8 @@ if {${os.platform} eq "darwin" && ${os.major} <= 16} {
 
     # add dep for newer ruby and spec this for build
     # https://trac.macports.org/ticket/52016
-    depends_build-append    port:ruby25
-    configure.args-append   -DRUBY_EXECUTABLE=${prefix}/bin/ruby2.5
+    depends_build-append    port:ruby30
+    configure.args-append   -DRUBY_EXECUTABLE=${prefix}/bin/ruby3.0
 
     # fix missing PRId64 definitions on systems
     # that don't define __STDC_FORMAT_MACROS by default
