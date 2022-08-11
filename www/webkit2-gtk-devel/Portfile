@@ -115,6 +115,14 @@ configure.args-append \
     -DUSE_SOUP2=ON \
     -DUSE_WPE_RENDERER=OFF
 
+configure.args-append \
+    -DUSE_APPLE_ICU=OFF
+
+configure.args-append \
+    -DENABLE_DOCUMENTATION=OFF
+
+configure.args-append -DUSE_GSTREAMER_GL=OFF
+
 #  libmanette is required for ENABLE_GAMEPAD
 configure.args-append -DENABLE_GAMEPAD=OFF
 
