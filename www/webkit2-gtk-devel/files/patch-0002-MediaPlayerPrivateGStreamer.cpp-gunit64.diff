@@ -1,0 +1,22 @@
+diff --git Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
+index 3223d0b9..fea1b810 100644
+--- Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
++++ Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
+@@ -1153,7 +1153,7 @@ MediaTime MediaPlayerPrivateGStreamer::platformDuration() const
+     if (GST_STATE(m_pipeline.get()) < GST_STATE_PAUSED)
+         return MediaTime::invalidTime();
+ 
+-    int64_t duration = 0;
++    gint64_t duration = 0;
+     if (!gst_element_query_duration(m_pipeline.get(), GST_FORMAT_TIME, &duration) || !GST_CLOCK_TIME_IS_VALID(duration)) {
+         GST_DEBUG_OBJECT(pipeline(), "Time duration query failed for %s", m_url.string().utf8().data());
+         return MediaTime::positiveInfiniteTime();
+@@ -1924,7 +1924,7 @@ void MediaPlayerPrivateGStreamer::handleMessage(GstMessage* message)
+             GUniqueOutPtr<GstStructure> responseHeaders;
+             if (gst_structure_get(structure, "response-headers", GST_TYPE_STRUCTURE, &responseHeaders.outPtr(), nullptr)) {
+                 CString contentLengthHeaderName = httpHeaderNameString(HTTPHeaderName::ContentLength).utf8();
+-                uint64_t contentLength = 0;
++                guint64_t contentLength = 0;
+                 if (!gst_structure_get_uint64(responseHeaders.get(), contentLengthHeaderName.data(), &contentLength)) {
+                     // souphttpsrc sets a string for Content-Length, so
+                     // handle it here, until we remove the webkit+ protocol

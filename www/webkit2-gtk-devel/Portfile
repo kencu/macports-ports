@@ -1,9 +1,5 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
 
-# We have an umbrella radar tracking webkit-gtk issues on OS X.  Please relate
-# any future issues with this tracker.
-# http://bugs.webkit.org/show_bug.cgi?id=126492
-
 PortSystem          1.0
 PortGroup           active_variants 1.1
 PortGroup           cmake 1.1
@@ -73,38 +69,9 @@ depends_lib-append  port:atk \
                     port:woff2 \
                     port:zlib
 
+patchfiles-append   patch-0001-add-spi-cocoa.diff
+patchfiles-append   patch-0002-MediaPlayerPrivateGStreamer.cpp-gunit64.diff
 
-# 1. add missing JavaScriptCore include directory used only on Apple webkit builds
-# 2. don't copy the ICU includes into the source tree
-# 3. add missing WebCore include directory used only on Apple webkit builds
-# 4. add a missing Apple-only header found in the WebKit project
-# 5. change some int64_t to gint64 to stop typedef errors in gstreamer
-#patchfiles-append   patch-webkit2gtk-macports.diff
-
-# and a few more for webkit2-gtk-2.27.2
-#patchfiles-append   patch-webkit2gtk-272-macports.diff
-
-# enable Netscape plugin architecture on macOS
-# or can be explicitly disabled with the following addition if preferred
-# configure.args-append -DENABLE_NETSCAPE_PLUGIN_API=OFF
-#patchfiles-append    patch-enable-plugin-architecture-unix.diff
-
-# add a link library to WebCore. I am not sure this is still needed; builds and
-# runs without this patch.
-#patchfiles-append    patch-bundle-link-webcore.diff
-
-# allow the webkit executables typically located in libexec to be
-# dynamically located, this is useful for app bundling
-#patchfiles-append    process-executable-path.diff
-
-# add new sources for NSApplicationActivationPolicy.mm
-#patchfiles-append    patch-sources-gtk.diff
-
-# patch web process to add call to SetActivationPolicyProhibited
-#patchfiles-append    patch-web-process-main.diff
-
-# it is preferred to use the WebKit built in bmalloc if it builds on a given os.
-# it has improved security features, but not all systems can build it at present.
 
 configure.args-append \
     -DPORT=GTK \
@@ -115,12 +82,23 @@ configure.args-append \
     -DUSE_SOUP2=ON \
     -DUSE_WPE_RENDERER=OFF
 
+
+# let's just turn off the complicated video portions for now, to get started at least
+configure.args-replace -DENABLE_VIDEO=ON -DENABLE_VIDEO=OFF
+
+
+# by default webkit uses Apple's ICU library and headers, but these don't match
+# all the other parts of MacPorts so we use our own
 configure.args-append \
     -DUSE_APPLE_ICU=OFF
 
+# building the documentation currently fails due to some missing components in the
+# document-generating toolchain
 configure.args-append \
     -DENABLE_DOCUMENTATION=OFF
 
+# the build tries to use egl headers, but I can't find egl support in MacPorts
+# perhaps it exists but I don't know where to find it
 configure.args-append -DUSE_GSTREAMER_GL=OFF
 
 #  libmanette is required for ENABLE_GAMEPAD
@@ -150,10 +128,10 @@ default_variants-append +minibrowser
 variant quartz conflicts x11 {
     require_active_variants path:lib/pkgconfig/gtk+-3.0.pc:gtk3 quartz
 
-#    configure.args-append \
-#        -DENABLE_QUARTZ_TARGET=ON \
-#        -DENABLE_X11_TARGET=OFF
-#        -DENABLE_OPENGL=OFF
+    configure.args-append \
+        -DENABLE_QUARTZ_TARGET=ON \
+        -DENABLE_X11_TARGET=OFF
+        -DENABLE_OPENGL=OFF
 
 # OPENGL does not work with +quartz, eg: https://trac.macports.org/ticket/52495
 # OPENGL must be explicitly turned off, otherwise GLX is found, but X11 is not, and:
@@ -187,6 +165,85 @@ variant minibrowser description {Build and install MiniBrowser (for testing)} {
 # muniversal PG does not fix it. disabling the JIT does not fix it
 # help wanted, if suitably motivated
 universal_variant   no
+
+notes-append "
+If you are porting new software to use webkit2gtk on Apple systems,\
+you will likely need to define BUILDING_GTK__ to get the correct\
+behaviour from WebKitAvailability.h.
+"
+
+livecheck.type      regex
+livecheck.url       http://webkitgtk.org/releases/
+livecheck.regex     "webkitgtk-(\\d+(?:\\.\\d+)+)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 1. add missing JavaScriptCore include directory used only on Apple webkit builds
+# 2. don't copy the ICU includes into the source tree
+# 3. add missing WebCore include directory used only on Apple webkit builds
+# 4. add a missing Apple-only header found in the WebKit project
+# 5. change some int64_t to gint64 to stop typedef errors in gstreamer
+#patchfiles-append   patch-webkit2gtk-macports.diff
+
+# and a few more for webkit2-gtk-2.27.2
+#patchfiles-append   patch-webkit2gtk-272-macports.diff
+
+# enable Netscape plugin architecture on macOS
+# or can be explicitly disabled with the following addition if preferred
+# configure.args-append -DENABLE_NETSCAPE_PLUGIN_API=OFF
+#patchfiles-append    patch-enable-plugin-architecture-unix.diff
+
+# add a link library to WebCore. I am not sure this is still needed; builds and
+# runs without this patch.
+#patchfiles-append    patch-bundle-link-webcore.diff
+
+# allow the webkit executables typically located in libexec to be
+# dynamically located, this is useful for app bundling
+#patchfiles-append    process-executable-path.diff
+
+# add new sources for NSApplicationActivationPolicy.mm
+#patchfiles-append    patch-sources-gtk.diff
+
+# patch web process to add call to SetActivationPolicyProhibited
+#patchfiles-append    patch-web-process-main.diff
+
+# it is preferred to use the WebKit built in bmalloc if it builds on a given os.
+# it has improved security features, but not all systems can build it at present.
+
 
 # the above code presently builds as-in on 10.13 and up
 if {${os.platform} eq "darwin" && ${os.major} <= 16} {
@@ -253,12 +310,4 @@ if {${os.platform} eq "darwin" && ${os.major} <= 16} {
     }
 }
 
-notes-append "
-If you are porting new software to use webkit2gtk on Apple systems,\
-you will likely need to define BUILDING_GTK__ to get the correct\
-behaviour from WebKitAvailability.h.
-"
 
-livecheck.type      regex
-livecheck.url       http://webkitgtk.org/releases/
-livecheck.regex     "webkitgtk-(\\d+(?:\\.\\d+)+)"

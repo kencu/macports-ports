@@ -1,0 +1,504 @@
+From e66e4c4e5f6ce7ac3c89418caf86533a37e4c695 Mon Sep 17 00:00:00 2001
+From: Ken <21211439+kencu@users.noreply.github.com>
+Date: Wed, 10 Aug 2022 18:33:25 -0700
+Subject: [PATCH] add spi/cocoa
+
+---
+ Source/WTF/wtf/spi/cocoa/CFXPCBridgeSPI.h     |  37 ++++++
+ .../wtf/spi/cocoa/CrashReporterClientSPI.h    |  57 +++++++++
+ Source/WTF/wtf/spi/cocoa/MachVMSPI.h          |  48 ++++++++
+ Source/WTF/wtf/spi/cocoa/NSLocaleSPI.h        |  38 ++++++
+ Source/WTF/wtf/spi/cocoa/NSObjCRuntimeSPI.h   |  50 ++++++++
+ Source/WTF/wtf/spi/cocoa/OSLogSPI.h           |  41 +++++++
+ Source/WTF/wtf/spi/cocoa/SecuritySPI.h        | 111 ++++++++++++++++++
+ Source/WTF/wtf/spi/cocoa/objcSPI.h            |  47 ++++++++
+ 8 files changed, 429 insertions(+)
+ create mode 100644 Source/WTF/wtf/spi/cocoa/CFXPCBridgeSPI.h
+ create mode 100644 Source/WTF/wtf/spi/cocoa/CrashReporterClientSPI.h
+ create mode 100644 Source/WTF/wtf/spi/cocoa/MachVMSPI.h
+ create mode 100644 Source/WTF/wtf/spi/cocoa/NSLocaleSPI.h
+ create mode 100644 Source/WTF/wtf/spi/cocoa/NSObjCRuntimeSPI.h
+ create mode 100644 Source/WTF/wtf/spi/cocoa/OSLogSPI.h
+ create mode 100644 Source/WTF/wtf/spi/cocoa/SecuritySPI.h
+ create mode 100644 Source/WTF/wtf/spi/cocoa/objcSPI.h
+
+diff --git Source/WTF/wtf/spi/cocoa/CFXPCBridgeSPI.h Source/WTF/wtf/spi/cocoa/CFXPCBridgeSPI.h
+new file mode 100644
+index 00000000..d23abde1
+--- /dev/null
++++ Source/WTF/wtf/spi/cocoa/CFXPCBridgeSPI.h
+@@ -0,0 +1,37 @@
++/*
++ * Copyright (C) 2018 Apple Inc. All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY APPLE INC. ``AS IS'' AND ANY
++ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL APPLE INC. OR
++ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
++ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
++ * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#pragma once
++
++#if USE(APPLE_INTERNAL_SDK)
++#import <CoreFoundation/CFXPCBridge.h>
++#endif
++
++WTF_EXTERN_C_BEGIN
++
++xpc_object_t _CFXPCCreateXPCMessageWithCFObject(CFTypeRef);
++CFTypeRef _CFXPCCreateCFObjectFromXPCMessage(xpc_object_t);
++
++WTF_EXTERN_C_END
+diff --git Source/WTF/wtf/spi/cocoa/CrashReporterClientSPI.h Source/WTF/wtf/spi/cocoa/CrashReporterClientSPI.h
+new file mode 100644
+index 00000000..97c18c14
+--- /dev/null
++++ Source/WTF/wtf/spi/cocoa/CrashReporterClientSPI.h
+@@ -0,0 +1,57 @@
++/*
++ * Copyright (C) 2017 Apple Inc. All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY APPLE INC. AND ITS CONTRIBUTORS ``AS IS''
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
++ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL APPLE INC. OR ITS CONTRIBUTORS
++ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
++ * THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#pragma once
++
++#if USE(APPLE_INTERNAL_SDK)
++
++#import <CrashReporterClient.h>
++
++#else
++
++#define CRASHREPORTER_ANNOTATIONS_SECTION "__crash_info"
++#define CRASHREPORTER_ANNOTATIONS_VERSION 5
++#define CRASH_REPORTER_CLIENT_HIDDEN __attribute__((visibility("hidden")))
++
++#define _crc_make_getter(attr) ((const char *)(unsigned long)gCRAnnotations.attr)
++#define _crc_make_setter(attr, arg) (gCRAnnotations.attr = (uint64_t)(unsigned long)(arg))
++#define CRGetCrashLogMessage() _crc_make_getter(message)
++#define CRSetCrashLogMessage(m) _crc_make_setter(message, m)
++
++struct crashreporter_annotations_t {
++    uint64_t version;
++    uint64_t message;
++    uint64_t signature_string;
++    uint64_t backtrace;
++    uint64_t message2;
++    uint64_t thread;
++    uint64_t dialog_mode;
++    uint64_t abort_cause;
++};
++
++CRASH_REPORTER_CLIENT_HIDDEN
++extern struct crashreporter_annotations_t gCRAnnotations;
++
++#endif
+diff --git Source/WTF/wtf/spi/cocoa/MachVMSPI.h Source/WTF/wtf/spi/cocoa/MachVMSPI.h
+new file mode 100644
+index 00000000..83d0c505
+--- /dev/null
++++ Source/WTF/wtf/spi/cocoa/MachVMSPI.h
+@@ -0,0 +1,48 @@
++/*
++ * Copyright (C) 2014-2016 Apple Inc. All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY APPLE INC. AND ITS CONTRIBUTORS ``AS IS''
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
++ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL APPLE INC. OR ITS CONTRIBUTORS
++ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
++ * THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#pragma once
++
++#include <mach/boolean.h>
++#include <mach/kern_return.h>
++#include <mach/mach_types.h>
++
++#if PLATFORM(MAC) || USE(APPLE_INTERNAL_SDK)
++#include <mach/mach_vm.h>
++#endif
++
++WTF_EXTERN_C_BEGIN
++
++kern_return_t mach_vm_allocate(vm_map_t target, mach_vm_address_t*, mach_vm_size_t, int flags);
++kern_return_t mach_vm_deallocate(vm_map_t target, mach_vm_address_t, mach_vm_size_t);
++kern_return_t mach_vm_map(vm_map_t targetTask, mach_vm_address_t*, mach_vm_size_t, mach_vm_offset_t mask, int flags,
++    mem_entry_name_port_t, memory_object_offset_t, boolean_t copy, vm_prot_t currentProtection, vm_prot_t maximumProtection, vm_inherit_t);
++kern_return_t mach_vm_protect(vm_map_t targetTask, mach_vm_address_t, mach_vm_size_t, boolean_t setMaximum, vm_prot_t newProtection);
++kern_return_t mach_vm_region(vm_map_t targetTask, mach_vm_address_t*, mach_vm_size_t*, vm_region_flavor_t, vm_region_info_t,
++    mach_msg_type_number_t* infoCount, mach_port_t* objectName);
++kern_return_t mach_vm_region_recurse(vm_map_t targetTask, mach_vm_address_t*, mach_vm_size_t*, uint32_t* depth, vm_region_recurse_info_t, mach_msg_type_number_t* infoCount);
++kern_return_t mach_vm_purgable_control(vm_map_t target, mach_vm_address_t, vm_purgable_t control, int* state);
++
++WTF_EXTERN_C_END
+diff --git Source/WTF/wtf/spi/cocoa/NSLocaleSPI.h Source/WTF/wtf/spi/cocoa/NSLocaleSPI.h
+new file mode 100644
+index 00000000..46bdc9ed
+--- /dev/null
++++ Source/WTF/wtf/spi/cocoa/NSLocaleSPI.h
+@@ -0,0 +1,38 @@
++/*
++ * Copyright (C) 2019 Apple Inc. All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY APPLE INC. AND ITS CONTRIBUTORS ``AS IS''
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
++ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL APPLE INC. OR ITS CONTRIBUTORS
++ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
++ * THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#import <Foundation/Foundation.h>
++
++#if USE(APPLE_INTERNAL_SDK)
++
++#import <InternationalSupport/NSLocale+InternationalSupportExtensions.h>
++
++#endif
++
++@interface NSLocale ()
+++ (nonnull NSArray<NSString *> *)minimizedLanguagesFromLanguages:(nonnull NSArray<NSString *> *)languages;
+++ (nonnull NSArray<NSString *> *)matchedLanguagesFromAvailableLanguages:(nonnull NSArray<NSString *> *)availableLanguages forPreferredLanguages:(nonnull NSArray<NSString *> *)preferredLanguages;
++@end
++
+diff --git Source/WTF/wtf/spi/cocoa/NSObjCRuntimeSPI.h Source/WTF/wtf/spi/cocoa/NSObjCRuntimeSPI.h
+new file mode 100644
+index 00000000..9cc2df1a
+--- /dev/null
++++ Source/WTF/wtf/spi/cocoa/NSObjCRuntimeSPI.h
+@@ -0,0 +1,50 @@
++/*
++ * Copyright (C) 2021 Apple Inc. All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY APPLE INC. AND ITS CONTRIBUTORS ``AS IS''
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
++ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL APPLE INC. OR ITS CONTRIBUTORS
++ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
++ * THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#pragma once
++
++#if USE(APPLE_INTERNAL_SDK)
++#include <Foundation/NSObjCRuntime_Private.h>
++#endif
++
++#include <wtf/Platform.h>
++
++// Apply this to a specific method in the @interface or @implementation.
++#ifndef NS_DIRECT
++#if HAVE(NS_DIRECT_SUPPORT)
++#define NS_DIRECT __attribute__((objc_direct))
++#else
++#define NS_DIRECT
++#endif
++#endif
++
++// Apply this to the @interface or @implementation of a class.
++#ifndef NS_DIRECT_MEMBERS
++#if HAVE(NS_DIRECT_SUPPORT)
++#define NS_DIRECT_MEMBERS __attribute__((objc_direct_members))
++#else
++#define NS_DIRECT_MEMBERS
++#endif
++#endif
+diff --git Source/WTF/wtf/spi/cocoa/OSLogSPI.h Source/WTF/wtf/spi/cocoa/OSLogSPI.h
+new file mode 100644
+index 00000000..831a829b
+--- /dev/null
++++ Source/WTF/wtf/spi/cocoa/OSLogSPI.h
+@@ -0,0 +1,41 @@
++/*
++ * Copyright (C) 2020 Apple Inc. All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY APPLE INC. AND ITS CONTRIBUTORS ``AS IS''
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
++ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL APPLE INC. OR ITS CONTRIBUTORS
++ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
++ * THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#pragma once
++
++#include <os/log.h>
++
++#if USE(APPLE_INTERNAL_SDK)
++
++#include <os/log_private.h>
++
++#endif
++
++WTF_EXTERN_C_BEGIN
++
++OS_EXPORT OS_NOTHROW OS_NOT_TAIL_CALLED OS_NONNULL5
++void os_log_with_args(os_log_t oslog, os_log_type_t type, const char *format, va_list args, void *ret_addr);
++
++WTF_EXTERN_C_END
+diff --git Source/WTF/wtf/spi/cocoa/SecuritySPI.h Source/WTF/wtf/spi/cocoa/SecuritySPI.h
+new file mode 100644
+index 00000000..5654386e
+--- /dev/null
++++ Source/WTF/wtf/spi/cocoa/SecuritySPI.h
+@@ -0,0 +1,111 @@
++/*
++ * Copyright (C) 2015-2021 Apple Inc. All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY APPLE INC. AND ITS CONTRIBUTORS ``AS IS''
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
++ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL APPLE INC. OR ITS CONTRIBUTORS
++ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
++ * THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#pragma once
++
++#if USE(APPLE_INTERNAL_SDK)
++
++#include <Security/SecAccessControlPriv.h>
++#include <Security/SecCertificatePriv.h>
++#include <Security/SecIdentityPriv.h>
++#include <Security/SecItemPriv.h>
++#include <Security/SecKeyPriv.h>
++#include <Security/SecTask.h>
++#include <Security/SecTrustPriv.h>
++
++#if PLATFORM(MAC)
++#include <Security/keyTemplates.h>
++#endif
++
++#else
++
++#include <Security/SecBase.h>
++
++typedef uint32_t SecSignatureHashAlgorithm;
++enum {
++    kSecSignatureHashAlgorithmUnknown = 0,
++    kSecSignatureHashAlgorithmMD2 = 1,
++    kSecSignatureHashAlgorithmMD4 = 2,
++    kSecSignatureHashAlgorithmMD5 = 3,
++    kSecSignatureHashAlgorithmSHA1 = 4,
++    kSecSignatureHashAlgorithmSHA224 = 5,
++    kSecSignatureHashAlgorithmSHA256 = 6,
++    kSecSignatureHashAlgorithmSHA384 = 7,
++    kSecSignatureHashAlgorithmSHA512 = 8
++};
++
++WTF_EXTERN_C_BEGIN
++
++#if PLATFORM(MAC)
++OSStatus SecTrustedApplicationCreateFromPath(const char* path, SecTrustedApplicationRef*);
++#endif
++
++SecSignatureHashAlgorithm SecCertificateGetSignatureHashAlgorithm(SecCertificateRef);
++extern const CFStringRef kSecAttrNoLegacy;
++
++WTF_EXTERN_C_END
++
++#endif // USE(APPLE_INTERNAL_SDK)
++
++typedef struct __SecTask *SecTaskRef;
++typedef struct __SecTrust *SecTrustRef;
++
++WTF_EXTERN_C_BEGIN
++
++SecTaskRef SecTaskCreateWithAuditToken(CFAllocatorRef, audit_token_t);
++SecTaskRef SecTaskCreateFromSelf(CFAllocatorRef);
++CFStringRef SecTaskCopySigningIdentifier(SecTaskRef, CFErrorRef *);
++CFTypeRef SecTaskCopyValueForEntitlement(SecTaskRef, CFStringRef entitlement, CFErrorRef*);
++uint32_t SecTaskGetCodeSignStatus(SecTaskRef);
++SecIdentityRef SecIdentityCreate(CFAllocatorRef, SecCertificateRef, SecKeyRef);
++SecAccessControlRef SecAccessControlCreateFromData(CFAllocatorRef, CFDataRef, CFErrorRef*);
++CFDataRef SecAccessControlCopyData(SecAccessControlRef);
++
++CFDataRef SecKeyCopySubjectPublicKeyInfo(SecKeyRef);
++
++#if PLATFORM(MAC)
++#include <Security/SecAsn1Types.h>
++ALLOW_DEPRECATED_DECLARATIONS_BEGIN
++extern const SecAsn1Template kSecAsn1AlgorithmIDTemplate[];
++extern const SecAsn1Template kSecAsn1SubjectPublicKeyInfoTemplate[];
++ALLOW_DEPRECATED_DECLARATIONS_END
++#endif
++
++#if HAVE(SEC_TRUST_SERIALIZATION)
++CF_RETURNS_RETAINED CFDataRef SecTrustSerialize(SecTrustRef, CFErrorRef *);
++CF_RETURNS_RETAINED SecTrustRef SecTrustDeserialize(CFDataRef serializedTrust, CFErrorRef *);
++#endif
++
++CF_RETURNS_RETAINED CFDictionaryRef SecTrustCopyInfo(SecTrustRef);
++
++#if HAVE(SEC_TRUST_SET_CLIENT_AUDIT_TOKEN)
++OSStatus SecTrustSetClientAuditToken(SecTrustRef, CFDataRef);
++#endif
++
++extern const CFStringRef kSecTrustInfoExtendedValidationKey;
++extern const CFStringRef kSecTrustInfoCompanyNameKey;
++extern const CFStringRef kSecTrustInfoRevocationKey;
++
++WTF_EXTERN_C_END
+diff --git Source/WTF/wtf/spi/cocoa/objcSPI.h Source/WTF/wtf/spi/cocoa/objcSPI.h
+new file mode 100644
+index 00000000..ad8412a8
+--- /dev/null
++++ Source/WTF/wtf/spi/cocoa/objcSPI.h
+@@ -0,0 +1,47 @@
++/*
++ * Copyright (C) 2018 Apple Inc. All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY APPLE INC. AND ITS CONTRIBUTORS ``AS IS''
++ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
++ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
++ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL APPLE INC. OR ITS CONTRIBUTORS
++ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
++ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
++ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
++ * THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#pragma once
++
++#include <objc/objc.h>
++
++#if USE(APPLE_INTERNAL_SDK)
++
++#include <objc/objc-internal.h>
++
++#endif
++
++WTF_EXTERN_C_BEGIN
++
++void* objc_autoreleasePoolPush(void);
++void objc_autoreleasePoolPop(void* context);
++
++id objc_loadWeakRetained(id*);
++id objc_initWeak(id*, id);
++void objc_destroyWeak(id*);
++void objc_copyWeak(id*, id*);
++void objc_moveWeak(id*, id*);
++
++WTF_EXTERN_C_END
+-- 
+2.32.1 (Apple Git-133)
+

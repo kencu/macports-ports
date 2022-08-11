@@ -1,0 +1,19 @@
+In file included from /opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/build/WebCore/DerivedSources/unified-sources/UnifiedSource-3a52ce78-143.cpp:6:
+In file included from /opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/build/WebCore/DerivedSources/JSValidityState.cpp:22:
+In file included from /opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/build/WebCore/DerivedSources/JSValidityState.h:24:
+/opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/webkitgtk-2.37.1/Source/WebCore/html/ValidityState.h:35:33: error: cannot initialize return object of type 'WebCore::Element *' with an rvalue of type 'WebCore::HTMLElement *'
+    Element* element() { return &asHTMLElement(); }
+                                ^~~~~~~~~~~~~~~~
+/opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/webkitgtk-2.37.1/Source/WebCore/html/FormNamedItem.h:25:7: note: 'WebCore::HTMLElement' is not defined, but forward declared here; conversion would be valid if it was derived from 'WebCore::Element'
+class HTMLElement;
+      ^
+In file included from /opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/build/WebCore/DerivedSources/unified-sources/UnifiedSource-3a52ce78-143.cpp:6:
+In file included from /opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/build/WebCore/DerivedSources/JSValidityState.cpp:22:
+In file included from /opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/build/WebCore/DerivedSources/JSValidityState.h:24:
+/opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/webkitgtk-2.37.1/Source/WebCore/html/ValidityState.h:36:45: error: cannot initialize return object of type 'WebCore::Node *' with an rvalue of type 'WebCore::HTMLElement *'
+    Node* opaqueRootConcurrently() { return &asHTMLElement(); }
+                                            ^~~~~~~~~~~~~~~~
+/opt/local/var/macports/build/_opt_macports-ports_www_webkit2-gtk-devel/webkit2-gtk-devel/work/webkitgtk-2.37.1/Source/WebCore/html/FormNamedItem.h:25:7: note: 'WebCore::HTMLElement' is not defined, but forward declared here; conversion would be valid if it was derived from 'WebCore::Node'
+class HTMLElement;
+      ^
+2 errors generated.
