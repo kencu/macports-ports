@@ -84,9 +84,10 @@ configure.args-append \
 
 
 # let's just turn off the complicated video portions for now, to get started at least
-configure.args-replace -DENABLE_VIDEO=ON -DENABLE_VIDEO=OFF
+#configure.args-replace -DENABLE_VIDEO=ON -DENABLE_VIDEO=OFF
 
-configure.args-replace -DUSE_SYSTEM_MALLOC=OFF -DUSE_SYSTEM_MALLOC=ON
+# tried this on 10.14 -- didn't help much
+#configure.args-replace -DUSE_SYSTEM_MALLOC=OFF -DUSE_SYSTEM_MALLOC=ON
 
 
 # by default webkit uses Apple's ICU library and headers, but these don't match
