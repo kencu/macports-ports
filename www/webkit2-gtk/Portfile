@@ -80,8 +80,12 @@ depends_lib-append  port:atk \
 # 4. add a missing Apple-only header found in the WebKit project
 # 5. change some int64_t to gint64 to stop typedef errors in gstreamer
 patchfiles-append   patch-webkit2gtk-macports.diff
-patchfiles-append   patch-webkit2gtk-macports-1.diff
-patchfiles-append   patch-webkit2gtk-macports-2.diff
+
+# may not be needed?
+#FIXME patchfiles-append   patch-webkit2gtk-macports-1.diff
+
+# use configure arg instead
+#FIXME patchfiles-append   patch-webkit2gtk-macports-2.diff
 patchfiles-append   patch-webkit2gtk-macports-3.diff
 patchfiles-append   patch-webkit2gtk-macports-4.diff
 
@@ -108,11 +112,13 @@ patchfiles-append    patch-bundle-link-webcore.diff
 
 # Fix incompatibility with XCode 12:
 # https://bugs.webkit.org/show_bug.cgi?id=207871
-patchfiles-append    patch-WTF-wtf-getVTablePointer.diff
+# no longer needed I think - kfc
+#FIXME patchfiles-append    patch-WTF-wtf-getVTablePointer.diff
 
 # Fix build errors due to -WWc++11-narrowing
 # https://bugs.webkit.org/show_bug.cgi?id=211193
-patchfiles-append    patch-bool_narrowed.diff
+# no longer needed I think - kfc
+#FIXME patchfiles-append    patch-bool_narrowed.diff
 
 # it is preferred to use the WebKit built in bmalloc if it builds on a given os.
 # it has improved security features, but not all systems can build it at present.
@@ -124,6 +130,28 @@ configure.args-append \
     -DENABLE_VIDEO=ON \
     -DUSE_SYSTEM_MALLOC=OFF \
     -DPERL_EXECUTABLE=${prefix}/bin/perl5.34
+
+configure.args-append -DUSE_APPLE_ICU=OFF
+
+#CMake Error at Source/cmake/OptionsGTK.cmake:270 (message):
+#  libwpe is required for USE_WPE_RENDERER
+configure.args-append -DUSE_WPE_RENDERER=OFF
+
+#CMake Error at Source/cmake/OptionsGTK.cmake:282 (message):
+#  libmanette is required for ENABLE_GAMEPAD
+configure.args-append -DENABLE_GAMEPAD=OFF
+
+#CMake Error at Source/cmake/OptionsGTK.cmake:436 (message):
+#  libsystemd is needed for USE_SYSTEMD
+configure.args-append -DUSE_SYSTEMD=OFF
+
+
+# wrap MacTypes.h to avoid namespace collisions with Rect
+#configure.cflags-prepend        -isystem ${filespath}/include_wrappers
+#configure.cxxflags-prepend      -isystem ${filespath}/include_wrappers
+#configure.objcflags-prepend     -isystem ${filespath}/include_wrappers
+#configure.objcxxflags-prepend   -isystem ${filespath}/include_wrappers
+
 
 pre-configure {
     if {![variant_isset quartz] && ![variant_isset x11]} {
