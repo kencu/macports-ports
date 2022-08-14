@@ -13,8 +13,8 @@ cmake.generator     Ninja
 
 name                webkit2-gtk
 conflicts           webkit2-gtk-devel
-version             2.28.2
-revision            2
+version             2.32.4
+revision            0
 
 description         Apple's WebKit2 HTML rendering library for GTK+3
 long_description    ${description}
@@ -30,9 +30,9 @@ distname            webkitgtk-${version}
 
 dist_subdir         webkit-gtk
 
-checksums           rmd160  a626f58cf30b6dd1ef8a63c165ce85770c4da675 \
-                    sha256  b9d23525cfd8d22c37b5d964a9fe9a8ce7583042a2f8d3922e71e6bbc68c30bd \
-                    size    21427772
+checksums           rmd160  410788d0911dc2d4ce86b1178401440c511629ef \
+                    sha256  00ce2d3f798d7bc5e9039d9059f0c3c974d51de38c8b716f00e94452a177d3fd \
+                    size    23327956
 
 depends_build-append \
                     port:gperf \
