@@ -1,0 +1,14 @@
+diff --git Source/WebKit/Shared/SandboxExtension.h Source/WebKit/Shared/SandboxExtension.h
+index 5839d3fc..6f110183 100644
+--- Source/WebKit/Shared/SandboxExtension.h
++++ Source/WebKit/Shared/SandboxExtension.h
+@@ -33,6 +33,9 @@
+ #include <wtf/Vector.h>
+ #include <wtf/text/WTFString.h>
+ 
++/* audit_token_t */
++#include <mach/message.h>
++
+ namespace IPC {
+ class Encoder;
+ class Decoder;

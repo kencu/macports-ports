@@ -1,0 +1,14 @@
+diff --git Source/WebKit/NetworkProcess/NetworkLoadParameters.h Source/WebKit/NetworkProcess/NetworkLoadParameters.h
+index de74d33a..fb021faa 100644
+--- Source/WebKit/NetworkProcess/NetworkLoadParameters.h
++++ Source/WebKit/NetworkProcess/NetworkLoadParameters.h
+@@ -35,6 +35,9 @@
+ #include <WebCore/SecurityOrigin.h>
+ #include <wtf/ProcessID.h>
+ 
++/* audit_token_t */
++#include <mach/message.h>
++
+ namespace WebKit {
+ 
+ enum class PreconnectOnly { No, Yes };

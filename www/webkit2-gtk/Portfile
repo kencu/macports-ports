@@ -80,9 +80,16 @@ depends_lib-append  port:atk \
 # 4. add a missing Apple-only header found in the WebKit project
 # 5. change some int64_t to gint64 to stop typedef errors in gstreamer
 patchfiles-append   patch-webkit2gtk-macports.diff
+patchfiles-append   patch-webkit2gtk-macports-1.diff
+patchfiles-append   patch-webkit2gtk-macports-2.diff
+patchfiles-append   patch-webkit2gtk-macports-3.diff
+patchfiles-append   patch-webkit2gtk-macports-4.diff
 
 # and a few more for webkit2-gtk-2.27.2
 patchfiles-append   patch-webkit2gtk-272-macports.diff
+patchfiles-append   patch-webkit2gtk-272-macports-1.diff
+patchfiles-append   patch-webkit2gtk-272-macports-2.diff
+patchfiles-append   patch-webkit2gtk-272-macports-3.diff
 
 # and a few more for 282
 patchfiles-append   patch-webkit2gtk-2282-unprotected-egl-changes.diff

@@ -1,0 +1,15 @@
+diff --git Source/WebCore/CMakeLists.txt Source/WebCore/CMakeLists.txt
+index a5b62f40..440ef671 100644
+--- Source/WebCore/CMakeLists.txt
++++ Source/WebCore/CMakeLists.txt
+@@ -173,6 +173,10 @@ set(WebCore_SYSTEM_INCLUDE_DIRECTORIES
+     ${ZLIB_INCLUDE_DIRS}
+ )
+ 
++list(APPEND WebCore_SYSTEM_INCLUDE_DIRECTORIES
++	${PAL_DIR}
++)
++
+ set(WebCore_IDL_INCLUDES
+     css
+     dom
