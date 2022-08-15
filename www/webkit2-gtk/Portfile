@@ -152,6 +152,8 @@ configure.args-append -DUSE_SYSTEMD=OFF
 #configure.objcflags-prepend     -isystem ${filespath}/include_wrappers
 #configure.objcxxflags-prepend   -isystem ${filespath}/include_wrappers
 
+configure.cxxflags-append -Wno-deprecated-declarations -Wno-deprecated-copy
+configure.objcxxflags-append -Wno-deprecated-declarations -Wno-deprecated-copy
 
 pre-configure {
     if {![variant_isset quartz] && ![variant_isset x11]} {
