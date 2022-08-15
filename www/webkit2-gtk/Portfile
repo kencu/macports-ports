@@ -145,6 +145,9 @@ configure.args-append -DENABLE_GAMEPAD=OFF
 #  libsystemd is needed for USE_SYSTEMD
 configure.args-append -DUSE_SYSTEMD=OFF
 
+# having trouble with namespace collisions in
+# Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText
+# configure.args-append -DENABLE_ACCESSIBILITY=OFF
 
 # wrap MacTypes.h to avoid namespace collisions with Rect
 #configure.cflags-prepend        -isystem ${filespath}/include_wrappers
@@ -152,8 +155,8 @@ configure.args-append -DUSE_SYSTEMD=OFF
 #configure.objcflags-prepend     -isystem ${filespath}/include_wrappers
 #configure.objcxxflags-prepend   -isystem ${filespath}/include_wrappers
 
-configure.cxxflags-append -Wno-deprecated-declarations -Wno-deprecated-copy
-configure.objcxxflags-append -Wno-deprecated-declarations -Wno-deprecated-copy
+configure.cxxflags-append -Wno-deprecated-declarations
+configure.objcxxflags-append -Wno-deprecated-declarations
 
 pre-configure {
     if {![variant_isset quartz] && ![variant_isset x11]} {
