@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cmake 1.1
+PortGroup           wxWidgets 1.0
+
+github.setup        OpenCPN OpenCPN 5.6.2 Release_
+revision            0
+categories          aqua
+platforms           darwin
+license             GPL-2
+maintainers         nomaintainer
+description         share a keyboard and mouse over the network
+long_description    ${name} shares a keyboard, mouse, and clipboard over the network.\
+                    It supports multiple operating systems, including macOS,\
+                    Linux, FreeBSD, OpenBSD, and Windows. It is a fork of\
+                    synergy.
+
+checksums           rmd160  7f28e3e5ee2b637552323f48b9c2a4f432c29d3a \
+                    sha256  2494c76a74d9f037def54036b5463d8277f8fc4f64a8a9ffeeb2bd5051882759 \
+                    size    82915916
+
+compiler.cxx_standard 2014
+
+wxWidgets.use       wxWidgets-3.0
+configure.args-append \
+    -DwxWidgets_CONFIG_EXECUTABLE=${wxWidgets.wxconfig} \
+    -DwxWidgets_wxrc_EXECUTABLE=${wxWidgets.wxrc}
+
+depends_build-append port:pkgconfig port:gettext
+
+depends_lib-append   port:wxWidgets-3.0 port:sqlite3 port:bzip2 port:zlib port:freetype port:fontconfig
