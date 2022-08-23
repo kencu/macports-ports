@@ -83,8 +83,9 @@
  * simply add the MacPorts legacy support package as a dependency   *
  * in the portfiles for Blender, MaterialX, and Godot.              *
  ********************************************************************/
+#include <AvailabilityMacros.h>
 
-#if __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 101200
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 101200
 
 /*
  * Note: A small number of the #defines below are commented out because
@@ -139,7 +140,7 @@
 #define NSCustomPaletteModeColorPanel        NSColorPanelModeCustomPalette
 /* #define NSDefaultTokenStyle                  NSTokenStyleDefault */
 #define NSDeviceIndependentModifierFlagsMask NSEventModifierFlagDeviceIndependentFlagsMask
-#define NSEventModifierFlagCapsLock          NSAlphaShiftKeyMask
+#define NSAlphaShiftKeyMask                  NSEventModifierFlagCapsLock
 #define NSDeviceNColorSpaceModel             NSColorSpaceModelDeviceN
 #define NSDisclosureBezelStyle               NSBezelStyleDisclosure
 #define NSDocModalWindowMask                 NSWindowStyleMaskDocModalWindow
