@@ -1,0 +1,107 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           active_variants 1.1
+PortGroup           meson 1.0
+
+name                gtksourceview5
+set gname           gtksourceview
+version             5.5.1
+license             LGPL-2.1+
+set branch          [join [lrange [split ${version} .] 0 1] .]
+maintainers         {devans @dbevans} openmaintainer
+categories          gnome
+platforms           darwin
+description         GtkSourceView-5.0 is a source highlighting text widget for GTK+ 4
+
+long_description    GtkSourceView is a text widget that extends GtkTextView \
+                    by implementing syntax highlighting and other features \
+                    typical of a source editor.
+
+homepage            https://wiki.gnome.org/Projects/GtkSourceView
+master_sites        gnome:sources/${gname}/${branch}/
+distname            ${gname}-${version}
+use_xz              yes
+
+checksums           rmd160  57104d87c89af3ece0d38d34728e47b38e3d5236 \
+                    sha256  4ae58ccd15f071e45f88185f5a9b020560a0b1a950f99cab7dc5e8cd14c40d19 \
+                    size    1268504
+
+depends_build-append \
+                    port:pkgconfig \
+                    port:gettext
+
+# glib2 > 2.70 is required (currently glib2-devel)
+
+depends_lib-append  path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:fribidi \
+                    port:gettext-runtime \
+                    path:lib/pkgconfig/gobject-introspection-1.0.pc:gobject-introspection \
+                    path:lib/pkgconfig/gtk4.pc:gtk4 \
+                    port:libxml2 \
+                    path:bin/vala:vala
+
+# building the docs fails as the gtk4 GIR files are not found by gi-docgen
+#depends_build-append \
+#                    port:gtk-doc \
+#                    port:gi-docgen
+configure.args      -Dgtk_doc=false
+
+compiler.c_standard 2011
+
+# gobject-introspection uses g-ir-scanner, which uses $CC from env
+if {${universal_possible} && [variant_isset universal]} {
+    foreach arch ${configure.universal_archs} {
+        lappend merger_build_env(${arch})  "CC=${configure.cc} -arch ${arch}"
+        lappend merger_destroot_env(${arch})  "CC=${configure.cc} -arch ${arch}"
+    }
+} else {
+    build.env-append       "CC=${configure.cc} ${configure.cc_archflags}"
+    destroot.env-append    "CC=${configure.cc} ${configure.cc_archflags}"
+}
+
+variant quartz conflicts x11 {}
+variant x11 conflicts quartz {}
+
+if {[variant_isset quartz]} {
+    require_active_variants gtk4 quartz
+} else {
+    require_active_variants gtk4 x11
+}
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${name}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 644 -W ${worksrcpath} AUTHORS COPYING \
+        NEWS README.md ${destroot}${docdir}
+
+platform darwin 8 {
+    # Tiger lacks @rpath, apply the usual gtk-doc workaround
+    destroot.env-append    "DYLD_LIBRARY_PATH=${build_dir}/${gname}"
+}
+
+test.run            yes
+test.cmd            meson
+test.target         test
+
+livecheck.type      gnome
+livecheck.name      ${gname}
+livecheck.regex     "LATEST-IS-(4\\.\\d*\[02468\](?:\\.\\d+)*)"
+
+
+# changes from gtk4sourceview:
+
+# no glade options found in meson.build files
+#variant glade description {Install a glade catalog file} {
+#    configure.args-append   -Dglade_catalog=true
+#    depends_lib-append      port:glade
+#}
+
+# glade expects catalog modules and libraries to have a .so suffix
+#    if {[variant_isset glade]} {
+#        set libdir ${prefix}/lib
+#        ln -s ${libdir}/libgtksourceview-5.0.dylib ${destroot}${libdir}/libgtksourceview-5.0.so
+#    }
+#}
+
+
