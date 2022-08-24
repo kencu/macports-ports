@@ -1,0 +1,10 @@
+--- ./gdk/x11/meson.build.orig	2022-08-24 15:08:38.000000000 -0700
++++ ./gdk/x11/meson.build	2022-08-24 15:10:26.000000000 -0700
+@@ -8,7 +8,6 @@
+   'gdkdevicemanager-x11.c',
+   'gdkdevicemanager-xi2.c',
+   'gdkdisplay-x11.c',
+-  'gdkglcontext-egl.c',
+   'gdkglcontext-glx.c',
+   'gdkglcontext-x11.c',
+   'gdkkeys-x11.c',

@@ -1,0 +1,352 @@
+--- ./gdk/x11/gdkdisplay-x11.c.orig	2022-08-24 15:17:04.000000000 -0700
++++ ./gdk/x11/gdkdisplay-x11.c	2022-08-24 15:23:11.000000000 -0700
+@@ -1,6 +1,6 @@
+ /* GDK - The GIMP Drawing Kit
+  * gdkdisplay-x11.c
+- * 
++ *
+  * Copyright 2001 Sun Microsystems Inc.
+  * Copyright (C) 2004 Nokia Corporation
+  *
+@@ -56,8 +56,6 @@
+ #include <errno.h>
+ #include <unistd.h>
+ 
+-#include <epoxy/egl.h>
+-
+ #include <X11/Xatom.h>
+ #include <X11/Xlibint.h>
+ 
+@@ -895,7 +893,7 @@
+ 	}
+ #endif
+ 
+-    if (surface && 
++    if (surface &&
+ 	xevent->xconfigure.event == xevent->xconfigure.window)
+         {
+           int x, y;
+@@ -1467,7 +1465,7 @@
+   }
+ #endif
+ 
+-  /* initialize the display's screens */ 
++  /* initialize the display's screens */
+   display_x11->screen = _gdk_x11_screen_new (display, DefaultScreen (display_x11->xdisplay));
+ 
+   /* If GL is available we want to pick better default/rgba visuals,
+@@ -1484,8 +1482,8 @@
+     }
+ 
+ #ifdef HAVE_XFIXES
+-  if (XFixesQueryExtension (display_x11->xdisplay, 
+-			    &display_x11->xfixes_event_base, 
++  if (XFixesQueryExtension (display_x11->xdisplay,
++			    &display_x11->xfixes_event_base,
+ 			    &ignore))
+     {
+       display_x11->have_xfixes = TRUE;
+@@ -1559,7 +1557,7 @@
+ 
+   /* We don't yet know a valid time. */
+   display_x11->user_time = 0;
+-  
++
+ #ifdef HAVE_XKB
+   {
+     int xkb_major = XkbMajorVersion;
+@@ -1568,13 +1566,13 @@
+       {
+         xkb_major = XkbMajorVersion;
+         xkb_minor = XkbMinorVersion;
+-	    
+-        if (XkbQueryExtension (display_x11->xdisplay, 
++
++        if (XkbQueryExtension (display_x11->xdisplay,
+ 			       NULL, &display_x11->xkb_event_type, NULL,
+                                &xkb_major, &xkb_minor))
+           {
+ 	    Bool detectable_autorepeat_supported;
+-	    
++
+ 	    display_x11->use_xkb = TRUE;
+ 
+             XkbSelectEvents (display_x11->xdisplay,
+@@ -1595,7 +1593,7 @@
+ 	    GDK_NOTE (MISC, g_message ("Detectable autorepeat %s.",
+ 				       detectable_autorepeat_supported ?
+ 				       "supported" : "not supported"));
+-	    
++
+ 	    display_x11->have_xkb_autorepeat = detectable_autorepeat_supported;
+           }
+       }
+@@ -1607,7 +1605,7 @@
+   {
+     int major, minor;
+     int error_base, event_base;
+-    
++
+     if (XSyncQueryExtension (display_x11->xdisplay,
+ 			     &event_base, &error_base) &&
+         XSyncInitialize (display_x11->xdisplay,
+@@ -1713,16 +1711,16 @@
+ 
+   connection->fd = fd;
+   connection->display = display;
+-  
++
+   io_channel = g_io_channel_unix_new (fd);
+-  
++
+   connection->source = g_io_create_watch (io_channel, G_IO_IN);
+   g_source_set_callback (connection->source,
+ 			 (GSourceFunc)process_internal_connection, connection, NULL);
+   g_source_attach (connection->source, NULL);
+-  
++
+   g_io_channel_unref (io_channel);
+-  
++
+   return connection;
+ }
+ 
+@@ -1877,11 +1875,11 @@
+ gdk_x11_display_grab (GdkDisplay *display)
+ {
+   GdkX11Display *display_x11;
+-  
++
+   g_return_if_fail (GDK_IS_DISPLAY (display));
+-  
++
+   display_x11 = GDK_X11_DISPLAY (display);
+-  
++
+   if (display_x11->grab_count == 0)
+     XGrabServer (display_x11->xdisplay);
+   display_x11->grab_count++;
+@@ -1898,12 +1896,12 @@
+ gdk_x11_display_ungrab (GdkDisplay *display)
+ {
+   GdkX11Display *display_x11;
+-  
++
+   g_return_if_fail (GDK_IS_DISPLAY (display));
+-  
++
+   display_x11 = GDK_X11_DISPLAY (display);;
+   g_return_if_fail (display_x11->grab_count > 0);
+-  
++
+   display_x11->grab_count--;
+   if (display_x11->grab_count == 0)
+     {
+@@ -2086,7 +2084,7 @@
+ {
+   Display *xdisplay = GDK_DISPLAY_XDISPLAY (display);
+   Window xroot_window = GDK_DISPLAY_XROOTWIN (display);
+-  
++
+   Atom type_atom;
+   Atom type_atom_begin;
+   Window xwindow;
+@@ -2114,14 +2112,14 @@
+ 
+   type_atom = gdk_x11_get_xatom_by_name_for_display (display, message_type);
+   type_atom_begin = gdk_x11_get_xatom_by_name_for_display (display, message_type_begin);
+-  
++
+   {
+     XClientMessageEvent xclient;
+     const char *src;
+     const char *src_end;
+     char *dest;
+     char *dest_end;
+-    
++
+     memset(&xclient, 0, sizeof (xclient));
+     xclient.type = ClientMessage;
+     xclient.message_type = type_atom_begin;
+@@ -2131,12 +2129,12 @@
+ 
+     src = message;
+     src_end = message + strlen (message) + 1; /* +1 to include nul byte */
+-    
++
+     while (src != src_end)
+       {
+         dest = &xclient.data.b[0];
+         dest_end = dest + 20;
+-        
++
+         while (dest != dest_end &&
+                src != src_end)
+           {
+@@ -2150,7 +2148,7 @@
+ 	    *dest = 0;
+ 	    ++dest;
+ 	  }
+-        
++
+         XSendEvent (xdisplay,
+                     xroot_window,
+                     False,
+@@ -2175,7 +2173,7 @@
+  * skipped in the output.)
+  *
+  * Sends a startup notification message of type @message_type to
+- * @display. 
++ * @display.
+  *
+  * This is a convenience function for use by code that implements the
+  * freedesktop startup notification specification. Applications should
+@@ -2266,7 +2264,7 @@
+   if (display_x11->have_xfixes)
+     {
+       atom = gdk_x11_get_xatom_by_name_for_display (display, selection);
+-      XFixesSelectSelectionInput (display_x11->xdisplay, 
++      XFixesSelectSelectionInput (display_x11->xdisplay,
+ 				  display_x11->leader_window,
+ 				  atom,
+ 				  XFixesSetSelectionOwnerNotifyMask |
+@@ -2301,7 +2299,7 @@
+  * @display: (type GdkX11Display): a `GdkDisplay`
+  *
+  * Gets the startup notification ID for a display.
+- * 
++ *
+  * Returns: the startup notification ID for @display
+  */
+ const char *
+@@ -2718,7 +2716,7 @@
+ 
+   g_slist_free (displays);
+ }
+- 
++
+ gsize
+ gdk_x11_display_get_max_request_size (GdkDisplay *display)
+ {
+@@ -2728,7 +2726,7 @@
+   size = XExtendedMaxRequestSize (xdisplay);
+   if (size <= 0)
+     size = XMaxRequestSize (xdisplay);
+-  
++
+   size = MIN (262144, size - 100);
+   return size;
+ }
+@@ -2902,7 +2900,7 @@
+                             &template,
+                             &nvisuals);
+   g_warn_if_fail (nvisuals == 1);
+-  
++
+   return visinfo;
+ }
+ 
+@@ -2916,33 +2914,6 @@
+     visinfo->visual->blue_mask  == 0x0000ff;
+ }
+ 
+-static guint
+-gdk_x11_display_rate_egl_config (GdkDisplay *display,
+-                                 gpointer    egl_display,
+-                                 gpointer    config)
+-{
+-  GdkX11Display *self = GDK_X11_DISPLAY (display);
+-  XVisualInfo *visinfo;
+-  guint distance;
+-  int visualid;
+-
+-  if (!eglGetConfigAttrib (egl_display, config, EGL_NATIVE_VISUAL_ID, &visualid))
+-    return G_MAXUINT;
+-
+-  visinfo = gdk_x11_display_get_visual_info_for_visual (self, visualid);
+-  if (visinfo == NULL)
+-    return G_MAXUINT;
+-
+-  distance = GDK_DISPLAY_CLASS (gdk_x11_display_parent_class)->rate_egl_config (display, egl_display, config);
+-
+-  if (!visual_is_rgba (visinfo))
+-    distance += 0x100;
+-
+-  XFree (visinfo);
+-
+-  return distance;
+-}
+-
+ static gboolean
+ gdk_x11_display_init_gl_backend (GdkX11Display  *self,
+                                  Visual        **out_visual,
+@@ -2951,51 +2922,14 @@
+ {
+   GdkDisplay *display = GDK_DISPLAY (self);
+   Display *dpy = gdk_x11_display_get_xdisplay (GDK_DISPLAY (self));
+-  EGLDisplay egl_display;
+   XVisualInfo *visinfo;
+   int visualid;
+ 
+-  /* No env vars set, do the regular GL initialization.
+-   * 
+-   * We try EGL first, but are very picky about what we accept.
+-   * If that fails, we try to go with GLX instead.
+-   * And if that also fails, we try EGL again, but this time accept anything.
+-   *
+-   * The idea here is that EGL is the preferred method going forward, but GLX is
+-   * the tried and tested method that we know works. So if we detect issues with
+-   * EGL, we want to avoid using it in favor of GLX.
+-   */
+-
+-  if (!gdk_display_init_egl (display, EGL_PLATFORM_X11_KHR, dpy, FALSE, error))
+-    {
+-      g_clear_error (error);
+-
+       if (gdk_x11_display_init_glx (self, out_visual, out_depth, error))
+         return TRUE;
+-      
+-      g_clear_error (error);
+-      if (!gdk_display_init_egl (display, EGL_PLATFORM_X11_KHR, dpy, TRUE, error))
++      else
+         return FALSE;
+-    }
+-
+-  if (!eglGetConfigAttrib (gdk_display_get_egl_display (display),
+-                           gdk_display_get_egl_config (display),
+-                           EGL_NATIVE_VISUAL_ID,
+-                           &visualid))
+-    {
+-      /* We guarantee this when rating configs */
+-      g_assert_not_reached ();
+-    }
+-  visinfo = gdk_x11_display_get_visual_info_for_visual (self, visualid);
+-  g_assert (visinfo);
+-  *out_visual = visinfo->visual;
+-  *out_depth = visinfo->depth;
+ 
+-  egl_display = gdk_display_get_egl_display (display);
+-
+-  self->egl_version = epoxy_egl_version (egl_display);
+-
+-  return TRUE;
+ }
+ 
+ static GdkGLContext *
+@@ -3011,8 +2945,6 @@
+ 
+   if (self->glx_config != NULL)
+     return g_object_new (GDK_TYPE_X11_GL_CONTEXT_GLX, "surface", self->leader_gdk_surface, NULL);
+-  else if (gdk_display_get_egl_display (display))
+-    return g_object_new (GDK_TYPE_X11_GL_CONTEXT_EGL, "surface", self->leader_gdk_surface, NULL);
+   else
+     g_return_val_if_reached (NULL);
+ }
+@@ -3048,7 +2980,6 @@
+   display_class->get_keymap = gdk_x11_display_get_keymap;
+ 
+   display_class->init_gl = gdk_x11_display_init_gl;
+-  display_class->rate_egl_config = gdk_x11_display_rate_egl_config;
+ 
+   display_class->get_default_seat = gdk_x11_display_get_default_seat;
+ 
