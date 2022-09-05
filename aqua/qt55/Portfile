@@ -20,9 +20,7 @@ version             5.5.1
 # https://trac.macports.org/ticket/63154
 use_xcode           yes
 
-set just_want_qt5_variables yes
-PortGroup qt5 1.0
-unset just_want_qt5_variables
+PortGroup qt5_variables 1.0
 
 # get Qt's version numbers
 set branch          [join [lrange [split ${version} .] 0 1] .]
@@ -152,7 +150,7 @@ array set modules {
             46389212
         }
         ""
-        "port:zlib port:libpng path:include/turbojpeg.h:libjpeg-turbo path:bin/dbus-daemon:dbus path:lib/pkgconfig/glib-2.0.pc:glib2 port:icu port:pcre path:lib/pkgconfig/harfbuzz.pc:harfbuzz"
+        "port:zlib port:libpng path:include/turbojpeg.h:libjpeg-turbo path:bin/dbus-daemon:dbus path:lib/pkgconfig/glib-2.0.pc:glib2 path:lib/pkgconfig/icu-uc.pc:icu port:pcre path:lib/pkgconfig/harfbuzz.pc:harfbuzz"
         ""
         {"Qt Core" "Qt GUI" "Qt Network" "Qt SQL" "Qt Test" "Qt Widgets" "Qt Concurrent" "Qt D-Bus" "Qt OpenGL" "Qt Platform Headers" "Qt Print Support" "Qt XML"}
         ""
@@ -467,7 +465,7 @@ array set modules {
             33489924
         }
         "port:python27"
-        "port:fontconfig port:icu port:leveldb port:webp port:libxml2 port:libxslt port:zlib port:sqlite3"
+        "port:fontconfig path:lib/pkgconfig/icu-uc.pc:icu port:leveldb port:webp port:libxml2 port:libxslt port:zlib port:sqlite3"
         "qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtxmlpatterns"
         {"Qt WebKit" "Qt WebKit Widgets"}
         "community support only (use Qt WebEngine)"

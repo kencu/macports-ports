@@ -16,10 +16,7 @@ homepage            https://www.qt.io
 version             6.2.1
 set middle_name     everywhere
 
-set just_want_qt6_variables yes
-PortGroup qt6 1.0
-
-unset just_want_qt6_variables
+PortGroup qt6_variables 1.0
 
 # get Qt's version numbers
 set branch          [join [lrange [split ${version} .] 0 1] .]
@@ -143,7 +140,7 @@ array set modules {
         "port:ninja port:pkgconfig"
         "port:assimp port:brotli path:bin/cmake:cmake path:bin/dbus-daemon:dbus port:double-conversion port:freetype
             path:lib/pkgconfig/glib-2.0.pc:glib2 path:lib/pkgconfig/harfbuzz.pc:harfbuzz
-            port:hunspell port:icu path:lib/pkgconfig/jasper.pc:jasper path:include/turbojpeg.h:libjpeg-turbo port:libb2
+            port:hunspell path:lib/pkgconfig/icu-uc.pc:icu path:lib/pkgconfig/jasper.pc:jasper path:include/turbojpeg.h:libjpeg-turbo port:libb2
             port:libiconv port:libpng port:md4c path:bin/node:nodejs16 path:lib/pkgconfig/libpcre2-posix.pc:pcre2
             port:tiff port:webp port:zlib path:lib/pkgconfig/libzstd.pc:zstd"
 
@@ -207,7 +204,7 @@ array set modules {
             6675600
         }
         ""
-        "port:icu port:zlib"
+        "path:lib/pkgconfig/icu-uc.pc:icu port:zlib"
         "qtbase qtdeclarative qtserialport"
         {"Qt Location" "Qt Positioning"}
         ""
