@@ -64,14 +64,35 @@ app.use_launch_script yes
 app.icon              src/src/resources/icons/app.icns
 app.hide_dock_icon    yes
 
-variant wxwidgets30 conflicts wxwidgets28 wxgtk30 wxgtk28 description {Use Cocoa-based wxWidgets 3.0} {
+variant wxwidgets32 conflicts wxwidgets30 wxwidgets28 wxgtk30 wxgtk28 description {Use Cocoa-based wxWidgets 3.2 and svn trunk} {
+
+    fetch.type        svn
+    svn.url           svn://svn.code.sf.net/p/codeblocks/code/trunk
+    svn.revision      12881
+    patchfiles
+
+    wxWidgets.use           wxWidgets-3.2
+    depends_lib-append      port:${wxWidgets.port}
+    autoconf.env-append     ACLOCAL_PATH=${wxWidgets.prefix}/share/aclocal
+    configure.args-append   --with-wxdir=${wxWidgets.wxdir}
+
+    # work around a directory layout issue based on MacPorts traditional layout
+    # pending a complete app build
+    post-destroot {
+       ln -sf ${destroot}${prefix}/share/codeblocks/plugins ${prefix}/lib/codeblocks/plugins
+    }
+
+
+}
+
+variant wxwidgets30 conflicts wxwidgets32 wxwidgets28 wxgtk30 wxgtk28 description {Use Cocoa-based wxWidgets 3.0} {
     wxWidgets.use           wxWidgets-3.0
     depends_lib-append      port:${wxWidgets.port}
     autoconf.env-append     ACLOCAL_PATH=${wxWidgets.prefix}/share/aclocal
     configure.args-append   --with-wxdir=${wxWidgets.wxdir}
 }
 
-variant wxwidgets28 conflicts wxwidgets30 wxgtk30 wxgtk28 description {Use 32-bit Carbon-based wxWidgets 2.8} {
+variant wxwidgets28 conflicts wxwidgets32 wxwidgets30 wxgtk30 wxgtk28 description {Use 32-bit Carbon-based wxWidgets 2.8} {
     wxWidgets.use           wxWidgets-2.8
     depends_lib-append      port:${wxWidgets.port}
     autoconf.env-append     ACLOCAL_PATH=${wxWidgets.prefix}/share/aclocal
@@ -82,14 +103,14 @@ variant wxwidgets28 conflicts wxwidgets30 wxgtk30 wxgtk28 description {Use 32-bi
     }
 }
 
-variant wxgtk30 conflicts wxwidgets30 wxwidgets28 wxgtk28 description {Use wxWidgets 3.0 with GTK} {
+variant wxgtk30 conflicts wxwidgets32 wxwidgets30 wxwidgets28 wxgtk28 description {Use wxWidgets 3.2 with GTK} {
     wxWidgets.use           wxGTK-3.0
     depends_lib-append      port:${wxWidgets.port}
     autoconf.env-append     ACLOCAL_PATH=${wxWidgets.prefix}/share/aclocal
     configure.args-append   --with-wxdir=${wxWidgets.wxdir}
 }
 
-variant wxgtk28 conflicts wxwidgets30 wxwidgets28 wxgtk30 description {Use wxWidgets 2.8 with GTK} {
+variant wxgtk28 conflicts wxwidgets32 wxwidgets30 wxwidgets28 wxgtk30 description {Use wxWidgets 2.8 with GTK} {
     wxWidgets.use           wxGTK-2.8
     depends_lib-append      port:${wxWidgets.port}
     autoconf.env-append     ACLOCAL_PATH=${wxWidgets.prefix}/share/aclocal
@@ -122,7 +143,7 @@ if {[variant_isset wxgtk28] || [variant_isset wxgtk30]} {
                             port:xrender
 }
 
-if {![variant_isset wxwidgets30] && ![variant_isset wxwidgets28] && ![variant_isset wxgtk30] && ![variant_isset wxgtk28]} {
+if {![variant_isset wxwidgets32] && ![variant_isset wxwidgets30] && ![variant_isset wxwidgets28] && ![variant_isset wxgtk30] && ![variant_isset wxgtk28]} {
     default_variants +wxgtk30
 }
 
