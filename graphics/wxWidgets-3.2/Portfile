@@ -6,8 +6,38 @@ PortGroup           select          1.0
 PortGroup           wxWidgets       1.0
 
 # remember to bump version of wxWidgets-common
-github.setup        wxWidgets wxWidgets 3.1.5 v
-revision            1
+
+if { ${os.platform} eq "darwin" && ${os.major} < 13 } {
+
+    # 3.1.3 is good for 10.7 and newer, building against at least the 10.8 SDK
+    github.setup        wxWidgets wxWidgets 3.1.3 v
+    revision            0
+    epoch               1
+    checksums           rmd160  93c37f2dd0078bbbed2c0261f1e168c1e7fd0d4b \
+                        sha256  30cd9b244f95521d5b008e346ee1277734fae92ce0dc73c5eef36ca0fa1eb420 \
+                        size    20442994
+
+    livecheck           no
+
+} else {
+
+    # should be good on 10.10 and newer, building against at least the 10.11 SDK
+    github.setup        wxWidgets wxWidgets 3.1.5 v
+    revision            1
+    
+    checksums           rmd160  fbea2fa655425232ba4f285f43bc3555d338ccd2 \
+                        sha256  80a157e24b2f4cab68784f90d13b7ce7d992694c3ef1f7ae4f8b98f5e45a7385 \
+                        size    20893787
+    
+    # https://trac.macports.org/ticket/61672
+    patchfiles    fix-implicit-decl.diff
+
+    compiler.c_standard   2011
+    compiler.cxx_standard 2011
+
+}
+
+
 name                wxWidgets-3.2
 wxWidgets.use       wxWidgets-3.2
 
@@ -25,23 +55,15 @@ long_description    wxWidgets ${branch} is an open-source cross-platform C++ \
 
 homepage            http://www.wxwidgets.org/
 
-checksums           rmd160  fbea2fa655425232ba4f285f43bc3555d338ccd2 \
-                    sha256  80a157e24b2f4cab68784f90d13b7ce7d992694c3ef1f7ae4f8b98f5e45a7385 \
-                    size    20893787
 
 dist_subdir         wxWidgets/${version}
 worksrcdir          ${distname}/build
 patch.dir           ${worksrcpath}/..
 
-# https://trac.macports.org/ticket/61672
-patchfiles-append   fix-implicit-decl.diff
-
 set selectdir       ${workpath}/select
 select.group        wxWidgets
 select.file         ${selectdir}/${subport}
 
-compiler.c_standard   2011
-compiler.cxx_standard 2011
 
 depends_lib-append  path:include/turbojpeg.h:libjpeg-turbo \
                     port:tiff \
@@ -76,8 +98,6 @@ configure.args      --prefix=${wxWidgets.prefix} \
                     --with-macosx-sdk=no \
                     --with-macosx-version-min=no \
                     --disable-compat30 \
-                    --enable-cxx11 \
-                    --disable-tests \
                     --enable-unicode \
                     --enable-display \
                     --enable-geometry \
@@ -90,12 +110,39 @@ configure.args      --prefix=${wxWidgets.prefix} \
                     --disable-stl \
                     --enable-richtext
 
+if {[vercmp ${version} 3.1.3] == 0} {
+#    configure.args-delete  --disable-tests
+
+	if {[string match *clang* ${configure.cxx}]} {
+		configure.ldflags-append \
+						-stdlib=${configure.cxx_stdlib}
+	}
+
+}
+
+if {[vercmp ${version} 3.1.5] >= 0} {
+    configure.args-append \
+                    --enable-cxx11 \
+                    --disable-tests
+}
+
 if { ${os.platform} eq "darwin" && ${os.major} == 11 } {
+    # force the build on 10.7 to use the 10.8 SDK
     # https://trac.macports.org/ticket/58040
     configure.args-replace --with-macosx-sdk=no \
                            --with-macosx-sdk=${developer_dir}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk
     configure.args-replace --with-macosx-version-min=no \
                            --with-macosx-version-min=${macosx_deployment_target}
+
+}
+
+if { ${os.platform} eq "darwin" && ${os.major} == 14 } {
+    # force the build on 10.10 to use the 10.11 SDK
+    configure.args-replace --with-macosx-sdk=no \
+                           --with-macosx-sdk=${developer_dir}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
+    configure.args-replace --with-macosx-version-min=no \
+                           --with-macosx-version-min=${macosx_deployment_target}
+
 }
 
 post-destroot {
