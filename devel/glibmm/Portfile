@@ -6,7 +6,7 @@ PortGroup           active_variants 1.1
 name                glibmm
 conflicts           glibmm-devel
 
-version             2.62.0
+version             2.68.2
 set branch          [join [lrange [split ${version} .] 0 1] .]
 description         C++ interface to glib
 long_description    {*}${description}
@@ -19,20 +19,25 @@ master_sites        gnome:sources/${name}/${branch}/
 
 use_xz              yes
 
-checksums           rmd160  440f4c2edcc7501917df1d6cd344697f95d7e727 \
-                    sha256  36659f13cc73282392d1305858f3bbca46fbd1ce2f078cc9db8b9f79b2e93cfe \
-                    size    7398144
+checksums           rmd160  f1acbeed9cb781156b951f52654ad98352e29c4e \
+                    sha256  91e0a8618f7b82db4aaf2648932ea2bcfe626ad030068c18fa2d106fd838d8ad \
+                    size    7844508
 
 depends_build       port:pkgconfig \
-                    port:mm-common
+                    port:mm-common \
+                    port:autoconf \
+                    port:automake
 
 depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
-                    port:libsigcxx2
+                    port:libsigcxx3
 
 # glibmm > 2.44.0 requires C++11 or better
 compiler.cxx_standard 2011
 
 configure.perl      /usr/bin/perl
+
+# this port builds as either autotools or meson; for autotools, run autogen.sh
+configure.cmd       ./autogen.sh
 
 configure.args      --disable-silent-rules
 
@@ -41,8 +46,6 @@ post-destroot {
     xinstall -d ${destroot}${mmdoctooldir}
     xinstall -m 0644 -W ${worksrcpath}/docs doc-install.pl doc-postprocess.pl \
                                             tagfile-to-devhelp2.xsl \
-                                            ${destroot}${mmdoctooldir}
-    xinstall -m 0644 -W ${worksrcpath}/docs/reference/html doxygen.css \
                                             ${destroot}${mmdoctooldir}
 }
 
