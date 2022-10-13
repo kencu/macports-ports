@@ -73,6 +73,11 @@ platform darwin {
           configure.cppflags-append -I${filespath}/include
     }
 
+    if {${os.major} < 10} {
+        depends_lib-append port:libunwind
+        configure.cppflags-append -DUSE_MACPORTS_LIBUNWIND
+    }
+
     pre-configure {
         if {${os.major} < 11} {
             # https://trac.macports.org/ticket/25677
@@ -87,6 +92,9 @@ platform darwin {
 
 if {[string match *gcc* ${configure.compiler}]} {
     configure.ldflags-append -latomic
+
+    # https://github.com/macports/macports-ports/pull/16260#issuecomment-1268741658
+    configure.cxxflags-append -fpermissive
 }
 
 variant tests description "build tests" {
