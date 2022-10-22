@@ -12,11 +12,11 @@ legacysupport.newest_darwin_requires_legacy 17
 
 name                    mesa
 epoch                   1
-version                 22.1.7
+version                 22.2.2
 revision                0
-checksums               rmd160  9c570f7e00527c662509ab6fb264caf2c780a4ea \
-                        sha256  da838eb2cf11d0e08d0e9944f6bd4d96987fdc59ea2856f8c70a31a82b355d89 \
-                        size    16109944
+checksums               rmd160  a08defcdbf5d276fa5bb34c441be78dd6b02b301 \
+                        sha256  2de11fb74fc5cc671b818e49fe203cea0cd1d8b69756e97cdb06a2f4e78948f9 \
+                        size    16424508
 
 categories              x11 graphics
 maintainers             {jeremyhu @jeremyhu} openmaintainer
@@ -48,7 +48,6 @@ depends_lib-append      port:expat \
                         port:zstd
 
 patchfiles              patch-meson-spec-python.diff \
-                        patch-driver_extensions.diff \
                         patch-pre-10.8-scandir.diff
 
 post-patch {
