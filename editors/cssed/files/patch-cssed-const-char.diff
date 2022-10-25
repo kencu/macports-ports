@@ -1,0 +1,13 @@
+diff --git scintilla/src/LexCaml.cxx scintilla/src/LexCaml.cxx
+index 26b2867..61cdd76 100644
+--- scintilla/src/LexCaml.cxx
++++ scintilla/src/LexCaml.cxx
+@@ -275,7 +275,7 @@ void ColouriseCamlDoc(
+ 			// [try to] interpret as [additional] operator char
+ 			char* o = 0;
+ 			if (iscaml(ch) || isspace(ch)			/* ident or whitespace */
+-				|| ((o = strchr(")]};,\'\"`#", ch)) != 0)/* "termination" chars */
++				|| ((o = (char*)strchr(")]};,\'\"`#", ch)) != 0)/* "termination" chars */
+ 				|| !strchr("!$%&*+-./:<=>?@^|~", ch)/* "operator" chars */) {
+ 				// check for INCLUSIVE termination
+ 				if (o && strchr(")]};,", ch)) {

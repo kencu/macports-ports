@@ -26,6 +26,20 @@ depends_lib         path:lib/pkgconfig/gtk+-2.0.pc:gtk2 \
 depends_build       port:hicolor-icon-theme \
                     port:pkgconfig
 
-patchfiles          patch-src-Makefile.in configure.diff
+patchfiles          patch-src-Makefile.in \
+                    configure.diff \
+                    patch-cssed-const-char.diff \
+                    patch-cssed-configure-system.diff
 
 configure.args      --mandir=${prefix}/share/man
+
+platform darwin {
+    depends_build-append port:automake
+    post-patch {
+        # Use newer config.guess and config.sub to support Apple Silicon.
+        set automake_dirs [glob -directory ${prefix}/share automake-*]
+        set automake_dir [lindex [lsort -command vercmp $automake_dirs] end]
+        copy -force ${automake_dir}/config.guess ${automake_dir}/config.sub \
+            ${worksrcpath}
+    }
+}

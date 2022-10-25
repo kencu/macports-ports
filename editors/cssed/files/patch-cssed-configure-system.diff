@@ -1,0 +1,11 @@
+--- configure.orig	2022-10-24 17:16:19.000000000 -0700
++++ configure	2022-10-24 17:16:42.000000000 -0700
+@@ -5919,7 +5919,7 @@
+ *-*-cygwin*)
+ 	OSTYPE="CYGWIN"
+ 	;;
+-powerpc-apple-darwin*)
++*-apple-darwin*)
+ 	OSTYPE="DARWIN"
+ 	;;
+ i[3456]86-*-*bsd*)
