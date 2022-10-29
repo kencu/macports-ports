@@ -5,8 +5,8 @@ PortGroup           compiler_blacklist_versions 1.0
 PortGroup           texlive 1.0
 
 name                asymptote
-version             2.70
-revision            3
+version             2.83
+revision            0
 
 categories          graphics
 maintainers         {mojca @mojca} openmaintainer
@@ -22,16 +22,16 @@ license             LGPL-3+
 license_noconflict  libpaper
 platforms           darwin
 
-set python.branch   3.9
+set python.branch   3.10
 set python.version  [join [split ${python.branch} "."] ""]
 set python.bin      ${prefix}/bin/python${python.branch}
 
 master_sites        sourceforge:project/${name}/${version}/
 extract.suffix      .src.tgz
 
-checksums           rmd160  c78a5d06d17dfda25e785e7b599e044e6374494b \
-                    sha256  f5cc913a858c33e92f79ab421d354c0fe2babd87f452ae9dff729a902aa80c3f \
-                    size    4674495
+checksums           rmd160  d4b7219cefedcf703d4c79c025263633ec808214 \
+                    sha256  fe3ca71f49e59e68633887c41613c08abd82a749fcac30353970ac7081b388a3 \
+                    size    15044624
 
 # On Lion the default clang fails with
 # ../base/graph_splinetype.asy: 13.10: arrays have different lengths: 24 != 25
