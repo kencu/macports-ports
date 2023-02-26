@@ -43,6 +43,9 @@ supported_archs     x86_64 i386 arm64 ppc ppc64
 patchfiles-append   patch-Makefile.diff
 patchfiles-append   patch-configure.sh.diff
 
+# the ppc code found in libvpx is ppc64le specific
+patchfiles-append   patch-vpx_ppc-is-ppc64le.diff
+
 # Uses newer assembly features on Intel.
 # Also blacklist clang 8, due to issues like:
 #   error: use of undeclared identifier 'abs'
@@ -61,18 +64,8 @@ configure.args      --enable-vp8 \
                     --enable-examples \
                     --disable-install-docs \
                     --disable-debug-libs \
-                    --enable-unit-tests
-
-platform darwin {
-    if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
-        # disable a wrong kind of abi
-        patchfiles-append      patch-vpx_ports.diff
-        # with shared enabled the build fails
-        configure.args-append  --disable-shared
-    } else {
-        configure.args-append  --enable-shared
-    }
-}
+                    --enable-unit-tests \
+                    --enable-shared
 
 platform darwin 8 {
     depends_build-append  port:gmake
@@ -83,33 +76,20 @@ build.target
 build.args          verbose=1
 destroot.args       verbose=1
 
-if {"${configure.sdkroot}" eq ""} {
-    configure.sdkroot "/"
-}
+# set LD
+configure.env-append  LD=${configure.cc}
 
 if {${universal_possible} && [variant_isset universal]} {
-
     # universal build using muniversal portgroup
 
     foreach my_arch {i386 x86_64 arm64} {
-
-        # strip the automatic setting of host
-        set merger_host(${my_arch}) ""
-
-        # force the target
         set merger_configure_args(${my_arch})     --force-target=${my_arch}-${os.platform}${os.major}-gcc
-
-        # set LD
-        set merger_configure_env(${my_arch})      LD=${configure.cc}
-    }
-
-    foreach my_arch {ppc ppc64} {
-
         set merger_host(${my_arch}) ""
-
-        set merger_configure_args(${my_arch})     --force-target=generic-gnu
-
-        set merger_configure_env(${my_arch})      LD=${configure.cc}
+    }
+    foreach my_arch {ppc ppc64} {
+        # for PPC, use generic arch
+        set merger_configure_args(${my_arch})     --force-target=generic-darwin-gcc
+        set merger_host(${my_arch}) ""
     }
 
     if {"x86_64" in ${configure.universal_archs} || "i386" in ${configure.universal_archs}} {
@@ -125,22 +105,16 @@ if {${universal_possible} && [variant_isset universal]} {
             lappend merger_build_args(i386)   CFLAGS_S=-fno-integrated-as
             lappend merger_build_args(x86_64) CFLAGS_S=-fno-integrated-as
         }
-
     }
-
 } else {
-
     # single-arch build
     
-    # force the target: generic fix for PowerPC
+    # for PPC, use generic arch
     if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
-           configure.args-append --force-target=generic-gnu
+           configure.args-append --force-target=generic-darwin-gcc
     } else {
            configure.args-append --force-target=${configure.build_arch}-${os.platform}${os.major}-gcc
     }
-
-    # set LD
-    configure.env-append  LD=${configure.cc}
 
     if {${configure.build_arch} in {i386 x86_64}} {
         depends_build-append     port:yasm
