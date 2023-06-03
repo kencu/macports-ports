@@ -1,0 +1,19 @@
+--- src/ld/Options.cpp.orig	2023-05-28 21:13:59.000000000 -0400
++++ src/ld/Options.cpp	2023-05-28 21:16:03.000000000 -0400
+@@ -48,6 +48,8 @@
+ #include "macho_relocatable_file.h"
+ #include "ResponseFiles.h"
+ 
++const char ldVersionString[] = "@(#)PROGRAM:ld  PROJECT:ld64-@@VERSION@@\n";
++
+ // from FunctionNameDemangle.h
+ extern "C" size_t fnd_get_demangled_name(const char *mangledName, char *outputBuffer, size_t length);
+ 
+@@ -4200,7 +4202,6 @@
+ 			addStandardLibraryDirectories = false;
+ 		else if ( strcmp(argv[i], "-v") == 0 ) {
+ 			fVerbose = true;
+-			extern const char ldVersionString[];
+ 			fprintf(stderr, "%s", ldVersionString);
+ 			fprintf(stderr, "BUILD "  __TIME__ " "  __DATE__"\n");
+ 			fprintf(stderr, "configured to support archs: %s\n", ALL_SUPPORTED_ARCHS);

@@ -47,7 +47,11 @@ checksums           dyld-655.1.1.tar.gz \
                     ld64-450.3.tar.gz \
                     rmd160  4d263cff143228e021c438d3c2d1800ff367c895 \
                     sha256  140619e676e099581771dbad98277850ff731cd23938bed95b4d7171616acca1 \
-                    size    729639
+                    size    729639 \
+                    ld64-609.tar.gz \
+                    rmd160  91a15c383c2399d759687d2a150aab8a1bd9193f \
+                    sha256  d62764b6b6c902c0e165c263dede1a5db60600614aaf414a88db5a99d52daa25 \
+                    size    772735
 
 subport ld64-97 {
     # Xcode 3.2.6
@@ -211,7 +215,7 @@ subport ld64-274 {
     supported_archs i386 x86_64
 }
 
-subport ld64-latest {
+subport ld64-450 {
     # Xcode 10.2
     version 450.3
     set makefile        "Makefile-450"
@@ -223,7 +227,7 @@ subport ld64-latest {
     # clang 700.1.81 (10.10) fails with error: use of undeclared identifier '__builtin_mul_overflow'
     compiler.blacklist-append *gcc* {clang < 701}
 
-    set ld64_ver        latest
+    set ld64_ver        450
 
     patchfiles-append \
         ld64-version.patch \
@@ -236,6 +240,47 @@ subport ld64-latest {
         ld64-409-add-missing-machine-defs.diff \
         ld64-409-options-disable-i386-warning.diff \
         ld64-450-move-baseplatform-def-to-header.diff \
+
+    depends_lib-append port:libcxx port:libtapi
+    configure.cxx_stdlib libc++
+    configure.cxxflags-append -std=c++11
+
+    # silence some warnings
+    configure.cxxflags-append -Wno-deprecated-declarations
+    configure.cxxflags-append -Wno-parentheses-equality
+
+    supported_archs i386 x86_64
+}
+
+subport ld64-latest {
+    # Xcode 10.2
+    version 609
+    set makefile        "Makefile-609"
+
+    revision            0
+
+    # https://trac.macports.org/ticket/43737
+    # https://trac.macports.org/ticket/50130
+    # clang 700.1.81 (10.10) fails with error: use of undeclared identifier '__builtin_mul_overflow'
+    compiler.blacklist-append *gcc* {clang < 701}
+
+    set ld64_ver        latest
+    
+    post-extract {
+        move ${workpath}/ld64-ld64-609 ${workpath}/ld64-609
+    }
+
+    patchfiles-append \
+        ld64-609-version.patch \
+        ld64-609-no-CrashReporterClient.h.patch
+#        ld64-136-i386-badAddress.patch \
+#        ld64-ppc-9610466.patch \
+#        ld64-409-snapshot-no-mkpath-np.diff \
+#        ld64-409-lto-file-llvm-3.4-fix.diff \
+#        ld64-409-Options-strndup.diff \
+#        ld64-409-add-missing-machine-defs.diff \
+#        ld64-409-options-disable-i386-warning.diff \
+#        ld64-450-move-baseplatform-def-to-header.diff \
 
     depends_lib-append port:libcxx port:libtapi
     configure.cxx_stdlib libc++
@@ -332,7 +377,7 @@ if {${subport} eq ${name}} {
             ln -s dyldinfo-${ld64_ver} ${destroot}${prefix}/bin/dyldinfo
             ln -s machocheck-${ld64_ver} ${destroot}${prefix}/bin/machocheck
             ln -s ObjectDump-${ld64_ver} ${destroot}${prefix}/bin/ObjectDump
-            ln -s rebase-${ld64_ver} ${destroot}${prefix}/bin/rebase
+#            ln -s rebase-${ld64_ver} ${destroot}${prefix}/bin/rebase
             ln -s unwinddump-${ld64_ver} ${destroot}${prefix}/bin/unwinddump
         }
     }
@@ -367,7 +412,7 @@ if {${subport} eq ${name}} {
         depends_build-append port:cctools
     }
 
-    set all_llvm_variants {llvm50 llvm60 llvm70 llvm80 llvm90 llvmdev}
+    set all_llvm_variants {llvm50 llvm60 llvm70 llvm80 llvm90 llvm11 llvmdev}
     if {${os.major} < 10} {
         lappend all_llvm_variants llvm33
     }
@@ -377,7 +422,7 @@ if {${subport} eq ${name}} {
     if {${os.major} < 14} {
         lappend all_llvm_variants llvm37
     }
-    array set llvm_variant_version {llvm33 3.3 llvm34 3.4 llvm37 3.7 llvm50 5.0 llvm60 6.0 llvm70 7.0 llvm80 8.0 llvm90 9.0 llvmdev devel}
+    array set llvm_variant_version {llvm33 3.3 llvm34 3.4 llvm37 3.7 llvm50 5.0 llvm60 6.0 llvm70 7.0 llvm80 8.0 llvm90 9.0 llvm11 11 llvmdev devel}
     set llvm_version {}
 
     foreach variantname $all_llvm_variants {
@@ -415,7 +460,7 @@ if {${subport} eq ${name}} {
         }
 
         if {![some_llvm_variant_set] && ![variant_isset ld64_xcode] && ${os.major} >= 9} {
-            default_variants +llvm90
+            default_variants +llvm11
         }
 
         if {![some_llvm_variant_set] && ![variant_isset ld64_xcode] && ${os.major} >= 9} {
@@ -542,7 +587,7 @@ if {${subport} eq ${name}} {
         file rename ${destroot}${prefix}/bin/ld ${destroot}${prefix}/bin/ld-${ld64_ver}
         file rename ${destroot}${prefix}/bin/machocheck ${destroot}${prefix}/bin/machocheck-${ld64_ver}
         file rename ${destroot}${prefix}/bin/ObjectDump ${destroot}${prefix}/bin/ObjectDump-${ld64_ver}
-        file rename ${destroot}${prefix}/bin/rebase ${destroot}${prefix}/bin/rebase-${ld64_ver}
+#        file rename ${destroot}${prefix}/bin/rebase ${destroot}${prefix}/bin/rebase-${ld64_ver}
         file rename ${destroot}${prefix}/bin/unwinddump ${destroot}${prefix}/bin/unwinddump-${ld64_ver}
 
         # we can only install one set of man pages from one subport without file collisions
