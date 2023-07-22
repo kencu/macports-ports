@@ -1,0 +1,11 @@
+--- configure.orig	2023-05-29 09:53:39.000000000 -0500
++++ configure	2023-05-30 20:38:38.000000000 -0500
+@@ -14493,7 +14493,7 @@
+   else
+     whole_archive_flag_spec=''
+   fi
+-  link_all_deplibs=yes
++  link_all_deplibs=no
+   allow_undefined_flag=$_lt_dar_allow_undefined
+   case $cc_basename in
+      ifort*|nagfor*) _lt_dar_can_shared=yes ;;
