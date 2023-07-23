@@ -5,9 +5,9 @@ PortSystem                  1.0
 name                        minimalcurl
 conflicts                   curl
 version                     8.2.0
-checksums                   rmd160  e329a954563563874db29b68ceb8f40ac376ac84 \
-                            sha256  c67849462d171a3fee08b605cdd837d18ee22ecc3ee2c6a0393c9cec5d1a137e \
-                            size    4400603
+checksums                   rmd160  9ed42b1e75c9e4b5e03ed2f840972a86e2e99a84 \
+                            sha256  2859ec79e2cd96e976a99493547359b8001af1d1e21f3a3a3b846544ef54500f \
+                            size    2637208
 
 categories                  net
 platforms                   darwin
@@ -18,10 +18,14 @@ description                 a minimal curl used for macports-bootstrap
 long_description            {*}${description}
 
 homepage                    https://curl.se
-master_sites                ${homepage}/download
-
+master_sites                ${homepage}/download/:curl \
+                            https://curl.askapache.com/:curl
 distname                    curl-${version}
-fetch.ignore_sslcert        yes
+dist_subdir                 curl
+use_xz                      yes
+set curl_distfile           ${distfiles}
+distfiles                   ${curl_distfile}:curl
+checksums-prepend           ${curl_distfile}
 
 PortGroup                   muniversal 1.0
 
@@ -126,8 +130,8 @@ variant ssl conflicts wolfssl description {Allow secure connections using OpenSS
     configure.args-append   --with-ca-bundle=${prefix}/share/curl/curl-ca-bundle.crt
 }
 
-if {![variant_isset ssl]} {
-    default_variants-append +wolfssl
+if {![variant_isset wolfssl]} {
+    default_variants-append +ssl
 }
 
 livecheck.type              regex
