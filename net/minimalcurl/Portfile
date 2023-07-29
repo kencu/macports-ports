@@ -38,6 +38,8 @@ configure.cxx_stdlib
 # link with all of curl's dependencies as well.
 patchfiles                  configure.patch
 
+patchfiles-append           SCDynamicStoreCopyProxies.patch
+
 configure.args              --disable-silent-rules \
                             --disable-manual \
                             --enable-ipv6 \
