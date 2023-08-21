@@ -1,0 +1,11 @@
+--- biblioteq.osx.pro.orig	2023-08-20 17:17:50.000000000 -0700
++++ biblioteq.osx.pro	2023-08-20 17:18:57.000000000 -0700
+@@ -26,8 +26,6 @@
+                           -pedantic \
+                           -std=c++17
+ QMAKE_DISTCLEAN += -r BiblioteQ.d temp .qmake.cache .qmake.stash
+-QMAKE_EXTRA_TARGETS = dmg purge
+-QMAKE_MACOSX_DEPLOYMENT_TARGET = 11.0
+ 
+ ICON		= Icons/book.icns
+ INCLUDEPATH	+= /usr/local/include \
