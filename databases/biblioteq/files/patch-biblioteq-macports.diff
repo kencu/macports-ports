@@ -1,6 +1,14 @@
---- biblioteq.osx.pro.original	2023-08-20 23:44:10.000000000 -0700
-+++ biblioteq.osx.pro	2023-08-20 23:45:08.000000000 -0700
-@@ -26,8 +26,6 @@
+--- biblioteq.osx.pro.ken	2023-08-21 09:00:09
++++ biblioteq.osx.pro	2023-08-21 09:00:58
+@@ -9,7 +9,6 @@
+ QT		-= webkit
+ 
+ QMAKE_CLEAN	+= BiblioteQ
+-QMAKE_CXX       = clang++
+ QMAKE_CXXFLAGS_RELEASE += -Wall \
+                           -Wcast-align \
+                           -Wcast-qual \
+@@ -26,8 +25,6 @@
                            -pedantic \
                            -std=c++17
  QMAKE_DISTCLEAN += -r BiblioteQ.d temp .qmake.cache .qmake.stash
@@ -9,7 +17,7 @@
  
  ICON		= Icons/book.icns
  INCLUDEPATH	+= /usr/local/include \
-@@ -67,11 +65,9 @@
+@@ -67,11 +64,9 @@
  sql.path		 = BiblioteQ.d
  
  INSTALLS	= preinstall \

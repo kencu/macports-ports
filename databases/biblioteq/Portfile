@@ -23,8 +23,8 @@ homepage                https://textbrowser.github.io/biblioteq/
 compiler.cxx_standard   2017
 qt5.depends_component   sqlite-plugin
 
-patchfiles              patch-biblioteq-mp.diff
-configure.args          biblioteq.osx.pro
+patchfiles              patch-biblioteq-macports.diff
+configure.args          CONFIG+=sdk_no_version_check biblioteq.osx.pro
 
 post-destroot {
     move "${destroot}${worksrcpath}/BiblioteQ.d" ${destroot}${applications_dir}/BiblioteQ
