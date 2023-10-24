@@ -6,6 +6,7 @@ PortGroup       github 1.0
 epoch           2022121000
 revision        0
 
+# please keep it synchronized with cl-swank
 github.setup    slime slime 2.28 v
 categories      lang
 platforms       any
@@ -50,7 +51,7 @@ variant app description "Build SLIME against editors/emacs-app" {
 }
 
 variant sbcl description "Require lang/sbcl for SLIME" {
-    depends_run-append port:sbcl
+    depends_run-append path:bin/sbcl:sbcl
 }
 
 variant clisp description "Require lang/clisp for SLIME" {

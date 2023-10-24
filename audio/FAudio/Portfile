@@ -3,8 +3,9 @@
 PortSystem              1.0
 PortGroup               github 1.0
 PortGroup               cmake 1.1
+PortGroup               compiler_blacklist_versions 1.0
 
-github.setup            FNA-XNA FAudio 23.02
+github.setup            FNA-XNA FAudio 23.10
 revision                0
 
 license                 zlib
@@ -17,9 +18,9 @@ long_description        an XAudio reimplementation that focuses solely on develo
 
 depends_lib-append      port:libsdl2
 
-checksums               rmd160  9d3435b76b857c2f507fef71fba73e0c6f605eab \
-                        sha256  f3b33310a05b38a66287b2ea35da9e8ca662ab7f8ad536cb1f6634faf325df14 \
-                        size    1111090
+checksums               rmd160  968ade802634345ed1a55d51d58505047ed849f2 \
+                        sha256  5e451d0e41404efb38ee6445aeb9106bd6ab80d9b717d098e95284313c3fed9b \
+                        size    1120429
 
 # remove set deployment target and hard-coded RPATH setting
 patchfiles              patch-faudio-remove-deployment-target.diff
@@ -36,7 +37,15 @@ if {${os.major} <= 10} {
     checksums           rmd160  efcded088e1076b086d6db12b0cb135da66a794f \
                         sha256  f3975715f7ba915fa6f2d6ca1d050e838ada814b327fec5a0833e52e26dec31b \
                         size    1110469
+
+    patchfiles-append   patch-Unbreak-build-on-Darwin-PowerPC.diff
 }
+
+# https://github.com/FNA-XNA/FAudio/issues/321
+# Xcode clang on 10.6 also fails to build it.
+# FAudio.h: error: wrong number of arguments specified for ‘deprecated’ attribute
+compiler.blacklist-append \
+                        *gcc-4.* {clang < 421}
 
 #pre-destroot {
 #    there are some utilities to consider, but the facttool segfaulted when I tried to open an audio engine
@@ -46,5 +55,9 @@ if {${os.major} <= 10} {
 #}
 
 test.run                 yes
+# Otherwise it looks in prefix, and if the port has not been installed earlier, that fails:
+# dyld: Library not loaded: /opt/local/lib/libFAudio.0.dylib
+# On PowerPC tests do not run: https://github.com/FNA-XNA/FAudio/issues/319
+test.env-append          DYLD_LIBRARY_PATH=${cmake.build_dir}
 test.cmd                 ./faudio_tests
 test.target

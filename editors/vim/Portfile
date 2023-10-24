@@ -12,18 +12,18 @@ if {${os.platform} eq "darwin" && ${os.major} <= 14} {
     # Fallback to previous port version, for 10.10 and earlier
     # https://trac.macports.org/ticket/67209
     set vim_patchlevel 0472
-    set port_revision  0
+    set port_revision  1
 
     checksums       rmd160  ee809eb300deaf735c86b6e5b7f4bc4a8fe79a41 \
                     sha256  7185577d6cd3708b62b2079b69a29215bb6a6048070d34e960d2d565c18b8a9b \
                     size    16851486
 } else {
-    set vim_patchlevel 1499
+    set vim_patchlevel 1897
     set port_revision  0
 
-    checksums       rmd160  10d9edf0b19197771722e4a2fcf2e36021c34fa6 \
-                    sha256  3db98ddcbb8628ec9818da50353c4dd08d62938c80c71d38062250205310cdc3 \
-                    size    17010976
+    checksums       rmd160  03c9bc4d54789cbec843fbfbfa342de2f6af4384 \
+                    sha256  8b86cfb2b609e7a7e386b88a89b01522354990d4eef27e7001cc607d49d62ebf \
+                    size    17268335
 }
 
 github.setup        vim vim ${vim_version}.${vim_patchlevel} v
@@ -42,8 +42,7 @@ long_description    Vim is an advanced text editor that seeks to provide the\
 homepage            https://www.vim.org/
 
 
-depends_lib-append \
-                    port:ncurses \
+depends_lib-append  port:ncurses \
                     port:gettext \
                     port:libiconv
 
@@ -64,6 +63,7 @@ configure.args-append \
                     --without-local-dir \
                     --disable-gpm \
                     --disable-canberra \
+                    --disable-libsodium \
                     --mandir=${prefix}/share/man \
                     --with-tlib=ncurses \
                     --enable-multibyte \

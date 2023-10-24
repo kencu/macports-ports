@@ -4,13 +4,18 @@ PortSystem      1.0
 PortGroup       compiler_blacklist_versions 1.0
 PortGroup       github 1.0
 PortGroup       cmake 1.1
+PortGroup       legacysupport 1.1
+
+# clock_gettime needed for abseil
+# https://github.com/macports/macports-ports/pull/19905#issuecomment-1680281240
+legacysupport.newest_darwin_requires_legacy 15
 
 # NOTE: For any version number change, also
 # NOTE:   Update py-protobuf3 version's number to match
 # NOTE: For a minor or major version number change, also
 # NOTE:   Revbump et, protobuf-c, mosh and py-onnx
 set release_version \
-                23.4
+                24.4
 
 name            protobuf3-cpp-upstream
 github.setup    protocolbuffers protobuf 3.${release_version} v
@@ -40,9 +45,9 @@ long_description \
                 name-value pairs.
 homepage        https://developers.google.com/protocol-buffers/
 
-checksums       rmd160  c89adfc994e8f6611f1316cd8d3933865f49efb3 \
-                sha256  a700a49470d301f1190a487a923b5095bf60f08f4ae4cac9f5f7c36883d17971 \
-                size    5043507
+checksums       rmd160  e74e942bc2c9859706cc92d0d9b20e3a817ec4c3 \
+                sha256  616bb3536ac1fff3fb1a141450fa28b875e985712170ea7f1bfe5e5fc41e2cd8 \
+                size    5180235
 
 github.tarball_from releases
 distname        protobuf-${release_version}

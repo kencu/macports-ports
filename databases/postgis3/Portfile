@@ -5,10 +5,9 @@ PortSystem          1.0
 name                postgis3
 categories          databases gis
 license             GPL-2+
-version             3.3.3
+version             3.4.0
 revision            1
-platforms           darwin
-maintainers         {vince @Veence} openmaintainer
+maintainers         {vince @Veence} {yahoo.com:n_larsson @nilason} openmaintainer
 
 description         PostGIS is the spatial extension to the\
                     PostGreSQL database.
@@ -22,9 +21,9 @@ homepage            https://postgis.net/
 master_sites        https://download.osgeo.org/postgis/source
 distname            postgis-${version}
 
-checksums           rmd160  611923bad2b6c4e5cafa3b21da0da2a40ac4c905 \
-                    sha256  74eb356e3f85f14233791013360881b6748f78081cc688ff9d6f0f673a762d13 \
-                    size    17790503
+checksums           rmd160  d88cdfc8a3033a002e3db9a07e79e10bef6a9fae \
+                    sha256  aee9b60a6c884d354164b3096c4657f324454186607f859d1ce05d899798af9d \
+                    size    14693348
 
 depends_build       port:autoconf \
                     port:automake \
@@ -64,6 +63,7 @@ foreach s ${postgresql_suffixes} {
     variant ${p} description "Use PostgreSQL ${v}" conflicts {*}${c} "
         depends_lib-append      port:${p}
         configure.args-append   --libdir=${prefix}/lib/${p} \
+                                --bindir=${prefix}/lib/${p}/bin \
                                 --with-pgconfig=${prefix}/lib/${p}/bin/pg_config
         build.args-append       PGSQL_DOCDIR=${destroot}${prefix}/share/doc/${p} \
                                 PGSQL_MANDIR=${destroot}${prefix}/share/man
@@ -120,6 +120,8 @@ eval ${projdf}
 default_variants            +raster +topology
 
 # Port phases
+
+compiler.thread_local_storage yes
 
 configure.cflags-append \
     -Diconv=libiconv -Diconv_open=libiconv_open -Diconv_close=libiconv_close

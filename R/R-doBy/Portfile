@@ -3,16 +3,16 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran doBy 4.6.16
-revision            1
+R.setup             cran sorenh doBy 4.6.19
+revision            0
 categories-append   math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
-license             {GPL-2 GPL-3}
+license             GPL-2+
 description         Groupwise statistics, ls-means, linear estimates, utilities
 long_description    {*}${description}
-checksums           rmd160  5e64d5814a0fe6bca93ffe7bee29ea143d62103e \
-                    sha256  d5937eb57d293b0bc2e581ff2e1e628671cb4eacddc0b9574dc28a5316ecbbe7 \
-                    size    4487583
+checksums           rmd160  4221608086e75626dcc12963b47a13e993ad1b35 \
+                    sha256  db648cf187c28a61a9f18f008939448cf654affca8c994a19cb8aa9f1c5c1b92 \
+                    size    4513560
 supported_archs     noarch
 
 depends_lib-append  port:R-broom \

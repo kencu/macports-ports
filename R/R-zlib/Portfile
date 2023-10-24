@@ -1,0 +1,23 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+R.setup             cran sgeist-ionos zlib 1.0.2
+revision            0
+categories-append   archivers
+maintainers         nomaintainer
+license             MIT
+description         Compression and decompression via zlib
+long_description    {*}${description}
+homepage            https://sgeist-ionos.github.io/R-zlib
+checksums           rmd160  0bbc0b5375e53a38b3d4efd20ca64afe996e2d5c \
+                    sha256  5fd7e0e65df87a175ab7ee0d1ca0e0f69c0b8452b3f038af244f7ed6298c8b93 \
+                    size    21406
+
+depends_lib-append  port:R-Rcpp \
+                    port:zlib
+
+depends_test-append port:R-testthat
+
+test.run            yes

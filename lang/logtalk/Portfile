@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                logtalk
-version             3.67.0
+version             3.71.0
 revision            0
 
 categories          lang
@@ -31,9 +31,9 @@ long_description    Logtalk is an object-oriented logic programming language tha
 homepage            https://logtalk.org/
 master_sites        ${homepage}files/
 
-checksums           rmd160  a7a8d9fdb6f5000ef87ead4216ffc93642a197bb \
-                    sha256  4a9a63dd0a3901f265e021b37ad29d59b565174825fae2ff7938bf52f26ec25e \
-                    size    14606375
+checksums           rmd160  aa211edea6febecb2a69f1b13a20efbcfc3dde6d \
+                    sha256  8cbf6402fdb5c9ef05b291cc9a15303a2b4d04c8c9f0e5baccd43f7c4b142be7 \
+                    size    14715423
 
 use_bzip2           yes
 
@@ -73,9 +73,8 @@ post-activate {
     ui_msg "* ECLiPSe (6.1#143 or later):        eclipselgt"
     ui_msg "* GNU Prolog (1.4.5 or later):       gplgt"
     ui_msg "* JIProlog (4.1.7.1 or later):       jiplgt      (first run may require sudo)"
-    ui_msg "* LVM (4.1.0 or later):              lvmlgt"
+    ui_msg "* LVM (6.3.0 or later):              lvmlgt"
     ui_msg "* Quintus Prolog (3.3 or later):     quintuslgt  (experimental)"
-    ui_msg "* Scryer Prolog (0.9.1 or later):    scryerlgt   (experimental)"
     ui_msg "* SICStus Prolog (4.1.0 or later):   sicstuslgt"
     ui_msg "* SWI-Prolog (6.6.0 or later):       swilgt"
     ui_msg "* Tau Prolog (0.3.2 or later):       taulgt"

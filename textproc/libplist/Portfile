@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           compiler_blacklist_versions 1.0
 
 github.setup        libimobiledevice libplist 2.3.0
 revision            0
@@ -33,14 +34,19 @@ depends_build-append \
 pre-configure {
     system -W ${worksrcpath} "echo ${version} > .tarball-version"
 }
+
+# https://trac.macports.org/ticket/68238
+compiler.blacklist-append \
+                    *gcc-4.0 *gcc-4.2 {clang < 421}
+
 configure.cmd       ./autogen.sh
 
 configure.args      --disable-silent-rules \
                     --without-cython
 
 subport libplist-devel {
-    github.setup    libimobiledevice libplist 21a432bc746e9d3897d4972a9c17ee99b0c1ecc0
-    version         20230514
+    github.setup    libimobiledevice libplist d45396aad911d496494a587bd2d3ef20c2e8a8d0
+    version         20230829
     revision        0
 
     checksums       rmd160  e80704e4645842d35ad063e1026503a0470d929d \

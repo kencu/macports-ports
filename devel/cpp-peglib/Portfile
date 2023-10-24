@@ -2,18 +2,20 @@
 
 PortSystem          1.0
 PortGroup           cmake 1.1
+PortGroup           compiler_blacklist_versions 1.0
 PortGroup           github 1.0
 
-github.setup        yhirose cpp-peglib 1.8.3 v
+github.setup        yhirose cpp-peglib 1.8.5 v
 revision            0
 categories          devel
 license             MIT
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 description         A single file C++ header-only PEG (Parsing Expression Grammars) library
 long_description    {*}${description}
-checksums           rmd160  17bf1745785c7706479672e7f87484c28ca082af \
-                    sha256  7d1173c5440ce16a4b6b284a5a6ef8571f6789b13fe09a1e309efb2404605463 \
-                    size    213705
+checksums           rmd160  d94b9b86aa009e87bdd1929eed93f2a73df62e0a \
+                    sha256  2813f7ffdeb570959b879ce2bf3921bf4f2edc0d9f1568c4429eceadff9ab114 \
+                    size    226230
+github.tarball_from archive
 installs_libs       no
 
 # The port needs Gtest for building tests, however linking to external Gtest fails.
@@ -28,12 +30,14 @@ platform darwin {
 }
 
 compiler.cxx_standard 2017
+compiler.blacklist-append \
+                    {clang < 902}
 
 configure.args-append \
                     -DBUILD_TESTS=ON \
                     -DTHREADS_PREFER_PTHREAD_FLAG=ON
 
-# We do not a conflict with Gtest port, so implement a manual destroot.
+# We do not want a conflict with Gtest port, so implement a manual destroot.
 destroot {
     copy ${worksrcpath}/peglib.h ${destroot}${prefix}/include/
     xinstall -d ${destroot}${prefix}/share/${name}

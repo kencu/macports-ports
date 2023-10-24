@@ -4,7 +4,12 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           tree_sitter 1.0
 
-github.setup        tree-sitter tree-sitter-cpp 0.20.1 v
+# Need static_assert in C11 mode
+PortGroup           legacysupport 1.1
+
+legacysupport.newest_darwin_requires_legacy 14
+
+github.setup        tree-sitter tree-sitter-cpp 0.20.3 v
 revision            0
 
 description         A tree-sitter parser for C++
@@ -15,8 +20,8 @@ categories          devel
 license             MIT
 maintainers         {amake @amake} openmaintainer
 
-checksums           rmd160  0421fe50e4911af578c350e0aaab8f9f05382f75 \
-                    sha256  7966a7c790f6e9adbe50c7452a0ff8475531912c88a630335bc3ebb66a4668a9 \
-                    size    999074
+checksums           rmd160  7b60d74ef4f951cf0cca3a7ab6098f26f96a55d9 \
+                    sha256  e368e26397e4b9fef37bbd20bfa316f03c0ccd5afa57dd87d455a449528908fb \
+                    size    1056364
 
 worksrcdir          ${worksrcdir}/src

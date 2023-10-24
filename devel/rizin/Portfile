@@ -6,7 +6,8 @@ PortGroup           meson   1.0
 PortGroup           openssl 1.0
 
 epoch               1
-github.setup        rizinorg rizin 0.5.2 v
+github.setup        rizinorg rizin 0.6.3 v
+github.tarball_from releases
 revision            0
 
 homepage            https://rizin.re
@@ -24,19 +25,18 @@ maintainers         {l2dy @l2dy} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-github.tarball_from releases
 distname            ${github.project}-src-v${github.version}
 worksrcdir          ${github.project}-v${github.version}
-extract.suffix      .tar.xz
+use_xz              yes
 
-checksums           rmd160  31f703fc1b1ec4f5d48ff0de91d139ef9a446400 \
-                    sha256  71ab80fc3c8ac9c80a10000d838128af28a05d31a0ee183900c2c5c6e350eca3 \
-                    size    11779644
+checksums           rmd160  c13c3bdebfd9d229ec49ffaa2bd89e0ec3e0e3df \
+                    sha256  95f64c6ab9e6daa9e9fa5634398eb8f6cdb4ebf2e814da2e4cb969d31f4509c2 \
+                    size    15411052
 
 depends_build-append \
                     port:pkgconfig
 
-depends_lib         port:capstone \
+depends_lib-append  port:capstone \
                     port:libzip \
                     port:zlib \
                     port:lz4 \

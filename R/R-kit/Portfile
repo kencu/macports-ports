@@ -3,26 +3,21 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github 2005m kit 0.0.13 v
-revision            1
+R.setup             github 2005m kit 0.0.15 v
+revision            0
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             GPL-3
 description         Data manipulation functions implemented in C
 long_description    {*}${description}
-checksums           rmd160  b258947d868575f83e6af697498deda7f67d3a89 \
-                    sha256  6e1cb7f256277f8a2c07defb54341ea8d186a865cba93f7abf52f13839410ec5 \
-                    size    106397
+checksums           rmd160  41bb792cd8a0c7c8ef8461d79829340e31586cf0 \
+                    sha256  20f964b09898836ffec9a1993857db5cf1f38204a72033d47e46734a7d2d3e64 \
+                    size    106466
 
 compiler.openmp_version 3.0
 
-# configure script forces clang-only flag unconditionally -_-
-# https://github.com/2005m/kit/issues/36
-# Normally with GCC passing -fopenmp is enough, however here explicit linking to libgomp seems to be needed.
-# In turn, Clang build cannot find omp.h.
 post-patch {
-    if {[string match *gcc* ${configure.compiler}]} {
-        reinplace "s,-lomp,-lgomp,g" ${worksrcpath}/configure
-    } elseif {[string match *clang* ${configure.compiler}]} {
+    # https://github.com/2005m/kit/issues/36
+    if {[string match macports-clang* ${configure.compiler}]} {
         reinplace "s,-Xpreprocessor -fopenmp,-Xpreprocessor -I${prefix}/include/libomp -fopenmp," ${worksrcpath}/configure
         reinplace "s,-lomp,-L${prefix}/lib/libomp -lomp,g" ${worksrcpath}/configure
     }

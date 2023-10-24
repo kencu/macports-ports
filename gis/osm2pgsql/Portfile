@@ -7,7 +7,7 @@ PortGroup           active_variants 1.1
 PortGroup           boost 1.0
 PortGroup           legacysupport 1.1
 
-github.setup        openstreetmap osm2pgsql 1.8.1
+github.setup        osm2pgsql-dev osm2pgsql 1.9.2
 
 categories          gis
 maintainers         {vince @Veence} openmaintainer
@@ -20,9 +20,9 @@ license             GPL-2+
 
 homepage            https://osm2pgsql.org
 
-checksums           rmd160  f4e53821cf7fafa5c1799ac92927f61e29797782 \
-                    sha256  cedf75b444f982b6d6c7ce340b50ed68d6cde74dc1bd76da35b4b0aa39de9e41 \
-                    size    2545884
+checksums           rmd160  f17bc7ed9e4529bb3fb04c513c07fafefd438d71 \
+                    sha256  2e4fc688a251dff435b65c3f7ae197a025d8f83cf734719b1e39bfe626417a0b \
+                    size    2599030
 
 # It uses include variant
 compiler.cxx_standard 2017
@@ -39,10 +39,13 @@ configure.args-append \
                     -DFMT_INCLUDE_DIR=${prefix}/include/${port_libfmt}
 
 depends_lib-append  port:bzip2 \
+                    port:CImg \
                     port:expat \
                     port:libosmium \
+                    port:nlohmann-json \
                     port:${port_libfmt} \
                     port:postgis3 \
+                    port:potrace \
                     port:proj8 \
                     port:protozero \
                     port:zlib

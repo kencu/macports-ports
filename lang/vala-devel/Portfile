@@ -5,7 +5,7 @@ PortSystem          1.0
 name                vala-devel
 conflicts           vala
 set my_name         vala
-version             0.56.9
+version             0.56.13
 revision            0
 
 categories          lang
@@ -25,9 +25,18 @@ dist_subdir         ${my_name}
 distname            ${my_name}-${version}
 use_xz              yes
 
-checksums           rmd160  282e16d4930ca60b0862fac2210aba116658bc93 \
-                    sha256  55578c7c4f067ace028e541806af240f8084cb6ff0cc554caa8ac08cbf8bce2f \
-                    size    3996196
+checksums           rmd160  43bb5dd33c5c35f7e68b17ad806b5401103be77f \
+                    sha256  4988223036c7e1e4874c476d0de8bd9cbe500ee25ef19a76e560dc0b6d56ae07 \
+                    size    3999680
+
+if { [string match *clang* ${configure.compiler}] } {
+    # Quiet warnings
+    configure.cflags-append \
+                    -Wno-deprecated-declarations \
+                    -Wno-incompatible-pointer-types-discards-qualifiers \
+                    -Wno-error=unknown-warning-option \
+                    -Wno-unknown-warning-option
+}
 
 depends_build-append \
                     port:bison \

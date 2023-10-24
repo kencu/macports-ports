@@ -4,15 +4,17 @@ PortSystem          1.0
 PortGroup           R 1.0
 
 # GitHub version lags behind.
-R.setup             cran ropensci magick 2.7.4
-revision            1
+R.setup             cran ropensci magick 2.8.1
+revision            0
+categories-append   graphics
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             MIT
 description         Advanced graphics and image-processing in R
 long_description    {*}${description}
-checksums           rmd160  612acac114eae8130cb57b40fc4b2b265b416f75 \
-                    sha256  e28d67737590f8c19e4cf00a9c74e59d0e45f9ece363ed105b5f40e821e8f02f \
-                    size    4754217
+homepage            https://docs.ropensci.org/magick
+checksums           rmd160  a608fb67d0f1573c71b8bf152836dffcb2fb05a4 \
+                    sha256  d8fcd10e1817d42796102e85df05bb45fc8ced4c721b06fac37e61b6792b458e \
+                    size    4601205
 
 depends_build-append \
                     port:pkgconfig
@@ -22,10 +24,26 @@ depends_lib-append  port:ImageMagick \
                     port:R-Rcpp
 
 # See: https://trac.macports.org/ticket/66978
-patchfiles          patch-isnan.diff
+patchfiles          patch-isnan.diff \
+                    patch-no-gifski.diff
 
 if {${os.platform} eq "darwin" && ${os.major} < 16} {
     # Symbol not found: __ZN6Magick5Image10fontFamilyERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
     patchfiles-append \
                     patch-cxx11.diff
 }
+
+depends_test-append port:R-av \
+                    port:R-gapminder \
+                    port:R-ggplot2 \
+                    port:R-IRdisplay \
+                    port:R-jsonlite \
+                    port:R-knitr \
+                    port:R-pdftools \
+                    port:R-rmarkdown \
+                    port:R-rsvg \
+                    port:R-spelling \
+                    port:R-tesseract \
+                    port:R-webp
+
+test.run            no

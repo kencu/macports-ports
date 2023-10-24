@@ -2,13 +2,17 @@
 
 PortSystem              1.0
 PortGroup               debug 1.0
+PortGroup               legacysupport 1.1
+
+# _strnlen
+legacysupport.newest_darwin_requires_legacy 10
 
 name                    GraphicsMagick
-version                 1.3.40
-revision                1
-checksums               rmd160  908434c771ee0dd015c6f4e90e6f175b9ef1fe70 \
-                        sha256  97dc1a9d4e89c77b25a3b24505e7ff1653b88f9bfe31f189ce10804b8efa7746 \
-                        size    5507792
+version                 1.3.42
+revision                0
+checksums               rmd160  e858a8ca3e850514a46e8d6127b8fdbd794f1839 \
+                        sha256  484fccfd2b2faf6c2ba9151469ece5072bcb91ba4ed73e75ed3d8e46c759d557 \
+                        size    5553692
 
 set branch              [join [lrange [split ${version} .] 0 1] .]
 categories              graphics
@@ -26,9 +30,9 @@ long_description        GraphicsMagick is the swiss army knife of image \
 homepage                http://www.graphicsmagick.org/
 master_sites            sourceforge:project/graphicsmagick/graphicsmagick/${version}
 
-depends_build           port:pkgconfig
+depends_build-append    path:bin/pkg-config:pkgconfig
 
-depends_lib             port:libxml2 \
+depends_lib-append      port:libxml2 \
                         port:bzip2 \
                         port:xz \
                         port:zlib \
@@ -49,7 +53,7 @@ use_xz                  yes
 # llvm-gcc-4.2 gives "Undefined symbols for architecture x86_64: ___builtin_object_size"
 compiler.blacklist      *llvm-gcc-4.2
 
-configure.args          --with-jbig=no \
+configure.args-append   --with-jbig=no \
                         --with-jpeg=yes \
                         --with-wmf=no \
                         --with-dps=no \
@@ -71,8 +75,6 @@ configure.args          --with-jbig=no \
                         --with-webp=yes \
                         --without-umem \
                         --enable-shared=yes
-
-use_parallel_build      yes
 
 post-configure {
     reinplace -E {s|-arch [a-z0-9_]+||g} \
@@ -97,6 +99,12 @@ variant q32 conflicts q8 q16 description {Use 32 bits per pixel quantum} {
 
 if {![variant_isset q16] && ![variant_isset q32]} {
     default_variants +q8
+}
+
+variant openmp description { Build with OpenMP support} {
+    # OpenMP is beneficial for GM: http://www.graphicsmagick.org/OpenMP.html
+    compiler.openmp_version 4.0
+    configure.args-append   --enable-openmp
 }
 
 livecheck.regex         /${name}-(\\d+(?:\\.\\d{1,5})+)[quotemeta ${extract.suffix}]

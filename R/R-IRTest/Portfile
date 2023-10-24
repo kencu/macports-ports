@@ -3,25 +3,27 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran SeewooLi IRTest 1.0.0
+R.setup             cran SeewooLi IRTest 1.12.0
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             GPL-3+
 description         Parameter estimation of item response theory with estimation of latent distribution
 long_description    {*}${description}
-checksums           rmd160  61fb2b704b05a28344722ddeb531128c59f54fcd \
-                    sha256  375c2e3dcd1b3a0429e646b096e31ec9456a1698731452b2dbdddcfcdd2d2df1 \
-                    size    104847
+checksums           rmd160  e39032b3529a8a22eb0bfae11528eb68003472c7 \
+                    sha256  4668a8ccd520e1a82e620249a45af27744e5bb4500ac04514a01c37116e192c2 \
+                    size    274025
 supported_archs     noarch
 
 depends_lib-append  port:R-betafunctions \
                     port:R-dcurver \
-                    port:R-ggplot2
+                    port:R-ggplot2 \
+                    port:R-usethis
 
 patchfiles          patch-no-v8.diff
 
-depends_test-append port:R-knitr \
+depends_test-append port:R-gridExtra \
+                    port:R-knitr \
                     port:R-rmarkdown \
                     port:R-testthat
 

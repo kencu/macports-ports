@@ -4,7 +4,9 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-dnspython
-version             2.3.0
+version             2.4.2
+revision            0
+
 categories-append   net
 license             ISC
 supported_archs     noarch
@@ -21,9 +23,9 @@ homepage            https://www.dnspython.org/
 
 python.versions     27 37 38 39 310 311
 
-checksums           rmd160  6ddac659ec5da0ed4f599515b52f980a642ea91e \
-                    sha256  224e32b03eb46be70e12ef6d64e0be123a64e621ab4c0822ff6d450d52a540b9 \
-                    size    312313
+checksums           rmd160  a2e42401d20e5ed4aebf2346412565ab7d121e60 \
+                    sha256  8dcfae8c7460a2f84b4072e26f1c9f4101ca20c071649cb7c34e8b6a93d58984 \
+                    size    328126
 
 if {${name} ne ${subport}} {
   depends_build-append port:py${python.version}-setuptools
@@ -52,14 +54,9 @@ if {${name} ne ${subport}} {
         python.pep517           yes
         python.pep517_backend   poetry
 
-        depends_test-append \
-                        port:py${python.version}-pytest
-
         test.run        yes
-        test.dir        ${build.dir}/tests
-        test.cmd        python${python.branch}
-        test.target     utest.py
-        test.env        PYTHONPATH=${worksrcpath}/build/lib
+        # there currently 3 test failures in test_resolver.py
+        # and 1 in test_resolver_override.py
     }
 
     post-destroot {

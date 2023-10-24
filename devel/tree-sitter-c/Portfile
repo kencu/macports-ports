@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           tree_sitter 1.0
 
-github.setup        tree-sitter tree-sitter-c 0.20.3 v
+github.setup        tree-sitter tree-sitter-c 0.20.6 v
 revision            0
 
 description         A tree-sitter parser for C
@@ -15,8 +15,8 @@ categories          devel
 license             MIT
 maintainers         {amake @amake} openmaintainer
 
-checksums           rmd160  1d21b4f682fe1c5ff0c1075e1cdbdc3516fa7d3d \
-                    sha256  6096857f192deebdb97dca7a354469288d30cf73fdd62b617fcd102b9f75ea8c \
-                    size    362487
+checksums           rmd160  f03072c2e62ed671a7222bba6ab4c6f5e4558059 \
+                    sha256  71a0ee1f9f7d563462899cc53a08678398a849d147a4a1ecc7882fa7cfe86cf9 \
+                    size    337807
 
 worksrcdir          ${worksrcdir}/src

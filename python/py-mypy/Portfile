@@ -5,10 +5,10 @@ PortGroup python 1.0
 PortGroup select 1.0
 
 name                py-mypy
-version             1.4.1
+version             1.6.1
+revision            0
 license             MIT
-supported_archs     noarch
-platforms           {darwin any}
+platforms           darwin
 maintainers         {toby @tobypeterson} openmaintainer
 description         Optional static typing for Python
 long_description    Add type annotations to your Python programs, and use mypy to \
@@ -20,15 +20,17 @@ long_description    Add type annotations to your Python programs, and use mypy t
 
 homepage            http://www.mypy-lang.org
 
-checksums           rmd160  a674dd1c44e7112b78eadba93fbcde91c2eac640 \
-                    sha256  9bbcd9ab8ea1f2e1c8031c21445b511442cc45c89951e49bbf852cbb70755b1b \
-                    size    2855162
+checksums           rmd160  afabfed345b1434ef67fd07d1d1adc685fa1c34a \
+                    sha256  4d01c00d09a0be62a4ca3f933e315455bde83f37f892ba4b08ce92f3cf44bcc1 \
+                    size    2919965
 
-python.versions     37 38 39 310 311
-python.pep517       no
+python.versions     37 38 39 310 311 312
+python.pep517       yes
 
 if {${name} ne ${subport}} {
-    depends_build-append    port:py${python.version}-setuptools
+    depends_build-append    port:py${python.version}-setuptools \
+                            port:py${python.version}-types-psutil \
+                            port:py${python.version}-types-setuptools
     depends_lib-append      port:py${python.version}-mypy_extensions \
                             port:py${python.version}-typing_extensions
     depends_run-append      port:mypy_select
@@ -37,8 +39,18 @@ if {${name} ne ${subport}} {
         depends_lib-append  port:py${python.version}-tomli
     }
     if {${python.version} < 38} {
+        version             1.4.1
+        revision            2
+        checksums           rmd160  a674dd1c44e7112b78eadba93fbcde91c2eac640 \
+                            sha256  9bbcd9ab8ea1f2e1c8031c21445b511442cc45c89951e49bbf852cbb70755b1b \
+                            size    2855162
+
+        depends_build-append \
+                            port:py${python.version}-types-typed-ast
         depends_lib-append  port:py${python.version}-typed-ast
     }
+
+    build.env-append        MYPY_USE_MYPYC=1
 
     select.group            mypy
     select.file             ${filespath}/mypy${python.version}

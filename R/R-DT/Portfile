@@ -3,20 +3,21 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran rstudio DT 0.28
+R.setup             cran rstudio DT 0.30
 revision            0
-maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
+maintainers         nomaintainer
 license             GPL-3
 description         Wrapper for the JavaScript library DataTables
 long_description    {*}${description}
-checksums           rmd160  bcd7649ce360a630510c0688ee14f89d59aff355 \
-                    sha256  d975d57dd8523c021dbd815c8369f174aef47b9850bb4bdb9929be3d83a00d4e \
-                    size    1469928
+checksums           rmd160  7818cc9532d5ff44bfba459569e2022468994ab7 \
+                    sha256  2f1a53e32a9b493efc9041758810c6a744ebb17ad7a942b376389b7e95ff698e \
+                    size    1469925
 supported_archs     noarch
 
 depends_lib-append  port:R-crosstalk \
                     port:R-htmltools \
                     port:R-htmlwidgets \
+                    port:R-httpuv \
                     port:R-jquerylib \
                     port:R-jsonlite \
                     port:R-magrittr \

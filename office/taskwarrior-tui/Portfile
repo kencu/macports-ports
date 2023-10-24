@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cargo   1.0
 PortGroup           github  1.0
 
-github.setup        kdheepak taskwarrior-tui 0.25.1 v
+github.setup        kdheepak taskwarrior-tui 0.25.4 v
 github.tarball_from archive
 revision            0
 
@@ -18,9 +18,9 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
                     {judaew @judaew} \
                     openmaintainer
 
-checksums           rmd160  b6dd30b02f7dae9326be90cc2121e0f2f4f53995 \
-                    sha256  52be07ec3331b830b1fa626e0da9a2196aa861db0bd04653445d009c74322361 \
-                    size    77901
+checksums           rmd160  e46a92ac27f07d6de02263b244fc2813bd995d05 \
+                    sha256  86a00c0c33f825824ac432c50e57a9bac150c3ba9e3d06e6d86f65790a99a458 \
+                    size    78486
 
 build.pre_args      --release -v -j${build.jobs}
 

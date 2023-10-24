@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                dotnet-sdk-6
-version             6.0.412
+version             6.0.414
 revision            0
 categories          dotnet devel
 license             MIT
@@ -26,15 +26,15 @@ supported_archs     x86_64 arm64
 switch ${build_arch} {
     x86_64 {
         distname            dotnet-sdk-${version}-osx-x64
-        checksums           rmd160  fb02ef56e51784045feaa0f6b60c0fd6a3620bef \
-                            sha256  eae525cfa781576000f42ac625440b4244a728072c9833440c5d74376b14775c \
-                            size    184195252
+        checksums           rmd160  0fccbc010d5daad69d268f83e5a6e102c797f571 \
+                            sha256  fc674c12492f4e7b9b7ed418695ff6c775384944dab0398b99f4cf077cf2fab4 \
+                            size    184212407
     }
     arm64 {
         distname            dotnet-sdk-${version}-osx-arm64
-        checksums           rmd160  49cb82edceecfb5dccfd75385924690ab25244b1 \
-                            sha256  e91e9b7a97b502328d31d5627aeb255e9b9076500f24545c4b0422b82e81544c \
-                            size    178400319
+        checksums           rmd160  4a74b96710d463702e8e5f6a656969fa9377d2e1 \
+                            sha256  5226174713a2e278ece520b0d35bac93fd7aa305dbc68a8955a847abf9a958fe \
+                            size    178414523
     }
     default {
         known_fail yes
@@ -60,7 +60,7 @@ build {}
 
 destroot {
     set dotnet_manifest_version 6.0.300
-    set dotnet_templates_version 6.0.20
+    set dotnet_templates_version 6.0.22
     set dotnet_home ${prefix}/share/dotnet
 
     # Create the target directory

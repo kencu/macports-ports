@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+R.recommended       yes
+
+# This is a recommended package. Keep it CRAN-sourced.
+R.setup             cran deepayan lattice 0.22-4
+revision            0
+categories-append   graphics
+maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
+license             GPL-2+
+description         Trellis graphics for R
+long_description    {*}${description}. Recommended package.
+homepage            https://lattice.r-forge.r-project.org
+checksums           rmd160  d26d7afec691e8ed6b488a85997ed645161a4a99 \
+                    sha256  50baa39a7dc1f7ee872265c1d9b1dc85d1a090e3512563f49175aed46f7fb2f0 \
+                    size    600540
+
+depends_test-append port:R-chron \
+                    port:R-colorspace \
+                    port:R-KernSmooth \
+                    port:R-latticeExtra \
+                    port:R-MASS \
+                    port:R-zoo
+
+test.run            yes

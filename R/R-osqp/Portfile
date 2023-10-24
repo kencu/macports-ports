@@ -3,17 +3,18 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran osqp 0.6.0.8
-revision            1
+R.setup             cran osqp-r osqp 0.6.3.2
+revision            0
 categories-append   math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             Apache-2
 description         Quadratic programming solver using the OSQP library
 long_description    Provides bindings to the OSQP solver. The OSQP solver is a numerical optimization package \
                     for solving convex quadratic programs, written in C and based on the alternating direction method of multipliers.
-checksums           rmd160  cc3be091ec4156e96cf19e1dcc16f2edceae63ba \
-                    sha256  14034045ae4ae5ec4eae4944653d41d94282fa85a0cd53614ac86f34fd02ed97 \
-                    size    976600
+homepage            https://osqp.org
+checksums           rmd160  e435737825f12a70b105d1b407caf9f0f42e89ba \
+                    sha256  18543b329a42be0f419dff4aa42f4401c2afb18f46276ce359853494dd803244 \
+                    size    144332
 
 depends_build-append \
                     path:bin/cmake:cmake
@@ -29,9 +30,12 @@ post-patch {
     reinplace "s,@ARCH@,${configure.build_arch}," ${worksrcpath}/src/osqp_sources/CMakeLists.txt
 }
 
+compiler.cxx_standard 2017
+
 destroot.env-append CC=${configure.cc} CXX=${configure.cxx}
 
-depends_test-append port:R-testthat
+depends_test-append port:R-slam \
+                    port:R-testthat
 
 pre-test {
     configure.pre_args-append \

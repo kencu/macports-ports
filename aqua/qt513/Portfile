@@ -546,13 +546,13 @@ array set modules {
             25755941a2525de2d7ae48e0011d04db7cc09e4e73fe83293206ceafa0aa82d9
             1365880
         }
-        ""
         "port:qt513-qttools"
+        ""
         ""
         {"translation files"}
         ""
         "variant overrides: ~examples ~tests ~debug noarch ~docs"
-        "revision 1"
+        "revision 2"
         "License: "
     }
     qtvirtualkeyboard {
@@ -627,7 +627,7 @@ array set modules {
         {"Qt WebKit" "Qt WebKit Widgets"}
         "community support only (use Qt WebEngine)"
         "variant overrides: "
-        "revision 3"
+        "revision 4"
         "License: "
     }
     qtwebkit-examples {
@@ -638,11 +638,11 @@ array set modules {
         }
         ""
         ""
-        "qtwebkit qtdeclarative qtlocation qttools qtwebchannel qtwebengine"
+        "qtwebkit qtdeclarative qtlocation qttools qtwebchannel"
         {"examples for Qt WebKit"}
         "community support only (use Qt WebEngine)"
         "variant overrides: ++examples ~docs "
-        "revision 0"
+        "revision 1"
         "License: "
     }
     qtwebsockets {

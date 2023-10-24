@@ -4,16 +4,16 @@ PortSystem          1.0
 PortGroup           R 1.0
 
 # GitHub version is outdated.
-R.setup             cran datawookie emayili 0.7.15
+R.setup             cran datawookie emayili 0.7.18
 revision            0
 categories-append   mail
 maintainers         nomaintainer
 license             GPL-3
 description         Light, simple tool for sending e-mails with minimal dependencies
 long_description    {*}${description}
-checksums           rmd160  a6638d6422fb8a67310ae1bf3f42f96fc236deec \
-                    sha256  141501c4485817cb4d895f049a5d33cc3f0bfd9955108ef46e99b000b3d01b31 \
-                    size    278926
+checksums           rmd160  83c69157803c09eecaa4d04b555665cd7973235e \
+                    sha256  629d5b5cc5c175f1bb6bd7942d5a18eecf3d2348cb6447f994280971f7a46860 \
+                    size    279808
 supported_archs     noarch
 
 depends_lib-append  port:R-base64enc \

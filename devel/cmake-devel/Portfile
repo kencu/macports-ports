@@ -7,7 +7,6 @@ if { ${os.platform} eq "darwin" && ${os.major} >= 20 && ${build_arch} eq "x86_64
     universal_variant no
 } else {
     PortGroup       muniversal 1.0
-
 }
 
 PortGroup           gitlab 1.0
@@ -36,11 +35,11 @@ homepage            https://cmake.org
 platforms           darwin freebsd
 gitlab.instance     https://gitlab.kitware.com
 
-gitlab.setup        cmake   cmake 454bfa77b2951cc53296da86928dce00885d4d5b
-version             20230308-3.26.0-rc6-[string range ${gitlab.version} 0 7]
-checksums           rmd160  14084f8407a6c6a189f443ebcbe5c5b6d9baa4cf \
-                    sha256  ce091ec5972ea67cb79efa63460b9a71623a75b7cb54ad5468ab077c5a54064f \
-                    size    8147049
+gitlab.setup        cmake   cmake 38643edc2de410311fbe76f7950190fc056b151a
+version             20231015-3.28.0-rc1-[string range ${gitlab.version} 0 7]
+checksums           rmd160  c5ec5a820ea4548568524ec7fbfa81607b258880 \
+                    sha256  c8ec6055c25779c4b62070408808f0f429cab68e649dbddfc61c7e12551b918d \
+                    size    8466316
 revision            0
 
 epoch               1
@@ -76,7 +75,9 @@ patchfiles-append \
     patch-fix-clock_gettime-test.diff \
     patch-qt5gui.diff \
     patch-cmake-cmInstallRuntime-initializer-fix.diff \
-    patch-uv_spawn.diff
+    patch-uv_spawn.diff \
+    patch-cmakeroot-with-app.diff \
+    patch-remove-homebrew-references.diff
 
 depends_lib-append \
     port:curl \
@@ -135,6 +136,12 @@ platform darwin {
     }
 }
 
+# https://trac.macports.org/ticket/67943
+if {[string match *gcc* ${configure.compiler}]} {
+    configure.ldflags-append \
+        -latomic
+}
+
 # jsoncpp 1.0+ requires CMake for building; circular dependencies
 # are not possible in MacPorts. In addition, jsoncpp uses C++, so
 # it would not be possible for CMake, which uses libc++ on
@@ -149,7 +156,8 @@ configure.args-append \
     --system-libs \
     --no-qt-gui \
     --no-system-jsoncpp \
-    --no-system-librhash
+    --no-system-librhash \
+    --no-system-cppdap
 
 configure.universal_args
 
@@ -181,7 +189,8 @@ post-patch {
     # patch PREFIX
     reinplace "s|__PREFIX__|${prefix}|g" \
         ${worksrcpath}/macports.cmake \
-        ${worksrcpath}/Modules/Platform/Darwin.cmake
+        ${worksrcpath}/Modules/Platform/Darwin.cmake \
+        ${worksrcpath}/Source/cmSystemTools.cxx
 
     # patch FRAMEWORKS
     reinplace "s|__FRAMEWORKS_DIR__|${frameworks_dir}|g" \
@@ -351,9 +360,14 @@ subport ${subport_docs} {
 
 if {${subport} eq ${name}} {
     notes "\
-        The CMake Gui and Docs are now provided as subports '${subport_gui}' and '${subport_docs}', respectively.
+        The CMake GUI and Docs are now provided as subports '${subport_gui}' and '${subport_docs}', respectively.
     "
-}
 
-# Ignore RC versions
-gitlab.livecheck.regex  {([0-9.]+)}
+    test.run                yes
+    test.target             test
+
+    # Ignore RC versions
+    gitlab.livecheck.regex  {([0-9.]+)}
+} else {
+    livecheck.type          none
+}

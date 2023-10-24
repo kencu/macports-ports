@@ -3,8 +3,9 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/trufflesecurity/trufflehog 3.44.0 v
+go.setup            github.com/trufflesecurity/trufflehog 3.60.0 v
 go.package          github.com/trufflesecurity/trufflehog/v3
+go.offline_build    no
 github.tarball_from archive
 revision            0
 
@@ -21,15 +22,12 @@ license             AGPL-3
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-# Allow Go to fetch dependencies during build time
-build.env-delete    GO111MODULE=off GOPROXY=off
-
 build.args-append \
     -ldflags \"-X ${go.package}/pkg/version.BuildVersion=${version}\"
 
-checksums           rmd160  fb5c90dfd1dbe9e6e6f31fbe8655f9d1092814bd \
-                    sha256  105c243e35fdf7c6d9ff7955aad1fbe400b19d714d9a483c18de3d3ad7576776 \
-                    size    623240
+checksums           rmd160  4023b4885eea42bc5447dd7eb4e89c20368b2aba \
+                    sha256  a38b2932f2f255f80e5c403f48dab453f96bcc280fdcd8c49c878fcad89bc739 \
+                    size    2840549
 
 destroot {
     xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/

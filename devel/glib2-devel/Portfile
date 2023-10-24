@@ -1,8 +1,10 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem                  1.0
-PortGroup                   compiler_blacklist_versions 1.0
 PortGroup                   clang_dependency 1.0
+PortGroup                   compiler_blacklist_versions 1.0
+PortGroup                   debug 1.0
+PortGroup                   legacysupport 1.1
 PortGroup                   meson 1.0
 PortGroup                   muniversal 1.0
 
@@ -11,12 +13,12 @@ PortGroup                   muniversal 1.0
 name                        glib2-devel
 conflicts                   glib2
 set my_name                 glib
-version                     2.76.4
+version                     2.78.0
 revision                    0
 epoch                       0
-checksums                   rmd160  3c6db96e72c639ba41ce89642a300a4ade6dd5ec \
-                            sha256  5a5a191c96836e166a7771f7ea6ca2b0069c603c7da3cba1cd38d1694a395dda \
-                            size    5274356
+checksums                   rmd160  814cf675c42685d7751979bc56425c216c95ff8c \
+                            sha256  44eaab8b720877ce303c5540b657b126f12dc94972d9880b52959f43fb537b30 \
+                            size    5327096
 
 set branch                  [join [lrange [split ${version} .] 0 1] .]
 categories                  devel
@@ -34,6 +36,12 @@ long_description            Glib is a library which includes support routines \
                             allocation, and many other things.
 
 master_sites                gnome:sources/${my_name}/${branch}/
+
+# Disable unexpected download of subprojects
+meson.wrap_mode             nodownload
+
+# Needed for clock_gettime
+legacysupport.newest_darwin_requires_legacy 15
 
 patchfiles-append           libintl.patch \
                             patch-gio-tests-meson.build.diff \
@@ -70,6 +78,7 @@ set py_ver                  3.11
 set py_ver_nodot            [string map {. {}} ${py_ver}]
 
 depends_lib-append          port:gettext-runtime \
+                            port:libelf \
                             port:libffi \
                             port:libiconv \
                             port:pcre2 \
@@ -82,13 +91,13 @@ depends_skip_archcheck-append \
 
 compiler.cxx_standard       2011
 
-if {[vercmp ${macosx_deployment_target} 10.9] < 0} {
-    # fatal error: error in backend: Cannot select: 0x103357f10: i8,ch = AtomicLoad 0x10334b410, 0x103354b10<Volatile LD1[@is_running.b]> [ID=18]
-    compiler.blacklist-append   {clang < 500}
-} else {
-    # gcocoanotificationbackend.c:115:52: error: array subscript is not an integer
-    compiler.blacklist-append   {clang < 600}
-}
+# Issues for Clang 5.x:
+# - fatal error: error in backend: Cannot select: 0x103357f10: i8,ch = AtomicLoad 0x10334b410,
+#   0x103354b10<Volatile LD1[@is_running.b]> [ID=18]
+# - ERROR: Problem encountered: GLib requires a C++ compiler with support for C99 __VA_ARG__ in macros.
+# Issues for Clang 6.x:
+# - gcocoanotificationbackend.c:115:52: error: array subscript is not an integer
+compiler.blacklist-append   {clang < 600}
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=697017
 compiler.blacklist-append   gcc-3.3 *gcc-4.0 *gcc-4.2
@@ -103,7 +112,10 @@ configure.cflags-append     -fstrict-aliasing
 configure.cflags-append     -Wno-deprecated-declarations
 configure.objcflags-append  -Wno-deprecated-declarations
 
-configure.args              -Ddefault_library=both \
+configure.args-append \
+                            -Ddefault_library=both \
+                            -Dlibelf=enabled \
+                            -Dlibmount=disabled \
                             -Dwarning_level=0
 
 configure.perl              /usr/bin/perl

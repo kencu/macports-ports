@@ -3,13 +3,13 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/gohugoio/hugo 0.115.4 v
+go.setup            github.com/gohugoio/hugo 0.119.0 v
 github.tarball_from archive
 revision            0
 
-checksums           rmd160  f3d5d2d3d8557e3cc9f4e3ab253887658af04fc8 \
-                    sha256  1d8ce49578c37a9a902158834841a9bf276b35abe1f67b7b6b03953e7050998a \
-                    size    28554509
+checksums           rmd160  e5057f240572a2c18e3926c97c6e330204ea3f42 \
+                    sha256  0b98124c72fbd9a8179d3576abb3dd720f69584b47f70ec5be82b7238b825ea2 \
+                    size    19579413
 
 categories          www
 installs_libs       no
@@ -24,7 +24,7 @@ long_description    {*}${description}
 # FIXME: This port currently can't be built without allowing go mod to fetch
 # dependencies during the build phase. See
 # https://trac.macports.org/ticket/61192
-build.env-delete    GOPROXY=off GO111MODULE=off
+go.offline_build no
 
 build.pre_args-append \
     -ldflags \"-X ${go.package}/common/hugo.vendorInfo=macports\"

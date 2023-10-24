@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-npe2
-version             0.7.0
+version             0.7.3
 revision            0
 license             BSD
 maintainers         {mps @Schamschula} openmaintainer
@@ -14,17 +14,19 @@ supported_archs     noarch
 platforms           {darwin any}
 homepage            https://github.com/napari/npe2
 
-checksums           rmd160  d319c1b72d8620ca04ddef29279dc05b883a7915 \
-                    sha256  35d62cf725a1ca2051a22827062bfbbe68e23589e782f2c2fda889d4927d5ba3 \
-                    size    110511
+checksums           rmd160  d05e636d3065b048cee438cd45e00ee934b6e9e6 \
+                    sha256  4bbb45577a7c60e1aa15636040ef4cf7690d22470e08717af689f50ddeffc807 \
+                    size    117746
 
-python.versions     38 39 310
+python.versions     38 39 310 311
 
 if {${name} ne ${subport}} {
     python.pep517   yes
+    python.pep517_backend \
+                    hatch
 
     depends_build-append \
-                    port:py${python.version}-setuptools_scm
+                    port:py${python.version}-hatch-vcs
 
     depends_lib-append  \
                     port:py${python.version}-appdirs \

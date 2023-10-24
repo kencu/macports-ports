@@ -16,8 +16,11 @@ license             MIT BSD APSL-2
 description         Installs wrapper headers to add missing functionality to legacy OSX versions.
 long_description    {*}${description}
 
+# To roll back to 1.0.13 release due to issues with 1.1.0. Must now stay.
+epoch               1
+
 # Primary release version
-set release_ver     1.0.12
+set release_ver     1.1.1
 
 # Binary compatibility version
 set compat_ver      1.0.0
@@ -26,20 +29,20 @@ subport ${name} {
     conflicts           ${name}-devel
     github.setup        macports macports-legacy-support ${release_ver} v
     revision            0
-    checksums           rmd160  f7cee33104ed1941c389888ef54b4a05cda6ea8e \
-                        sha256  e65d6cf0eae5ee85b818acd39b5a47af15605c410c98bfab653975ca1a2589ea \
-                        size    61879
+    checksums           rmd160  e4b78b21c8bfd7fbb3aa8003da90932e83d53dc4 \
+                        sha256  cbd73bdd6261368a521c24f73fbd20e2f96ff3d49b3d1e1291a9de77e4914ba8 \
+                        size    72245
 }
 
 subport ${name}-devel {
     conflicts           ${name}
-    github.setup        macports macports-legacy-support b570b7f97476e5377ee2397a7a3a71638b72bdb5
-    version             20230705
-    revision            1
+    github.setup        macports macports-legacy-support 707aab751ce95cb394dc09593a5027e97473740e
+    version             20230915
+    revision            0
     livecheck.type      none
-    checksums           rmd160  f7cee33104ed1941c389888ef54b4a05cda6ea8e \
-                        sha256  e65d6cf0eae5ee85b818acd39b5a47af15605c410c98bfab653975ca1a2589ea \
-                        size    61879
+    checksums           rmd160  e4b78b21c8bfd7fbb3aa8003da90932e83d53dc4 \
+                        sha256  cbd73bdd6261368a521c24f73fbd20e2f96ff3d49b3d1e1291a9de77e4914ba8 \
+                        size    72245
     set v_split         [split ${release_ver} .]
     set release_ver     [lindex ${v_split} 0].[lindex ${v_split} 1].99
 }

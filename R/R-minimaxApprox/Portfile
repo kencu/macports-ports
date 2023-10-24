@@ -3,20 +3,21 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github aadler minimaxApprox 0.0.2 v
+# Revert to GitHub once updated there.
+R.setup             cran aadler minimaxApprox 0.2.2
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             MPL-2
 description         Implementation of Remez algorithm for polynomial and rational function approximation
 long_description    {*}${description}
-checksums           rmd160  72da4593ca85babadad785cbe9cf8093cbdee7bf \
-                    sha256  2901e87d7f8595f62c2789abe092a1e82d23927b64e7fb8886884deaa99c2d24 \
-                    size    17948
-supported_archs     noarch
+checksums           rmd160  f2173d7beb0c5f38d23f45cb2de71ff96a47ff53 \
+                    sha256  c366b9ffbbe331c6366928f44820d82956ff95bbdd91781703c9747376f1d387 \
+                    size    26546
+
+compilers.setup     require_fortran
 
 depends_test-append port:R-covr \
                     port:R-tinytest
 
-# FIXME: one test fails on PowerPC: https://github.com/aadler/minimaxApprox/issues/1
 test.run            yes

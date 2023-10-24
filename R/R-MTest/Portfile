@@ -3,18 +3,20 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran vmoprojs MTest 1.0.0
+R.setup             cran vmoprojs MTest 1.0.2
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             GPL-3+
 description         Procedure for multicollinearity testing using bootstrap
 long_description    {*}${description}
-checksums           rmd160  cd9ff3ca82cda3b7d1daf362de2edfcccf95dbc3 \
-                    sha256  ad25b852200e71bbcc6199f9e681be863066c4dc081d09ba7606b0c1d293059a \
-                    size    312891
+checksums           rmd160  a88b0a76d2ccbef94ad5d88c06601ade360af2a4 \
+                    sha256  d607c85523544d8d0249b24026cebcc9f528da78684352b62475e7058b365fa7 \
+                    size    314404
 supported_archs     noarch
 
-depends_lib-append  port:R-car
+depends_lib-append  port:R-car \
+                    port:R-ggplot2 \
+                    port:R-plotly
 
 test.run            yes

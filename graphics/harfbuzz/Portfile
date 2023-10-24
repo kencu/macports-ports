@@ -7,13 +7,13 @@ PortGroup           gobject_introspection 1.0
 
 # Please keep the harfbuzz and harfbuzz-devel ports as similar as possible.
 
-github.setup        harfbuzz harfbuzz 6.0.0
+github.setup        harfbuzz harfbuzz 8.2.1
 name                harfbuzz
 conflicts           harfbuzz-devel
 set my_name         harfbuzz
-checksums           rmd160  5515c657c5f0c07824ab970803619480ac0b232d \
-                    sha256  1d1010a1751d076d5291e433c138502a794d679a7498d1268ee21e2d4a140eb4 \
-                    size    18952524
+checksums           rmd160  21a27b98d299f1274ff5a0b076c45714a11f0f0d \
+                    sha256  0fec78f98c9c8faf228957a201c8846f809452c20f8445eb092a1ba6f22dbea5 \
+                    size    18889168
 
 categories          graphics
 maintainers         {ryandesign @ryandesign} {mascguy @mascguy} openmaintainer
@@ -28,21 +28,21 @@ github.tarball_from releases
 dist_subdir         ${my_name}
 use_xz              yes
 
-depends_build       port:pkgconfig
+depends_build       path:bin/pkg-config:pkgconfig
 
 # https://github.com/harfbuzz/harfbuzz/issues/1642
 compiler.cxx_standard \
                     2011
 
-# https://github.com/harfbuzz/harfbuzz/issues/1651#issuecomment-484051395
+# error: invalid operands to binary expression
+# https://github.com/harfbuzz/harfbuzz/issues/4371
 compiler.blacklist-append {clang < 700}
-# https://github.com/harfbuzz/harfbuzz/issues/4066
-compiler.blacklist-append {clang < 800}
 
 # Upstream recommends switching to meson but I'm not ready to tackle
 # that yet.
 
 configure.args      --disable-silent-rules \
+                    --without-chafa \
                     ac_cv_prog_AWK=/usr/bin/awk
 
 # Do not use -Werror. New compilers may have new warnings; we don't want users
@@ -51,7 +51,7 @@ configure.cflags-append     -DHB_NO_PRAGMA_GCC_DIAGNOSTIC_ERROR
 configure.cxxflags-append   -DHB_NO_PRAGMA_GCC_DIAGNOSTIC_ERROR
 
 if {${name} eq ${subport}} {
-    revision        1
+    revision        0
 
     depends_lib-append \
                     path:lib/pkgconfig/cairo.pc:cairo \
@@ -103,7 +103,7 @@ if {${name} eq ${subport}} {
 }
 
 subport harfbuzz-icu {
-    revision        1
+    revision        0
 
     conflicts       harfbuzz-icu-devel
 

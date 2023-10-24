@@ -7,8 +7,8 @@ PortGroup           legacysupport 1.1
 PortGroup           compiler_blacklist_versions 1.0
 
 # NOTE: Also rev-bump 'apache-arrow' when updating this port
-github.setup        grpc grpc 1.48.0 v
-revision            8
+github.setup        grpc grpc 1.48.4 v
+revision            5
 categories          devel
 maintainers         nomaintainer
 license             Apache-2
@@ -28,6 +28,16 @@ github.livecheck.regex  {([0-9.]+)}
 
 set name_io         ${name}io
 
+# https://trac.macports.org/ticket/65525#comment:1
+patchfiles-append   patch-unbreak-port_platform.diff
+
+# Python: upstream patch to ensure env var 'CC' is utilized. Fixed in v1.52.0 and beyond.
+# https://trac.macports.org/ticket/62208
+# https://github.com/grpc/grpc/pull/26480
+patchfiles-append   patch-python-respect-cc-variable.diff
+
+patchfiles-append   patch-avoid-overlinking-abseil.diff
+
 # error: constexpr function never produces a constant expression
 # Requires c++17 support
 compiler.cxx_standard  2017
@@ -41,7 +51,6 @@ depends_lib-append \
                     path:lib/libssl.dylib:openssl \
                     port:abseil \
                     port:c-ares \
-                    port:gperftools \
                     port:lbzip2 \
                     port:libuv \
                     port:protobuf3-cpp \
@@ -72,12 +81,22 @@ post-fetch {
 
 configure.args-append \
                     -DBUILD_SHARED_LIBS:BOOL=ON \
+                    -DgRPC_BUILD_TESTS=OFF \
                     -DgRPC_ABSL_PROVIDER=package \
                     -DgRPC_CARES_PROVIDER=package \
                     -DgRPC_PROTOBUF_PROVIDER=package \
                     -DgRPC_RE2_PROVIDER=package \
                     -DgRPC_SSL_PROVIDER=package \
                     -DgRPC_ZLIB_PROVIDER=package
+
+# https://github.com/grpc/grpc/pull/32159
+configure.cppflags-append \
+                    -D__STDC_FORMAT_MACROS
+
+if {${build_arch} in [list i386 ppc] && [string match *gcc* ${configure.compiler}]} {
+    # ___atomic_fetch_sub_8 etc.
+    configure.ldflags-append -latomic
+}
 
 # the build must link against its own libraries
 cmake.install_rpath
@@ -121,7 +140,14 @@ if {[info exists cmake.build_dir]
 
 build.target
 
-if {${name} eq ${subport}} {
+variant test description {Build and run unit testing framework} {
+    depends_test-append \
+                    port:gperftools
+
+    configure.args-replace \
+                    -DgRPC_BUILD_TESTS=OFF \
+                    -DgRPC_BUILD_TESTS=ON
+
     test.run         yes
 
     test {
@@ -177,7 +203,7 @@ foreach v ${python_versions} {
 
 # common settings for all Python ports
 if {[string match "py*" ${subport}]} {
-    patch {
+    pre-patch {
         reinplace "s|/usr|${prefix}|g" ${worksrcpath}/setup.py
     }
 

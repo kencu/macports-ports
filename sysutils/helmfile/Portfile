@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/helmfile/helmfile 0.155.0 v
+go.setup            github.com/helmfile/helmfile 0.157.0 v
 github.tarball_from archive
 revision            0
 
@@ -24,15 +24,15 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
 # Allow Go to fetch dependencies at buld time
-build.env-delete    GO111MODULE=off GOPROXY=off
+go.offline_build no
 build.cmd           make
 build.pre_args-append \
                     TAG=v${version}
 build.args          build
 
-checksums           rmd160  321137ccee4302570ebf8e19debd8bd389e374f8 \
-                    sha256  4bcb0b7d051c8d9bf91c0c3c6420c18ceb8556190a31451f64555acbd769a7c1 \
-                    size    585564
+checksums           rmd160  cbde5fe3984172246e28fcf52277d7511b4505bb \
+                    sha256  8578370b100eb8a9329eadfc4fdb9e8f6f7ab83c631aa8100e05df92d423f7af \
+                    size    591357
 
 use_parallel_build  no
 

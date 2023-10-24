@@ -414,13 +414,13 @@ array set modules {
             41f800710f0bc6ca263f1e54f1fa22be7043962999304e73ce9887ebefc7a4c6
             1153132
         }
-        ""
         "port:qt55-qttools"
+        ""
         ""
         {"translation files"}
         ""
         "variant overrides: ~examples ~tests ~debug noarch ~docs"
-        "revision 2"
+        "revision 3"
         "License: "
     }
     qtwebchannel {
@@ -465,7 +465,7 @@ array set modules {
         {"Qt WebKit" "Qt WebKit Widgets"}
         "community support only (use Qt WebEngine)"
         "variant overrides: "
-        "revision 9"
+        "revision 10"
         "License: "
     }
     qtwebkit-examples {

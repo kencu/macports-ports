@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                py-pyqt-builder
 python.rootname     PyQt-builder
-version             1.15.1
+version             1.15.3
 revision            0
 
 categories-append   devel
@@ -19,9 +19,9 @@ long_description    ${description}
 
 homepage            https://www.riverbankcomputing.com/software/pyqt-builder/
 
-checksums           rmd160  77edb1c0e1cc6fa65027033bd860919b8fc57730 \
-                    sha256  a2bd3cfbf952e959141dfe55b44b451aa945ca8916d1b773850bb2f9c0fa2985 \
-                    size    3908326
+checksums           rmd160  b5532f4991a0863692ab78ed1546c721a7d7eb9e \
+                    sha256  5b33e99edcb77d4a63a38605f4457a04cff4e254c771ed529ebc9589906ccdb1 \
+                    size    3909851
 
 python.versions     35 36 37 38 39 310 311
 
@@ -53,4 +53,6 @@ if {${name} ne ${subport}} {
         xinstall -m 0644 -W ${worksrcpath} ChangeLog LICENSE \
             LICENSE-GPL2 LICENSE-GPL3 NEWS README ${destroot}${docdir}
     }
+
+    livecheck.type  none
 }

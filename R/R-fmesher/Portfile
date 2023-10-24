@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+R.setup             cran inlabru-org fmesher 0.1.3
+revision            0
+categories-append   math geometry
+maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
+license             MPL-2
+description         Triangle meshes and related geometry tools
+long_description    {*}${description}
+homepage            https://inlabru-org.github.io/fmesher
+checksums           rmd160  4f8f7ff77a2b59362c371678ba0bd4e3b91eeb9a \
+                    sha256  ed5ddc18ddb1a4abfa61fe3f35e7310d459a19e992bd7a04875a2f2c1f54ba4e \
+                    size    993136
+
+depends_lib-append  port:R-dplyr \
+                    port:R-lifecycle \
+                    port:R-Rcpp \
+                    port:R-rlang \
+                    port:R-sf \
+                    port:R-sp \
+                    port:R-tibble \
+                    port:R-withr
+
+compiler.cxx_standard 2017

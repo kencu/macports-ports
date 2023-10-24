@@ -8,10 +8,13 @@ PortGroup muniversal 1.0
 
 #remember to update the -doc and -server as well
 name                postgresql15
-version             15.3
+version             15.4
+revision            2
 
 categories          databases
-maintainers         nomaintainer
+maintainers         {gmail.com:davidgilman1 @dgilman} \
+                    {@barracuda156 gmail.com:vital.had} \
+                    openmaintainer
 license             Permissive
 description         The most advanced open-source database available anywhere.
 long_description    PostgreSQL is Object-Relational Database Management System.\
@@ -25,9 +28,9 @@ master_sites        http://ftp3.de.postgresql.org/pub/Mirrors/ftp.postgresql.org
             postgresql:source/v${version}/
 distname            postgresql-${version}
 
-checksums           rmd160  db8309815a4c2492ed3829f67db4935b06db72ad \
-                    sha256  ffc7d4891f00ffbf5c3f4eab7fbbced8460b8c0ee63c5a5167133b9e6599d932 \
-                    size    22819107
+checksums           rmd160  5e69828ea995447d39f5990f6a18f110519df233 \
+                    sha256  baec5a4bdc4437336653b6cb5d9ed89be5bd5c0c58b94e0becee0a999e63c8f9 \
+                    size    22850355
 
 use_bzip2           yes
 
@@ -50,6 +53,7 @@ worksrcdir          postgresql-${version}
 
 set libdir          ${prefix}/lib/${name}
 configure.args      PG_SYSROOT=disabled \
+                    ZIC=${worksrcpath}/src/timezone/zic \
                     --sysconfdir=${prefix}/etc/${name} \
                     --bindir=${libdir}/bin \
                     --libdir=${libdir} \
@@ -76,12 +80,9 @@ configure.universal_args-delete --disable-dependency-tracking
 # building psql with clang from Xcode prior to 4.4 causes segfault on query; see #31717
 compiler.blacklist-append {clang < 421}
 compilers.choose          cc cxx
-compilers.setup           -gcc -fortran -clang15 -clang33 -clang34 -clang37
-notes "To use the postgresql server, install the ${name}-server port"
+compilers.setup           -gcc -fortran -clang33 -clang34 -clang37 -clang16 -clang17
+notes "To use the postgresql server as a startup item install the ${name}-server port."
 
-if {![info exists universal_possible]} {
-    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
-}
 if {${universal_possible} && [variant_isset universal]} {
     configure.cflags-append    -DAC_APPLE_UNIVERSAL_BUILD
 }
@@ -102,7 +103,7 @@ livecheck.regex    (15\\.\[.0-9\]+)
 livecheck.url       ${homepage}/ftp/source/
 
 post-destroot {
-    system "cd ${destroot}${prefix}/bin && ln -sf ${libdir}/bin/psql psql15"
+    ln -s ${libdir}/bin/psql ${destroot}${prefix}/bin/psql15
 
     reinplace -E "s#^CFLAGS =#CFLAGS +=#g" \
         ${destroot}${prefix}/lib/${name}/pgxs/src/Makefile.global

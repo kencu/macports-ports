@@ -4,22 +4,22 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           github 1.0
 
-github.setup        libgit2 pygit2 1.12.0 v
+github.setup        libgit2 pygit2 1.13.1 v
 name                py-pygit2
 revision            0
 
 categories-append   devel
 license             {GPL-2 Permissive}
 homepage            https://www.pygit2.org/
-maintainers         {devans @dbevans} openmaintainer
+maintainers         {devans @dbevans} {mascguy @mascguy} openmaintainer
 
 description         Python bindings for libgit2
 long_description    Pygit2 is a set of Python bindings to the libgit2 shared \
                     library, libgit2 implements the core of Git.
 
-checksums           rmd160  5ab94752d80d68d6717769d2b5e3b51fb9962f67 \
-                    sha256  dc30cf674c88828361264e9c97cc45906f2b542c93fc8288cc39a5dc8ae3e349 \
-                    size    759851
+checksums           rmd160  9536559ac1a19b3524ed590e813e2151c3edef59 \
+                    sha256  af1363da68f3a032a9b23f2f334020153969a9599453ce97f196952c2209bdd4 \
+                    size    760485
 
 python.versions     38 39 310 311
 

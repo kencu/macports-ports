@@ -27,18 +27,18 @@ if {${os.major} < 9} {
 subport OpenBLAS-devel {}
 if {[string first "-devel" $subport] > 0} {
 
-    github.setup    xianyi  OpenBLAS 4c43d1eebadf32956efc7a7deb172a6259dd1ace
-    version         20230715-[string range ${github.version} 0 7]
-    checksums       rmd160  ca3b1a07a9381520fcfcf23842ad119b4150a03e \
-                    sha256  9d129efcba454d27f98945a70d493f64b36717daeaf162b0b4da138a63a0810d \
-                    size    24239094
+    github.setup    OpenMathLib OpenBLAS 48b1b7cbc917bffa6f320b11783578ca6b525f38
+    github.tarball_from archive
+    version         20230921-[string range ${github.version} 0 7]
+    checksums       rmd160  5910b6fdc4cb67f8e32f12fab303156aca5b330b \
+                    sha256  4fededf4eecb0def7d27217d098f44ba7029618fb46539b39e528de3a75c420b \
+                    size    24303945
     revision        0
 
     conflicts       OpenBLAS
 
     patchfiles      patch-libnoarch.devel.diff \
-                    patch-OpenBLAS-i386-Apple.diff \
-                    patch-10.6-devel.diff
+                    patch-OpenBLAS-i386-Apple.diff
 
     github.livecheck.branch develop
 
@@ -47,18 +47,20 @@ if {[string first "-devel" $subport] > 0} {
 
 } else {
 
-    github.setup    xianyi  OpenBLAS 0.3.23 v
+    # Should be removed after update
+    # See: https://trac.macports.org/ticket/68201
+    master_sites    macports_distfiles
+
+    github.setup    xianyi OpenBLAS 0.3.24 v
     revision        0
-    checksums       rmd160  2ecb0111f983cdc898a64472ebdf50540e0449bb \
-                    sha256  04949c8a3bff4905235aaaa4aa28434bb6d2e13ae5599287c9ef9fd1033268b4 \
-                    size    23958203
+    checksums       rmd160  05443460b8f27b5d432388b01437a7ffcc270367 \
+                    sha256  900fb9c7449b0fe43c6d51088b92817c95df18c4aa01afbe6f5519ab14937bc4 \
+                    size    24270690
 
     conflicts       OpenBLAS-devel
 
     patchfiles      patch-libnoarch.release.diff \
-                    patch-OpenBLAS-i386-Apple.diff \
-                    patch-MacOSX-mktemp.diff \
-                    patch-10.6.diff
+                    patch-OpenBLAS-i386-Apple.diff
 
     if {![variant_isset native]} {
         notes "

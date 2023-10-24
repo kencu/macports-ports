@@ -3,16 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github rempsyc rempsyc 0.1.4 v
+# Revert to GitHub once updated there.
+R.setup             cran rempsyc rempsyc 0.1.7
 revision            0
 maintainers         nomaintainer
 license             GPL-3+
 description         Convenience functions for psychology
 long_description    {*}${description}
 homepage            https://rempsyc.remi-theriault.com
-checksums           rmd160  bec8979212ffbdddbf51567407d6a522871e8aca \
-                    sha256  aeb1aea3ca61ec55aeb10753aaa0d36e00acee772ed331317fee2b2c0a58521e \
-                    size    19428388
+checksums           rmd160  607bf781b1d843f57a057fe99f2784f9b1baebe3 \
+                    sha256  ea126cd998b2cca4e1ae2f7d375a74cae2e97cb690bec4e4bd5784afb5d891e8 \
+                    size    5210799
 supported_archs     noarch
 
 depends_lib-append  port:R-dplyr \

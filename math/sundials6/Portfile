@@ -5,7 +5,7 @@ PortGroup           cmake 1.1
 PortGroup           github 1.0
 PortGroup           mpi 1.0
 
-github.setup        LLNL sundials 6.5.1 v
+github.setup        LLNL sundials 6.6.1 v
 name                sundials6
 revision            0
 
@@ -29,9 +29,12 @@ set ver_major       [lindex [split ${version} .] 0]
 github.tarball_from releases
 dist_subdir         sundials
 
-checksums           rmd160  78c690fe8cb11fc6bf262d7a123c89411d88a2ef \
-                    sha256  4252303805171e4dbdd19a01e52c1dcfe0dafc599c3cfedb0a5c2ffb045a8a75 \
-                    size    90035806
+# stealth update; remove for next upstream release
+dist_subdir         ${dist_subdir}/${version}_1
+
+checksums           rmd160  69c4b46db26310672a62dbfe276d463ef3e2bcf0 \
+                    sha256  21f71e4aef95b18f954c8bbdc90b62877443950533d595c68051ab768b76984b \
+                    size    90491748
 
 #------------------------------------------------------------------------------
 # Path-Related Variables - START
@@ -83,6 +86,14 @@ compiler.cxx_standard \
 mpi.setup \
                     default \
                     require_fortran
+
+depends_extract-append \
+                    path:bin/gnutar:gnutar
+
+# Ignore warnings regarding macOS-specific attribs in archive; examples:
+# - gnutar: Ignoring unknown extended header keyword 'LIBARCHIVE.xattr.com.apple.provenance'
+# - gnutar: Ignoring unknown extended header keyword 'SCHILY.fflags'
+extract.post_args   "| gnutar -x --warning=no-unknown-keyword"
 
 depends_lib-append  \
                     port:SuiteSparse_KLU
@@ -205,4 +216,6 @@ post-destroot {
     move ${destroot}${port_install_include}/sundials/LICENSE ${port_doc_dir}/
 }
 
-github.livecheck.regex  (${ver_major}\.\[0-9.\]+)
+livecheck.url       https://api.github.com/repos/${github.author}/${github.project}/tags?per_page=200
+livecheck.curloptions
+livecheck.regex     "\"name\": \"v(${ver_major}\.\[0-9\.\]+)\","

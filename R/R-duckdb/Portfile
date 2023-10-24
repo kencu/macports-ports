@@ -3,22 +3,23 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran duckdb duckdb 0.8.1-1
+R.setup             cran duckdb duckdb 0.9.1
 revision            0
 categories-append   databases
 maintainers         nomaintainer
 license             MIT
 description         DBI package for the DuckDB database management system
 long_description    {*}${description}
-checksums           rmd160  9c12a11dfd05b654cd15af8b63d89000d4e8e2d3 \
-                    sha256  e2e88c66ee0c9c0d89e7d4c6785bbae660e770c958325ed9d7e4092fe4f3d50b \
-                    size    3626002
+homepage            https://github.com/duckdb/duckdb-r
+checksums           rmd160  41d1016174c634e5197e3467b34972bc9bfd5efb \
+                    sha256  f9a74f07e60c805a1bf96b0eae0593bb2e24b777a095418de19d5d6d7b18bda8 \
+                    size    3759638
 
 depends_lib-append  port:R-DBI
 
 compiler.cxx_standard 2017
 
 # https://github.com/duckdb/duckdb/issues/7009
-if {[string match *gcc* ${configure.compiler}]} {
+if {[string match macports-gcc* ${configure.compiler}] && (${configure.build_arch} in [list i386 ppc])} {
     patchfiles      patch-libatomic.diff
 }

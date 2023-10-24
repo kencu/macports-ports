@@ -3,11 +3,11 @@
 PortSystem          1.0
 
 name                dar
-version             2.7.10
+version             2.7.13
 revision            0
-checksums           rmd160  d4091b36920eb827fb54fb80f853b8e794c29dff \
-                    sha256  2b091480858d774e3f15f4e8eb69c4e2ccc405f80f25cc073d389a228b3a9623 \
-                    size    2418752
+checksums           rmd160  d7f0bd817bfc47a38171b20c01510cde8294436d \
+                    sha256  2d563b5d1d928a3eecab719cc22d43320786c52053f4e3a557cdf1c84b120f4c \
+                    size    2425559
 
 categories          archivers
 maintainers         {ryandesign @ryandesign} openmaintainer
@@ -22,7 +22,7 @@ homepage            https://dar.sourceforge.io
 master_sites        sourceforge:project/dar/dar/${version}
 
 depends_build       path:bin/doxygen:doxygen \
-                    port:pkgconfig
+                    path:bin/pkg-config:pkgconfig
 
 depends_lib         port:argon2 \
                     port:bzip2 \
@@ -31,22 +31,21 @@ depends_lib         port:argon2 \
                     port:gpgme \
                     port:libgcrypt \
                     port:libiconv \
+                    port:librsync \
+                    port:lz4 \
                     port:lzo2 \
                     path:lib/libssl.dylib:openssl \
                     port:xz \
-                    port:zlib
+                    port:zlib \
+                    port:zstd
 
 patchfiles          dynamic_lookup-11.patch
 
 compiler.cxx_standard 2014
 compiler.thread_local_storage yes
 
-# erreurs.cpp:163:9: error: use of undeclared identifier 'set_unexpected'
-# https://github.com/Edrusb/DAR/issues/52
-configure.cxxflags-append \
-                    -std=c++14
-
 universal_variant   no
 
-# don't opportunistically try to build Python bindings
-configure.args      --disable-python-binding
+configure.args      --disable-dar-static \
+                    --disable-python-binding \
+                    --disable-upx

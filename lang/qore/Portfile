@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 PortGroup           github 1.0
-github.setup        qorelanguage qore 1.16.1 release-
+github.setup        qorelanguage qore 1.19.1 release-
 github.tarball_from releases
 
 PortGroup           cmake 1.1
@@ -16,9 +16,9 @@ description         multi-threaded embeddable scripting language
 long_description    Qore is a scripting language designed for multi-threading and SMP scalability
 homepage            http://qore.org
 
-checksums           rmd160 0aa9cf26c378e8115deb0274bc537e8072d410cb \
-                    sha256 e28497a86fcc2caae6048854344a09cec1165ae7fb7b9300647dd1b96a0d1266 \
-                    size 44241538
+checksums           rmd160 33595406c8b0052875075a13093955907471e8d8 \
+                    sha256 f2902317bfe77da1015b114fd7c35ee8ac06d60bc0cc22dd36f8ac6bc9b642ec \
+                    size 50034482
 
 compiler.cxx_standard  2011
 

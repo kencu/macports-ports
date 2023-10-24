@@ -6,7 +6,9 @@ PortGroup               select 1.0
 name                    terraform
 categories              sysutils
 installs_libs           no
-license                 MPL-2
+# Hashicorp Terraform is now licensed under the BSL
+# https://www.hashicorp.com/license-faq#aug-10-announcement
+license                 Commercial Permissive
 homepage                https://www.terraform.io/downloads.html
 
 maintainers             {emcrisostomo @emcrisostomo} \
@@ -15,7 +17,7 @@ maintainers             {emcrisostomo @emcrisostomo} \
                         openmaintainer
 
 # *NOTE* Remember to update `latestVersion` on a version upgrade.
-set latestVersion       terraform-1.5
+set latestVersion       terraform-1.6
 
 set armAvailable        no
 set customDistSubDir    yes
@@ -35,20 +37,38 @@ proc terraformDistBase {} {
     return ${name}_[terraformVersion]_darwin
 }
 
-subport terraform-1.5 {
-    set patchNumber     3
+subport terraform-1.6 {
+    set patchNumber     2
     revision            0
 
     set armAvailable    yes
 
     checksums           [terraformDistBase]_amd64.zip \
-                        rmd160  6816aa10afdd38f4ae54570aa530dc5a76de7ae5 \
-                        sha256  a5ecd11c8ed9b6c5182a84bce9c3c9c092f86916cf117bca855991853502af94 \
-                        size    22256567 \
+                        rmd160  3c8890859e054e4b9d8262566ea153325bd2c929 \
+                        sha256  361ffd98f0cdee631cb1475688471c5fb8f41bd6a4d8d300f29df384c82d6316 \
+                        size    26240346 \
                         [terraformDistBase]_arm64.zip \
-                        rmd160  d740a260475e42d40cc87d4ae5aec7be769da5af \
-                        sha256  444e5565806041d9899a9ba50549840eaa2a2cb7d5b59bb08c5874f92bc4963d \
-                        size    20786372
+                        rmd160  44680de945fde391d88d7e5a69b1ff3964bcbf3b \
+                        sha256  87345e9f2932c29c8d00c5ca9e0361fada18accc2573fd66883b3adb40949be8 \
+                        size    24601764
+
+    set customDistSubDir no
+}
+
+subport terraform-1.5 {
+    set patchNumber     7
+    revision            0
+
+    set armAvailable    yes
+
+    checksums           [terraformDistBase]_amd64.zip \
+                        rmd160  d7c50065f08a09a34603caef28c003e164afd35a \
+                        sha256  b310ec0e626e9799000cfc8e30247cd827cf7f8030c8e0400257c7f111e93537 \
+                        size    22296467 \
+                        [terraformDistBase]_arm64.zip \
+                        rmd160  6a845150b5f6ba25292df61097ae21ed7847d96a \
+                        sha256  db7c33eb1a446b73a443e2c55b532845f7b70cd56100bec4c96f15cfab5f50cb \
+                        size    21020511
 
     set customDistSubDir no
 }
@@ -183,7 +203,7 @@ if {${subport} eq ${name}} {
     PortGroup           obsolete 1.0
 
     replaced_by         ${latestVersion}
-    version             1.5.3
+    version             1.6.2
     revision            0
 
 } elseif {${subport} eq "terraform_select"} {

@@ -6,7 +6,7 @@ PortGroup           python 1.0
 
 name                beets
 version             1.6.0
-revision            0
+revision            1
 
 categories          audio
 platforms           {darwin any}
@@ -39,13 +39,13 @@ if {$subport eq $name} {
 subport ${name}-devel {
     conflicts       $name
 
-    github.setup    beetbox beets 0c3f428a601cb40c5fd463791df6229d51b0635e
-    version         20230606
-    revision        0
+    github.setup    beetbox beets 62859f4389715d87af36827b6042d21a82e91fdc
+    version         20230823
+    revision        1
 
-    checksums       rmd160  2abb8bd24e470e7fc789f861118f0185b640d3fd \
-                    sha256  367506f9c269aea252474c770d498fee0ed41b01be39eda3bea5edd3f278bff9 \
-                    size    1869560
+    checksums       rmd160  607d024f8cc8d111d418f265e18e0cc16dd6e814 \
+                    sha256  367552c32126ab026d73e9dde5ffe9dcec7178a402eb68f3f84c1d7fba751d83 \
+                    size    2200692
 
     depends_build-append \
                     port:py${python.version}-sphinx
@@ -82,7 +82,7 @@ if {${name} eq ${subport} || "${name}-devel" eq ${subport}} {
                     port:py${python.version}-requests-oauthlib \
                     port:py${python.version}-soco \
                     port:py${python.version}-unidecode \
-                    port:py${python.version}-xdg \
+                    port:py${python.version}-pyxdg \
                     port:py${python.version}-yaml
 
     depends_run-append \
@@ -243,8 +243,8 @@ subport ${name}-barcode {
 
 subport ${name}-beetcamp {
     python.rootname beetcamp
-    version         0.17.1
-    revision        1
+    version         0.17.2
+    revision        0
 
     license         GPL-2
 
@@ -254,9 +254,9 @@ subport ${name}-beetcamp {
 
     homepage        https://github.com/snejus/beetcamp
 
-    checksums       rmd160  8f0dd6bc7bca3f146c2699c6a8cf5b3719a8ec74 \
-                    sha256  e0dfe23703e2a029c71e56ca48d22712ab71403f221610355f5a132e67aece44 \
-                    size    43529
+    checksums       rmd160  866ab8fe35e222115bded1c2a2cbcc7d3ab3cb6f \
+                    sha256  0b4f75323c43e4b32a6fa2d1ea4e1d9265e0299abd19eb558793f77fd5556bd1 \
+                    size    43387
 
     python.pep517   yes
     python.pep517_backend \
@@ -530,9 +530,9 @@ subport ${name}-originquery {
 }
 
 subport ${name}-summarize {
-    github.setup    steven-murray beet-summarize b4a07c6c4db51d9a332a54e7a83bfc0ac60040ab
-    version         20210908
-    revision        1
+    github.setup    steven-murray beet-summarize 0aa0a8fe37786f82707ee9c965ac5bc0443820c3
+    version         20230801
+    revision        0
 
     license         LGPL-3
 
@@ -540,9 +540,19 @@ subport ${name}-summarize {
     long_description \
                     {*}${description}
 
-    checksums       rmd160  9631bc2b10a0c6d09bd5c4f743ae6d91ce610155 \
-                    sha256  029cd7799cab022861599af58b608bacd2087aab01ff7096b25ba6303d76cd24 \
-                    size    11013
+    checksums       rmd160  0b1b7acbb4fe498bedb419d4bc50f7769248740b \
+                    sha256  408eab04eb4a299f80460698c1b9ad25bd42794365a63ed802116f4a349fbb46 \
+                    size    13328
+
+    python.pep517   yes
+
+    depends_build-append \
+                    port:py${python.version}-setuptools_scm
+
+    build.env-append \
+                    SETUPTOOLS_SCM_PRETEND_VERSION=${version}
+
+    github.livecheck.branch main
 }
 
 subport ${name}-usertag {

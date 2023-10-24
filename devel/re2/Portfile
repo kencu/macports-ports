@@ -3,15 +3,16 @@
 PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
+PortGroup           legacysupport 1.1
 
-github.setup        google re2 2023-07-01
-epoch               1
-revision            0
-
+github.setup        google re2 2023-09-01
 github.tarball_from archive
-checksums           rmd160 aa42a0e985c5d4e8011f12bb43631e25f8779a2d \
-                    sha256 18cf85922e27fad3ed9c96a27733037da445f35eb1a2744c306a37c6d11e95c4 \
-                    size   395948
+epoch               1
+revision            1
+
+checksums           rmd160 713ac6a5a640b0820f2d10528b0b52675de55780 \
+                    sha256 5bb6875ae1cd1e9fedde98018c346db7260655f86fdb8837e3075103acd3649b \
+                    size   396555
 
 categories          devel textproc
 maintainers         {gmail.com:herby.gillot @herbygillot} \
@@ -25,8 +26,16 @@ long_description    RE2 is a fast, safe, thread-friendly alternative to \
 
 license             BSD
 
+patchfiles          patch-re2pc-avoid-overlinking.diff
+
+# clock_gettime needed for abseil
+# https://github.com/macports/macports-ports/pull/19905#issuecomment-1680281240
+legacysupport.newest_darwin_requires_legacy 15
+
 compiler.cxx_standard \
                     2014
+compiler.thread_local_storage \
+                    yes
 
 configure.args-append \
                     -DBUILD_SHARED_LIBS:BOOL=ON

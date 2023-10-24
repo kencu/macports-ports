@@ -3,31 +3,33 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/go-task/task 3.27.1 v
+go.setup            github.com/go-task/task 3.31.0 v
 name                go-task
+github.tarball_from archive
 revision            0
 
-categories          devel
-maintainers         {@0xIDANT danieltrautmann.com:me} \
-                    {gmail.com:herby.gillot @herbygillot} \
-                    openmaintainer
-license             MIT
+homepage            https://taskfile.dev
 
 description         A task runner / simpler Make alternative written in Go
 
 long_description    Task is a task runner / build tool that aims to be simpler \
                     and easier to use than, for example, GNU Make.
 
-homepage            https://taskfile.dev
-
 conflicts           task
+
+categories          devel
+installs_libs       no
+license             MIT
+maintainers         {@0xIDANT danieltrautmann.com:me} \
+                    {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
 
 build.env-append    CGO_ENABLED=0
 build.args          -o ${worksrcpath}/task \
                     -ldflags \" \
                         -s \
                         -w \
-                        -X main.version=${version} \
+                        -X ${go.package}/internal/version.version=${version} \
                     \" \
                     ./cmd/task
 
@@ -36,9 +38,9 @@ destroot {
 }
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  b755dfb10b386534f2dcc94ff3b6955803f24db9 \
-                        sha256  027b9552aac45709f90b1a44b587bfe0460aa696761b36e697a7d87e4e29a98f \
-                        size    641949
+                        rmd160  ad02e06abd6a4b1a5cb8844596713a6311db9197 \
+                        sha256  189f3b98ed6b15290d4fd4dbab687c87de268b5c9f2f1c93a7c02710da062785 \
+                        size    816077
 
 go.vendors          mvdan.cc/sh \
                         repo    github.com/mvdan/sh \
@@ -57,25 +59,35 @@ go.vendors          mvdan.cc/sh \
                         sha256  7e5547c6471cc48da89a7c87f965b20ca5311f43fc4d883ca62f9fccf7551630 \
                         size    31597 \
                     golang.org/x/term \
-                        lock    v0.9.0 \
-                        rmd160  7d57f52bf0195a21d9628f7d04b202b6426bfa21 \
-                        sha256  7628c777f684cd13619c91b2b007c27e6d678fcfee3c6e1a6741a418a5c907d6 \
-                        size    14799 \
+                        lock    v0.13.0 \
+                        rmd160  5575fcb908ce86b2e4ba2be7fe23b33b8ff707af \
+                        sha256  7fc5c4e59a7e0a0fce704201cdd95554d6ac1ca3972958797d91e35116f4b54f \
+                        size    14796 \
                     golang.org/x/sys \
-                        lock    v0.9.0 \
-                        rmd160  2cc3f76a07816bf45247088a57f093ee1dfebd00 \
-                        sha256  138197a232bf1882aeb8865e8263afc6e7dc3b34e632361098ea3506c13f6791 \
-                        size    1440217 \
+                        lock    v0.13.0 \
+                        rmd160  6105681bf18684d55835bd5ba9b20f599488c623 \
+                        sha256  f35bdc78f45a0bab73411b3c117b134ae68eed96eb301f719f873fbbcd8abf33 \
+                        size    1442708 \
                     golang.org/x/sync \
-                        lock    v0.3.0 \
-                        rmd160  b82f980eb2c9cdf64c03cebf7dc4ace66a2be261 \
-                        sha256  640559182ec233eef3dcd6fe034e8017b4ca5690196278d87f51592616960d1f \
-                        size    20014 \
+                        lock    v0.4.0 \
+                        rmd160  5b6a47e36d71d9237f40cffc4c305879b0d2da41 \
+                        sha256  de460f7ab05fed41c6a7a004f0ee01729f67f14f049eec04c53a81482efc511e \
+                        size    20383 \
                     golang.org/x/exp \
                         lock    a684f29349b6 \
                         rmd160  0d5134a4604add979cf02642fa41594874ff42b9 \
                         sha256  91bf6d53e7c3bab64195b3b939a45ba001f41d2bf90af8fa138d73c808774f11 \
                         size    1619186 \
+                    github.com/zeebo/xxh3 \
+                        lock    v1.0.2 \
+                        rmd160  7d6d924ef90796c1e3446f1cbdc9115e85a236fb \
+                        sha256  7d615f01a7230edf71b759d39f1081b5dd31eb74056c5240954d0a8b27eb9d43 \
+                        size    286395 \
+                    github.com/zeebo/assert \
+                        lock    v1.3.0 \
+                        rmd160  dbb211c914376fd5139648a5d1e9ae2ad5ec4bdb \
+                        sha256  abe3215aff4aff4423feec6149d403429ba044070eb1b7030dfe395a5187bcf8 \
+                        size    5017 \
                     github.com/stretchr/testify \
                         lock    v1.8.4 \
                         rmd160  8e1645055c9b1d8e117df7974034e74b7f600d27 \
@@ -141,6 +153,11 @@ go.vendors          mvdan.cc/sh \
                         rmd160  8c08579b4c56cdc958794e77afe3413e80aa67c3 \
                         sha256  7fcea475d6280976cf4a838e75d2b3a4105827316e588a80e49e8063d950c999 \
                         size    10232 \
+                    github.com/klauspost/cpuid \
+                        lock    v2.0.9 \
+                        rmd160  74b904a37421c1553ab642a54bf2f4c5eee76be0 \
+                        sha256  4e7fa18aac1517dfe13b3973210bbc995cb1571506258fc1a667b09f6c5cd383 \
+                        size    342181 \
                     github.com/joho/godotenv \
                         lock    v1.5.1 \
                         rmd160  be2375fb2edf2c76115eb64dc43ddcf03d8c5c4c \
@@ -152,10 +169,10 @@ go.vendors          mvdan.cc/sh \
                         sha256  3058d20d61f03aa05fca0fc07acb8c50850c68086998c542857aec7ad1529482 \
                         size    104431 \
                     github.com/go-task/slim-sprig \
-                        lock    348f09dbbbc0 \
-                        rmd160  7cc4d26be51d6fdf2b54b1fd1506b58c58317303 \
-                        sha256  94d84e08cdff9c92c5cf526f0ec803f46593247f8e0d4b19b30c9df1819c933d \
-                        size    40027 \
+                        lock    v3.0.0 \
+                        rmd160  f2135cd27dc0522a373618fae0fa7063f48306c2 \
+                        sha256  4738b8e47ba7eeb679b53839bbed8233e478db8866a7c09154916a18ec756e9b \
+                        size    40278 \
                     github.com/frankban/quicktest \
                         lock    v1.14.5 \
                         rmd160  73234dfdd12c4be3b70c45e662fac5acf3388a24 \

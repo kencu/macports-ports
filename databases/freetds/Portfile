@@ -5,11 +5,11 @@ PortGroup           compiler_blacklist_versions 1.0
 
 name                freetds
 epoch               1
-version             1.3.18
+version             1.4.4
 revision            0
-checksums           rmd160  b514fe52de488aae5a8e6f7b51694d2c8bcfba8a \
-                    sha256  1d8561d57c71991a28f4681343785c23a6a3eb54d5bcd23897d07e3825ff2d56 \
-                    size    2245334
+checksums           rmd160  f701d6f2796c3f9b2128a4f9ec2ddd48cf00b161 \
+                    sha256  f1fb755d3f979e90e90e6733d46311c839791a3d6e47709ac858a93f6a47a736 \
+                    size    2394913
 
 categories          databases
 maintainers         {ryandesign @ryandesign} openmaintainer
@@ -32,7 +32,7 @@ homepage            http://www.freetds.org/
 master_sites        ftp://ftp.freetds.org/pub/${name}/stable/
 use_bzip2           yes
 
-depends_build       port:pkgconfig
+depends_build       path:bin/pkg-config:pkgconfig
 
 # Use gnutls to avoid openssl license conflict.
 depends_lib         path:lib/pkgconfig/gnutls.pc:gnutls \
@@ -48,6 +48,9 @@ compiler.blacklist  {clang < 500}
 # https://trac.macports.org/ticket/63394
 compiler.c_standard 1999
 configure.cflags-append -std=c99
+
+# https://trac.macports.org/wiki/WimplicitFunctionDeclaration#strchr
+configure.checks.implicit_function_declaration.whitelist-append strchr
 
 configure.args      --disable-odbc \
                     --disable-silent-rules \

@@ -5,7 +5,7 @@ PortGroup           github  1.0
 PortGroup           cmake   1.1
 PortGroup           boost   1.0
 
-github.setup        WasmEdge WasmEdge 0.13.2
+github.setup        WasmEdge WasmEdge 0.13.4
 name                wasmedge
 github.tarball_from archive
 revision            0
@@ -28,9 +28,9 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  a308b6e1067cb792a37ff3e10e3c71b9cb120c9c \
-                    sha256  78f20dfb9e81a384ab779caffb03650d20c2989bbb3d395f33ad9969675d810e \
-                    size    3609301
+checksums           rmd160  d4483a7be593d9e192d9305cbee5ae4493cd2c36 \
+                    sha256  3771fb4b85cd1cb51896f7b691a0ecb784517b64caa13f624a1383818f678237 \
+                    size    3380114
 
 set llvm_version    16
 set llvm_root_dir   ${prefix}/libexec/llvm-${llvm_version}

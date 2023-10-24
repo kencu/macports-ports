@@ -4,15 +4,15 @@ PortSystem          1.0
 PortGroup           R 1.0
 
 # GitHub version lags behind.
-R.setup             cran stla RcppColors 0.3.0
-revision            1
+R.setup             cran stla RcppColors 0.6.0
+revision            0
 maintainers         nomaintainer
 license             GPL-3
 description         C++ header files for color conversion and color mappings
 long_description    {*}${description}
-checksums           rmd160  8bbafce83f332976c2b09b83235b4f055ace2298 \
-                    sha256  979c0039bbce76bc273192f09383c28548b00babe377a1208b5a919ef88c8119 \
-                    size    317021
+checksums           rmd160  b9a19fef7804a7263d7a0fbbbefa866c331bc224 \
+                    sha256  5e6ac187b4a7bef84236792274aadc8607d7e4abb4c301ab2e9046a901c84c29 \
+                    size    322145
 
 depends_lib-append  port:R-Rcpp
 

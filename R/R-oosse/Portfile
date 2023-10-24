@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+R.setup             cran sthawinke oosse 1.0.10
+revision            0
+categories-append   math
+maintainers         nomaintainer
+license             GPL-2
+description         Out-of-sample R² with standard error estimation
+long_description    {*}${description}
+checksums           rmd160  1a097f21a3b5215c525153d0f42dc649ca7f9d1e \
+                    sha256  b38c9ba33fa335b21c0f2c415e43af83ae4ee0bb24221fd4e49ef6950a90dba0 \
+                    size    503713
+supported_archs     noarch
+
+depends_lib-append  port:R-BiocParallel \
+                    port:R-doParallel \
+                    port:R-Rdpack
+
+depends_test-append port:R-glmnet \
+                    port:R-knitr \
+                    port:R-randomForest \
+                    port:R-rmarkdown \
+                    port:R-testthat
+
+# Tests freeze due to https://trac.macports.org/ticket/67059
+test.run            no

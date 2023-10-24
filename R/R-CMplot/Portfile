@@ -1,0 +1,17 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+R.setup             cran YinLiLin CMplot 4.4.3
+revision            0
+maintainers         nomaintainer
+license             GPL-2+
+description         Circle Manhattan plot
+long_description    {*}${description}
+checksums           rmd160  3ff9b3286d6b00aee833eb97a4bb4b867c3b2056 \
+                    sha256  c6ccac4e6bd2f6f6bafed0f72095401b93987877cc3d89ee673f827679bd7256 \
+                    size    1762995
+supported_archs     noarch
+
+test.run            yes

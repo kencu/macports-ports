@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                qutebrowser
-version             2.5.4
+version             3.0.2
 revision            0
 
 description         A keyboard-driven, vim-like browser based on PyQt5
@@ -17,16 +17,17 @@ maintainers         {amake @amake} openmaintainer
 
 homepage            https://www.qutebrowser.org/
 
-checksums           rmd160  0419fff18454f96bf1e2c283a881f5eab17125ff \
-                    sha256  a460b2202527e42a670c26d225d9fa6417d092cc1f16f3a95e7bc95dd89c1ab1 \
-                    size    6117674
+checksums           rmd160  02c35aef954003d3163e407ac385d39dcc67079a \
+                    sha256  a51893de4a123519afb83723b9ced2b2d98f4ca5285278c81e9bdda91ed5bc51 \
+                    size    6036377
 
-python.default_version 310
+python.default_version 311
 
 depends_build-append port:py${python.default_version}-setuptools
 
 depends_lib-append  port:py${python.default_version}-pyqt5-webengine \
                     port:py${python.default_version}-jinja2 \
                     port:py${python.default_version}-yaml \
+                    port:py${python.default_version}-pyobjc
 
 # TODO: Add optional adblock library: https://github.com/ArniDagur/python-adblock

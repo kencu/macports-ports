@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                google-cloud-sdk
-version             439.0.0
+version             451.0.1
 revision            0
 categories          devel python
 license             Apache-2
@@ -21,19 +21,19 @@ supported_archs     i386 x86_64 arm64
 
 if { ${configure.build_arch} eq "i386" } {
     distname        ${name}-${version}-darwin-x86
-    checksums       rmd160  1dca36df4c717ae7ef561c137edc908414268d2e \
-                    sha256  991bd0c69ccfad49de81c68ee3e630826ca733966793c7606f63af5b7d3cc911 \
-                    size    100995658
+    checksums       rmd160  d3baa979134e585f022d14aa3cb32d19ab3b94bc \
+                    sha256  8a7bf70952fcba3d5d06a8c755295322c54a9439ff03f04676bc7ac5160bb323 \
+                    size    121618374
 } elseif { ${configure.build_arch} eq "x86_64" } {
     distname        ${name}-${version}-darwin-x86_64
-    checksums       rmd160  b7c5b77e450094ae42dca5666cb4f61c17f188d6 \
-                    sha256  564c39e3782498a138c1f5d4990e3af0063d5e9bc6eff440802279dd49d11b88 \
-                    size    121250606
+    checksums       rmd160  2b7a7dbe4abcabe04cde053776e3356ed19b6a30 \
+                    sha256  512f3bb29887ec934a8ec629436dafc023c5acaea0f6739d906498d8abe401b7 \
+                    size    122902329
 } elseif { ${configure.build_arch} eq "arm64" } {
     distname        ${name}-${version}-darwin-arm
-    checksums       rmd160  ed0ae8c6fb52e5370f6bfff76582cb9ee8f26cd6 \
-                    sha256  29ea27050cb84a0dd53a688c3c55057827f61881047658a839a475d15d66b0ac \
-                    size    118421397
+    checksums       rmd160  20ae81f33dabc8ca8cb13bfdc2cb9abf1af8b43c \
+                    sha256  bdd94c06f0216ceb846a2a6797d73df31a0e92c2b1196477d2765fd2765f8a1d \
+                    size    120005010
 }
 
 homepage            https://cloud.google.com/sdk/
@@ -42,7 +42,7 @@ master_sites        https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/
 worksrcdir          ${name}
 
 # Most recent supported Python version according to https://cloud.google.com/sdk/docs/install#mac
-python.default_version 39
+python.default_version 310
 
 post-patch {
     # Default to the MacPorts Python binary

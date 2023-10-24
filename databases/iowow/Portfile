@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           github 1.0
+PortGroup           legacysupport 1.1
+
+# strndup
+legacysupport.newest_darwin_requires_legacy 10
+
+github.setup        Softmotions iowow 70fa2c8e5aad7b1480b176d07bd72ffd7d2a1984
+version             2023.09.14
+revision            0
+categories          databases devel
+license             MIT
+maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
+description         C11 utility library and persistent key/value storage engine
+long_description    {*}${description}
+homepage            https://iowow.softmotions.com
+checksums           rmd160  b9926af035744e89dcaf8c2fa029b324ec51ef57 \
+                    sha256  deaaedcf014b636f45407656eb1e17ef7b42fec04d8f3cd9a07acdda73442adb \
+                    size    621973
+github.tarball_from archive
+
+depends_build-append \
+                    port:cunit
+
+compiler.c_standard 2011
+# stdatomic.h
+compiler.blacklist-append {clang < 700}
+
+configure.args-append \
+                    -DBUILD_TESTS:BOOL=ON
+
+# https://github.com/Softmotions/iowow/issues/53
+if {[string match *gcc* ${configure.compiler}]} {
+    configure.ldflags-append \
+                    -latomic
+}
+
+# FIXME: several test cases fail on PowerPC: https://github.com/Softmotions/iowow/issues/54
+test.run            yes

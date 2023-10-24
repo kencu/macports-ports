@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+R.setup             cran andrew-plowright ForestTools 1.0.1
+revision            0
+maintainers         nomaintainer
+license             GPL-3
+description         Tools for analyzing remote sensing forest data
+long_description    {*}${description}
+checksums           rmd160  2a701038cbdc5cd39c4c24e36974f44a12998d9d \
+                    sha256  1e131075cbbfa2fe3b983c5d94a244099fbe349c6bc91bfb2705a0a74320123e \
+                    size    3491064
+
+depends_lib-append  port:R-imager \
+                    port:R-plyr \
+                    port:R-Rcpp \
+                    port:R-sf \
+                    port:R-terra
+
+depends_test-append port:R-knitr \
+                    port:R-rmarkdown \
+                    port:R-testthat
+
+test.run            yes

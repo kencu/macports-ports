@@ -6,16 +6,16 @@ name                mplayer-devel
 conflicts           MPlayer
 
 # svn info svn://svn.mplayerhq.hu/mplayer/trunk
-version             38433
+version             38435
 
 # https://git.videolan.org/?p=ffmpeg.git;a=shortlog
 set ffmpeg_branch   master
-set ffmpeg_ver      13e989901468b2e53a7d3a099511aae6987c7b00
+set ffmpeg_ver      7aa9684db39a8ecf444b3af1c74c225757d8e49f
 
 revision            0
 categories          multimedia
 license             GPL-2+
-maintainers         {kencu @kencu} {jeremyhu @jeremyhu}
+maintainers         {jeremyhu @jeremyhu} openmaintainer
 
 description         versatile movie player - development version
 long_description    ${name} plays most movie files in popular and less popular formats. \

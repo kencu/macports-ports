@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/danielgtaylor/restish 0.17.0 v
+go.setup            github.com/danielgtaylor/restish 0.19.0 v
 github.tarball_from archive
 revision            0
 
@@ -24,12 +24,12 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  ec0642684922fd94d8e5b0d452ad28de7f728443 \
-                    sha256  09fd99f868b047fb9159314441edfe6e960a6a8227accf270ba343d4949efbeb \
-                    size    297558
+checksums           rmd160  9ddbf0bf3fdf39a03940ef56861092e4ca9670cc \
+                    sha256  993fe6d1ec25778af5d7dbb835bc048caa072e7aa3be8ad296a25afd1039ffec \
+                    size    313277
 
 # Allow Go to fetch dependencies at build time.
-build.env-delete    GO111MODULE=off GOPROXY=off
+go.offline_build no
 
 build.pre_args-append \
     -ldflags \"-X main.version=${version}\"

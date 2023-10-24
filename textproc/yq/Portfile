@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/mikefarah/yq 4.34.2 v
+go.setup            github.com/mikefarah/yq 4.35.2 v
 go.package          github.com/mikefarah/yq/v4
 github.tarball_from archive
 revision            0
@@ -32,9 +32,9 @@ destroot {
 }
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  159bf2f33fee415e83bf4bbeeca17dcbf8f681a7 \
-                        sha256  035b7e827eccc66907270ff7f0d35c7917d56ded4aff44f7b942fe4802b70d01 \
-                        size    239168
+                        rmd160  f1e8aea12594d340cd982828e622c97f46d8533f \
+                        sha256  8b17d710c56f764e9beff06d7a7b1c77d87c4ba4219ce4ce67e7ee29670f4f13 \
+                        size    248590
 
 go.vendors          gopkg.in/yaml.v3 \
                         lock    v3.0.1 \
@@ -57,25 +57,25 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  40757cba83ef7689be5fe671dfedefb4dcb1ff37af2a2f493ccb0b0262c34796 \
                         size    13752 \
                     golang.org/x/text \
-                        lock    v0.11.0 \
-                        rmd160  c4603f279575a9642b4444914247fdbb0e9954c4 \
-                        sha256  43460e0115cf4129f1de68b767e0f87f9988456e83873d89877c6af5d99e790f \
-                        size    8971482 \
+                        lock    v0.13.0 \
+                        rmd160  41adfd8809cec3b7d0d885c1d698bc2a0d73ab1c \
+                        sha256  b499b39462b190a30882184132b47afb02c2c76ee9fee315c0aebe477c4b8354 \
+                        size    8964803 \
                     golang.org/x/sys \
-                        lock    v0.10.0 \
-                        rmd160  83368c420a37696a8f102d9409b238b89a9c9d82 \
-                        sha256  131890e51d97b703ad20cebc231370408213b554c32231001d204bfac7ac96d5 \
-                        size    1441834 \
-                    golang.org/x/net \
                         lock    v0.12.0 \
-                        rmd160  d599e183fa279c044432d748157f06265fe5d787 \
-                        sha256  b0f10ee750ae27d7761d93c01c01aceea2f5b25a591acbb9bc91f378cf04920d \
-                        size    1371560 \
+                        rmd160  5082c23ea5578ae437fb33840a5cb7b521e413f5 \
+                        sha256  d09cc88a9a9a75e43f0c339bba8f106d66313bea1169889d94534b3f6a8a4d6b \
+                        size    1447140 \
+                    golang.org/x/net \
+                        lock    v0.15.0 \
+                        rmd160  e5a82fe9c82e8eb3c0d7b1a8280b341a3893d09b \
+                        sha256  db6cc348f7177f3a6e7143f3ee45d240421f3c946d35afc497ba6307c49a3200 \
+                        size    1430922 \
                     github.com/stretchr/testify \
-                        lock    v1.8.3 \
-                        rmd160  c973f1f778c2d4411c273572bbdb719888bf047c \
-                        sha256  09cfa5b82de227e4bec49f905965e4afa5d034761f5c4ff9ef10454b260fb96b \
-                        size    104299 \
+                        lock    v1.8.4 \
+                        rmd160  8e1645055c9b1d8e117df7974034e74b7f600d27 \
+                        sha256  6d0a77075bbe0f8f1c0cbed51dd4d174579db976fef39d9ae6b500aab8917d6a \
+                        size    104469 \
                     github.com/spf13/pflag \
                         lock    v1.0.5 \
                         rmd160  2ce81608a38c6f383a35bccd24d64361df5828c9 \
@@ -97,10 +97,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  086dfcc0449ef79f412e6308fd2ace2207a8a88cde2c86f13f77635673e08890 \
                         size    200592 \
                     github.com/pelletier/go-toml \
-                        lock    v2.0.8 \
-                        rmd160  362c50556601463d4eb787061fb92501c2e0bd11 \
-                        sha256  22a954b3c9fa0ddbdb11e1f251825eca53e3f3f33985c7e1a62ccb7bb1880892 \
-                        size    896166 \
+                        lock    v2.1.0 \
+                        rmd160  8333f1e37c354b98998a2793c1dd290482838c9e \
+                        sha256  cd68736aa89935e4c00384e1c04a3dc0a2f548fa91dd0921a4137be46c090b03 \
+                        size    899447 \
                     github.com/mattn/go-isatty \
                         lock    v0.0.17 \
                         rmd160  8a79d7ac1ac5311cb4892f75b7a439fd07cccc17 \
@@ -117,10 +117,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  494b9c870a97ffc3b9377280412ab0c5afff549d109b28d484b02ced07713656 \
                         size    31419 \
                     github.com/jinzhu/copier \
-                        lock    v0.3.5 \
-                        rmd160  653fd9ebbb60145b00ee152079d1f5b015daf920 \
-                        sha256  8fcb0566e93b9c177d38b0791e2db6385c376dc0618ccd4a7bba5eb140d23258 \
-                        size    15767 \
+                        lock    v0.4.0 \
+                        rmd160  65599e8d5280dd006a398bfcab349e2c9a2bbce1 \
+                        sha256  41b5aac6de7515accd0c53ac7aa07c92b24e36e338b7602c0442a12bda8e4a0b \
+                        size    18301 \
                     github.com/inconshreveable/mousetrap \
                         lock    v1.1.0 \
                         rmd160  88f9577df93ac0f8801d8960adc7f28e38867f3e \
@@ -132,10 +132,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  6ff3e645743eb9831a6325dd3edcce1f1f5c2f918c4981cec89143252d5e1dac \
                         size    23250 \
                     github.com/goccy/go-yaml \
-                        lock    v1.11.0 \
-                        rmd160  87dc0dfd64c8445e878aa59a66f99dc4bc0e60c2 \
-                        sha256  77946631c3878ce03ba0dab7cec22314705628d709c25c40dddd427612c7c77d \
-                        size    95338 \
+                        lock    v1.11.2 \
+                        rmd160  fd2ba805c0289384ae209f87d0011bce39cbbc4e \
+                        sha256  6adb1c105f9800f7883c9b6fb307d1ccf8253cdcca025c0e83476634bb8e3006 \
+                        size    97508 \
                     github.com/goccy/go-json \
                         lock    v0.10.2 \
                         rmd160  4d0deafc49dd3f41ef30214af9654756977d2f3f \
@@ -167,15 +167,15 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  b2c0f4f5a24184577800de0ad1c4056cf636be2b7cd794eb46a90d6cfe8cb7a0 \
                         size    7488 \
                     github.com/alecthomas/participle \
-                        lock    v2.0.0 \
-                        rmd160  90859bb15df387a8b4bdbf3814ffcba63c3fa3bf \
-                        sha256  8e816811d6e8bc376630a46c7bae974af58697fadc1603845e4df91a4970a2fc \
-                        size    178319 \
+                        lock    v2.1.0 \
+                        rmd160  91373456a5d7bfa8723bba70a62e9568c597b04c \
+                        sha256  9357c5c9e50767dcfc1a639c8f3209f0eb73e106e7123c17c293634024e6db50 \
+                        size    178528 \
                     github.com/alecthomas/assert \
-                        lock    v2.2.2 \
-                        rmd160  94aa78e3a53bb53d37cdef01262ae3f1cd064629 \
-                        sha256  5833476c55b2042c3b8ef92f4046bbd88ad56497e92e85227f34e32dea8fe49a \
-                        size    7549 \
+                        lock    v2.3.0 \
+                        rmd160  eedc3e436287b78acc158df21a17222de11ca5c4 \
+                        sha256  49ddf925cc07dcc607923624c87310b438a52ac6b1698c63f25aa1e3616c20b4 \
+                        size    7825 \
                     github.com/a8m/envsubst \
                         lock    v1.4.2 \
                         rmd160  b689c9d8284004e80b378d2e6f7889d7e5310ad1 \

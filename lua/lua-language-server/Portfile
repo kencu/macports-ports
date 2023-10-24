@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           legacysupport 1.1
 
-github.setup        LuaLS lua-language-server 3.6.23
+github.setup        LuaLS lua-language-server 3.7.0
 github.tarball_from releases
 revision            0
 
@@ -19,9 +19,9 @@ use_zip             yes
 extract.mkdir       yes
 distname            ${name}-${version}-submodules
 
-checksums           rmd160  203ab7e49f8c53874c22fd7584b21b5320333168 \
-                    sha256  039de8c34b8d9db0bc350e19391e4e437b362b7d2016fde9bc3ff3588e6787cb \
-                    size    31241611
+checksums           rmd160  e207ebcd3d31ce5466c191ac834ecb3843f73ff9 \
+                    sha256  195963df38d1701eee6810190a6fd288456a3254cd47d4d32fd88824e9abb320 \
+                    size    31305853
 
 depends_build       port:luamake
 compiler.c_standard 2011

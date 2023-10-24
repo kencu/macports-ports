@@ -5,8 +5,8 @@ PortGroup           cmake 1.1
 
 name                mapserver
 version             8.0.1
-revision            1
-maintainers         hbaspecto.com:jea openmaintainer
+revision            2
+maintainers         hbaspecto.com:jea {yahoo.com:n_larsson @nilason} openmaintainer
 categories          gis
 license             permissive
 

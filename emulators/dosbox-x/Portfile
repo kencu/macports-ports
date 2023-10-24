@@ -7,12 +7,12 @@ PortGroup           app 1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           muniversal 1.0
 
-github.setup        joncampbell123 dosbox-x 2023.05.01 dosbox-x-v
+github.setup        joncampbell123 dosbox-x 2023.10.06 dosbox-x-v
 revision            0
 
-checksums           rmd160  8d33a075d8ada1150db1cfb3cd0098ef491b7b28 \
-                    sha256  0aa75b873978aec41ecfee62bb103d8a17fe3566a3ebf5415245cee0dd032ebb \
-                    size    68071717
+checksums           rmd160  00491693be103592f5478f9ef745e6aa6ff124b7 \
+                    sha256  65f756e29f9c9b898fdbd22b0cb9b3b24c6e3becb5dcda588aa20a3fde9539a5 \
+                    size    119420489
 
 categories          emulators
 platforms           darwin

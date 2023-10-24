@@ -10,7 +10,7 @@ legacysupport.newest_darwin_requires_legacy 10
 
 name                MoarVM
 version             2023.06
-revision            0
+revision            1
 categories          lang devel
 license             Artistic-2 MIT BSD ISC public-domain
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
@@ -21,6 +21,8 @@ long_description    MoarVM is a modern virtual machine built for the Rakudo \
 
 homepage            https://moarvm.org/
 master_sites        https://moarvm.org/releases/
+
+conflicts           moar
 
 checksums           rmd160  c22c09c79b656d5156e8d74f35569b0b2e211d39 \
                     sha256  143f92510eaa3452c712e4aae9f44d84cd078f16517b40252bab7dd5e224ecdb \

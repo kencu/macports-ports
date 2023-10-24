@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 PortGroup           github 1.0
-github.setup        qorelanguage module-jni 2.1.1 v
+github.setup        qorelanguage module-jni 2.3.1 v
 github.tarball_from releases
 
 PortGroup           cmake 1.1
@@ -19,9 +19,9 @@ platforms           darwin
 use_bzip2           yes
 distname            qore-jni-module-${version}
 
-checksums           rmd160 d59764b9960ecdeddcbeabe4d09f7cc7c475f116 \
-                    sha256 b44c064e9f4011d68d28084348c07b17fdad864d6294224ba1f3b17b8dd8b15e \
-                    size 3444041
+checksums           rmd160 9ee4e8c670fb7231f8ff9e35ea11a5c40f7f1780 \
+                    sha256 d0c12489c43aeb98bf181a75f4f02d75ea407affc0f0a34befbf8fc73dc85766 \
+                    size 4109393
 
 variant openjdk11 conflicts openjdk13 openjdk15 openjdk17 description {Enable OpenJDK 11} {}
 variant openjdk13 conflicts openjdk11 openjdk15 openjdk17 description {Enable OpenJDK 13} {}

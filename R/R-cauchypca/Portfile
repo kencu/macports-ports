@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+R.setup             cran mtsagris cauchypca 1.2
+revision            0
+categories-append   math
+maintainers         nomaintainer
+license             GPL-2+
+description         Robust principal component analysis using the Cauchy distribution
+long_description    {*}${description}
+checksums           rmd160  2389e93172c3209f137895da4bd05d8cc354e5e6 \
+                    sha256  a387a6f77df5e15e829285a1490c21082f47651deda82580c2b24dd7feca3d7f \
+                    size    3896
+supported_archs     noarch
+
+depends_lib-append  port:R-doParallel \
+                    port:R-foreach \
+                    port:R-Rfast
+
+test.run            yes

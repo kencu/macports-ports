@@ -7,13 +7,13 @@ PortGroup           gobject_introspection 1.0
 
 # Please keep the harfbuzz and harfbuzz-devel ports as similar as possible.
 
-github.setup        harfbuzz harfbuzz 7.3.0
+github.setup        harfbuzz harfbuzz 8.2.2
 name                harfbuzz-devel
 conflicts           harfbuzz
 set my_name         harfbuzz
-checksums           rmd160  9a3e311cb299949cf21b822d52d62039373ec387 \
-                    sha256  20770789749ac9ba846df33983dbda22db836c70d9f5d050cb9aa5347094a8fb \
-                    size    18867940
+checksums           rmd160  fec94e63597fcb960fcaa09e30ea323744e6a99c \
+                    sha256  e433ad85fbdf57f680be29479b3f964577379aaf319f557eb76569f0ecbc90f3 \
+                    size    18905228
 
 categories          graphics
 maintainers         {ryandesign @ryandesign} {mascguy @mascguy} openmaintainer
@@ -28,19 +28,21 @@ github.tarball_from releases
 dist_subdir         ${my_name}
 use_xz              yes
 
-depends_build       port:pkgconfig
+depends_build       path:bin/pkg-config:pkgconfig
 
 # https://github.com/harfbuzz/harfbuzz/issues/1642
 compiler.cxx_standard \
                     2011
 
-# https://github.com/harfbuzz/harfbuzz/issues/1651#issuecomment-484051395
+# error: invalid operands to binary expression
+# https://github.com/harfbuzz/harfbuzz/issues/4371
 compiler.blacklist-append {clang < 700}
 
 # Upstream recommends switching to meson but I'm not ready to tackle
 # that yet.
 
 configure.args      --disable-silent-rules \
+                    --without-chafa \
                     ac_cv_prog_AWK=/usr/bin/awk
 
 # Do not use -Werror. New compilers may have new warnings; we don't want users

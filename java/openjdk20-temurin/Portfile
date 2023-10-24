@@ -15,9 +15,9 @@ universal_variant no
 # https://adoptium.net/temurin/releases/?version=20
 supported_archs  x86_64 arm64
 
-version      20.0.1
+version      20.0.2
 set build    9
-revision     0
+revision     1
 
 description  Eclipse Temurin, based on OpenJDK 20
 long_description Eclipse Temurin provides secure, TCK-tested and compliant, production-ready Java runtimes.
@@ -26,14 +26,14 @@ master_sites https://github.com/adoptium/temurin20-binaries/releases/download/jd
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     OpenJDK20U-jdk_x64_mac_hotspot_${version}_${build}
-    checksums    rmd160  f271f4a672bf6f86a3f01bd5c9d9db7d64186351 \
-                 sha256  7cccfc4fb9f63410b7fdc315fd1c7739cf61888930d7f88f3eee6589d14e861f \
-                 size    197180058
+    checksums    rmd160  a5defd42d992ae97a136edebdf3495df859ef873 \
+                 sha256  bdeb37322a7c9292434e417d4db9f5debd7477cf413335d3a653a4e5e50a2473 \
+                 size    197502362
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     OpenJDK20U-jdk_aarch64_mac_hotspot_${version}_${build}
-    checksums    rmd160  cdce5c4d9f1579c59d7332aa8e3b04a520413baa \
-                 sha256  e743f7a4aebb46bfb02e164c7aa009a29bcce1d7dd0c4926541893ea6ed21d82 \
-                 size    186409240
+    checksums    rmd160  382a90eb6a9580d316f10e843f51341a0b91de17 \
+                 sha256  6ef42b63581c0265c5a6b734e203bb922ee720571a8de46532ecca50a804c596 \
+                 size    186697641
 }
 
 worksrcdir   jdk-${version}+${build}
@@ -69,17 +69,21 @@ test.args   -version
 # macOS Java tools expect to find Java virtual machines under /Library/Java/JavaVirtualMachines, which is not under ${prefix}.
 destroot.violate_mtree yes
 
-set target /Library/Java/JavaVirtualMachines/jdk-20-eclipse-temurin.jdk
-set destroot_target ${destroot}${target}
+set jvms /Library/Java/JavaVirtualMachines
+set jdk ${jvms}/jdk-20-eclipse-temurin.jdk
 
 destroot {
-    xinstall -m 755 -d ${destroot_target}
-    copy ${worksrcpath}/Contents ${destroot_target}
+    xinstall -m 755 -d ${destroot}${prefix}${jdk}
+    copy ${worksrcpath}/Contents ${destroot}${prefix}${jdk}
+
+    # macOS Java tools expect to find Java virtual machines under /Library/Java/JavaVirtualMachines, so let's create a symlink there
+    xinstall -m 755 -d ${destroot}${jvms}
+    ln -s ${prefix}${jdk} ${destroot}${jdk}
 }
 
 notes "
 If you have more than one JDK installed you can make ${name} the default\
 by adding the following line to your shell profile:
 
-    export JAVA_HOME=${target}/Contents/Home
+    export JAVA_HOME=${jdk}/Contents/Home
 "

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                sqlmap
-version             1.7.7
+version             1.7.9
 revision            0
 
 categories          security databases python
@@ -24,9 +24,9 @@ long_description    \
     the operating system via out-of-band connections.
 homepage            https://sqlmap.org/
 
-checksums           rmd160  7b740b9a154f17cf7388b08fe0378f94fb67ecf4 \
-                    sha256  b7da8a584bcd9d83c390dc28f6819d17673b21fc4318b2ce1a998b16aa263ce5 \
-                    size    7205689
+checksums           rmd160  e52fe43e6c63d96a0aa12f76969fc21e37554a08 \
+                    sha256  934ec3a64a5ad4c3bd202325e1ad9823638d81c506d2f2cecc2fb0b281f1237b \
+                    size    7206069
 
 patchfiles          patch-cmd-usage-string.diff
 

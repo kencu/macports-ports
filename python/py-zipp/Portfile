@@ -4,15 +4,16 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-zipp
-version             3.15.0
+version             3.17.0
 revision            0
 categories-append   devel
 supported_archs     noarch
 platforms           {darwin any}
 license             MIT
 
-# keep version for PY27 and PY34, these are (indirect) dependencies of py-virtualenv
-python.versions     27 34 35 36 37 38 39 310 311
+# keep version for Python < 3.4, these are (indirect) dependencies of py-virtualenv
+# See <https://trac.macports.org/wiki/Python#VersionPolicy>
+python.versions     27 35 36 37 38 39 310 311 312
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -21,9 +22,9 @@ long_description    {*}${description}
 
 homepage            https://github.com/jaraco/zipp
 
-checksums           rmd160  1b019c27f6f26c21b2aa514c5836c9495402a761 \
-                    sha256  112929ad649da941c23de50f356a2b5570c954b65150642bccdd66bf194d224b \
-                    size    18454
+checksums           rmd160  c0d9d7b159e50de84c1a77b69d9b6cea8ee68771 \
+                    sha256  84e64a1c28cf7e91ed2078bb8cc8c259cb19b76942096c8d7b84947690cabaf0 \
+                    size    20367
 
 if {${name} ne ${subport}} {
 
@@ -46,6 +47,12 @@ if {${name} ne ${subport}} {
         checksums           rmd160  7203de20b31173e32d6c0876d1537e0b147eada8 \
                             sha256  71c644c5369f4a6e07636f0aa966270449561fcea2e3d6747b8d23efaa9d7832 \
                             size    13047
+    } elseif {${python.version} eq 37} {
+        version             3.15.0
+        revision            0
+        checksums           rmd160  1b019c27f6f26c21b2aa514c5836c9495402a761 \
+                            sha256  112929ad649da941c23de50f356a2b5570c954b65150642bccdd66bf194d224b \
+                            size    18454
     }
 
     if {${python.version} >= 36} {

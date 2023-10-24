@@ -4,21 +4,25 @@ PortSystem          1.0
 PortGroup           R 1.0
 
 # GitHub version lags behind.
-R.setup             cran samuel-watson glmmrOptim 0.2.5
+R.setup             cran samuel-watson glmmrOptim 0.3.2
 revision            0
 categories-append   math
 maintainers         nomaintainer
-license             {GPL-2 GPL-3}
+license             GPL-2+
 description         Approximate optimal experimental designs using generalised linear mixed models
 long_description    {*}${description}
-checksums           rmd160  9a7e2bc397d1310757f1ddf49c079c33645b5cfc \
-                    sha256  a76624c18dcddeac6f0a984eb0295be1a9dc561befcb5afd56ecb21d10f9091b \
-                    size    25896
+checksums           rmd160  067dbddc1e1a9b212ec96519718e5a9c1d098026 \
+                    sha256  67a80eebd3c804969493f4bd93b16f9a5dce7fe82b1eed0682acb930f61e4467 \
+                    size    29832
 
-depends_lib-append  port:R-digest \
+depends_lib-append  port:R-BH \
+                    port:R-digest \
                     port:R-glmmrBase \
                     port:R-Rcpp \
-                    port:R-RcppEigen
+                    port:R-RcppEigen \
+                    port:R-RcppProgress \
+                    port:R-rminqa \
+                    port:R-SparseChol
 
 compilers.setup     require_fortran
 

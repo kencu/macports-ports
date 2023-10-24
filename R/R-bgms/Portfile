@@ -3,18 +3,18 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran MaartenMarsman bgms 0.1.0
-revision            1
+R.setup             cran MaartenMarsman bgms 0.1.2
+revision            0
 categories-append   math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
-license             {GPL-2 GPL-3}
+license             GPL-2+
 description         Bayesian variable selection for networks of binary and/or ordinal variables
 long_description    Bayesian variable selection methods for analyzing the structure \
                     of a Markov random field model for a network of binary and/or ordinal variables.
 homepage            https://maartenmarsman.github.io/bgms
-checksums           rmd160  8cc4f8081d264036a6814edec17f596cf3dd0f84 \
-                    sha256  eb7ee7287ced1d1eaad93897252c65993af24cb6cd9d74b27e6a740a2f90747c \
-                    size    88920
+checksums           rmd160  fcd7032ea7030f6fd5c1c619aee756998b04421f \
+                    sha256  1bf98200a0c4647c14a56b84d5f69113774822aaca6832b0706c1e71bfd0ccff \
+                    size    98236
 
 depends_lib-append  port:R-Rcpp \
                     port:R-RcppProgress \

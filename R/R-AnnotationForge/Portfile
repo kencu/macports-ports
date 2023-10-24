@@ -3,16 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github Bioconductor AnnotationForge 1a7cd36035b1bf3accf6b21060438e6dfa4a0f70
-version             1.43.1
+R.setup             github Bioconductor AnnotationForge 6e8f15bb2da2c05c9b6a15ec91c7e7824a3a5725
+version             1.43.4
 revision            0
 maintainers         nomaintainer
 license             Artistic-2
 description         Tools for building SQLite-based annotation data packages
 long_description    {*}${description}
-checksums           rmd160  8554219b78cbdf46a78fa6c23db332007e520f50 \
-                    sha256  8d1c3debd96a23df069ff116b3412d6be1c8174d18905526b9ebc731b46c2d04 \
-                    size    3365966
+homepage            https://bioconductor.org/packages/${R.package}
+checksums           rmd160  bbea5f2b29f9517660f125a036eef8b5fcd4b74e \
+                    sha256  c5ccd2a9a4a34d5e3341c1ad629c2ce7418772765b51fae3466412298106d340 \
+                    size    3366042
 supported_archs     noarch
 
 depends_lib-append  port:R-AnnotationDbi \

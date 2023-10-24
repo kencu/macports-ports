@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/cosmtrek/air 1.44.0 v
+go.setup            github.com/cosmtrek/air 1.48.0 v
 github.tarball_from archive
 revision            0
 
@@ -18,9 +18,9 @@ license             GPL-3
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  482489f6616093d8efe143c223b771938d77873e \
-                    sha256  0e2228bbe47e34cb350f8d45b4bcb2a6f32d9d77da5c6710d40e21f2a05fff97 \
-                    size    1034271
+checksums           rmd160  b8b2c4df543dbb714a558ec1cf653a0ab394481e \
+                    sha256  c8a59eaea10b0e7cd4180fbb533408a4405c07f98fc2beaaa4d322a9249ab510 \
+                    size    1035588
 
 patch {
     # Set the build version directly in the Makefile. Do not attempt to
@@ -40,7 +40,7 @@ patch {
 }
 
 # Allow Go to fetch deps at build time
-build.env-delete    GO111MODULE=off GOPROXY=off
+go.offline_build no
 
 build.cmd           make
 build.target        build

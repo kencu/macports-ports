@@ -6,7 +6,7 @@ PortGroup               compiler_blacklist_versions 1.0
 name                    ld64
 epoch                   2
 version                 3
-revision                4
+revision                6
 set dyld_version        655.1.1
 categories              devel
 platforms               darwin
@@ -212,6 +212,8 @@ subport ld64-274 {
 }
 
 subport ld64-latest {
+    PortGroup legacysupport 1.1
+
     # Xcode 10.2
     version 450.3
     set makefile        "Makefile-450"
@@ -244,6 +246,15 @@ subport ld64-latest {
     # silence some warnings
     configure.cxxflags-append -Wno-deprecated-declarations
     configure.cxxflags-append -Wno-parentheses-equality
+
+    # Avoid `error: unknown type name 'uuid_string_t'`
+    legacysupport.newest_darwin_requires_legacy 9
+
+    if { ${os.platform} eq "darwin" && ${os.major} <= 9 } {
+        depends_lib-append          port:libblocksruntime
+        configure.cxxflags-append   -fblocks
+        configure.ldflags-append    -lBlocksRuntime
+    }
 
     supported_archs i386 x86_64
 }
@@ -335,6 +346,10 @@ if {${subport} eq ${name}} {
             ln -s rebase-${ld64_ver} ${destroot}${prefix}/bin/rebase
             ln -s unwinddump-${ld64_ver} ${destroot}${prefix}/bin/unwinddump
         }
+        if {[variant_isset ld64_xcode]} {
+            ln -s ld-classic-${ld64_ver} ${destroot}${prefix}/bin/ld-classic
+            ln -s ld-classic-${ld64_ver} ${destroot}${prefix}/libexec/ld64/ld-classic
+        }
     }
 } elseif {${subport} eq "${name}-xcode"} {
     distfiles
@@ -344,6 +359,8 @@ if {${subport} eq ${name}} {
         file mkdir ${destroot}${prefix}/libexec/ld64
         xinstall -m 755 ${filespath}/ld-xcode ${destroot}${prefix}/libexec/ld64/ld-xcode
         ln -s ../libexec/ld64/ld-xcode ${destroot}${prefix}/bin/ld-xcode
+        xinstall -m 755 ${filespath}/ld-classic-xcode ${destroot}${prefix}/libexec/ld64/ld-classic-xcode
+        ln -s ../libexec/ld64/ld-classic-xcode ${destroot}${prefix}/bin/ld-classic-xcode
     }
 } elseif {${subport} eq "${name}-xtools"} {
     configure.cxx_stdlib

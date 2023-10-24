@@ -14,8 +14,8 @@ universal_variant no
 # https://docs.microsoft.com/en-us/java/openjdk/download#openjdk-11
 supported_archs  x86_64 arm64
 
-version      11.0.20
-set build    8
+version      11.0.20.1
+set build    1
 revision     0
 
 description  Microsoft Build of OpenJDK 11 (Long Term Support)
@@ -26,14 +26,14 @@ master_sites https://aka.ms/download-jdk/
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     microsoft-jdk-${version}-macOS-x64
-    checksums    rmd160  cc737933af49e6474296615d03cc27707e923c66 \
-                 sha256  70f52a819119f97c54e825f56f75d813e60088816f684bc59e06608783eb0a78 \
-                 size    187730360
+    checksums    rmd160  1beb37e09fd650036b1e136111c6164d8515a17f \
+                 sha256  023ddec42f85db9c26a80ad1e5b2f8081796f46437fba7e8f6282c3b47c73c28 \
+                 size    187733259
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     microsoft-jdk-${version}-macOS-aarch64
-    checksums    rmd160  fbf166d6a7b5571b36ecef54ae83aba28b93b561 \
-                 sha256  7ec3a5a77a73fb076adbb369a967e53716b250da611bd0c45b5760111e6ee902 \
-                 size    185287208
+    checksums    rmd160  595a6b46a200e5d20eeb3ad4c2956432a7c7e5fa \
+                 sha256  e9773c9dfd72b62924aff4f1dbe8602d5889d02ad0d9aaf4f7e1e2cb0196bd75 \
+                 size    185294857
 }
 
 worksrcdir   jdk-${version}+${build}
@@ -75,17 +75,21 @@ test.args   -version
 # macOS Java tools expect to find Java virtual machines under /Library/Java/JavaVirtualMachines, which is not under ${prefix}.
 destroot.violate_mtree yes
 
-set target /Library/Java/JavaVirtualMachines/${name}
-set destroot_target ${destroot}${target}
+set jvms /Library/Java/JavaVirtualMachines
+set jdk ${jvms}/${name}
 
 destroot {
-    xinstall -m 755 -d ${destroot_target}
-    copy ${worksrcpath}/Contents ${destroot_target}
+    xinstall -m 755 -d ${destroot}${prefix}${jdk}
+    copy ${worksrcpath}/Contents ${destroot}${prefix}${jdk}
+
+    # macOS Java tools expect to find Java virtual machines under /Library/Java/JavaVirtualMachines, so let's create a symlink there
+    xinstall -m 755 -d ${destroot}${jvms}
+    ln -s ${prefix}${jdk} ${destroot}${jdk}
 }
 
 notes "
 If you have more than one JDK installed you can make ${name} the default\
 by adding the following line to your shell profile:
 
-    export JAVA_HOME=${target}/Contents/Home
+    export JAVA_HOME=${jdk}/Contents/Home
 "

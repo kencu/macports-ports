@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/confluentinc/cli 3.23.0 v
+go.setup            github.com/confluentinc/cli 3.38.0 v
+go.offline_build    no
 name                confluent-cli
 github.tarball_from archive
 revision            0
@@ -20,13 +21,12 @@ license             Permissive
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  e547be732abe2093dde30f0211da308995f4c508 \
-                    sha256  0b315ca120e1aa5b0abef3188bef75a7b833192cf9ba222f2cec1c7c0fd538e9 \
-                    size    1012755
+checksums           rmd160  79a0165e6167c44ec4b15523004dd3d3897b7bc4 \
+                    sha256  2f99cdaa0cf28d167a9833f969a8b56f9307e12af7990746e3609f3c0116d45d \
+                    size    15260104
 
 patchfiles-append   patch-Makefile.diff
 
-build.env-delete    GO111MODULE=off GOPROXY=off
 build.cmd           make
 build.pre_args-append \
                     VERSION=${github.tag_prefix}${version}

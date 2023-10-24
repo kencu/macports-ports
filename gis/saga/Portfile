@@ -10,9 +10,9 @@ wxWidgets.use       wxWidgets-3.2
 name                saga
 categories          gis
 license             GPL
-version             9.1.0
-revision            0
-maintainers         {vince @Veence} openmaintainer
+version             9.2.0
+revision            1
+maintainers         {vince @Veence} {yahoo.com:n_larsson @nilason} openmaintainer
 
 description         SAGA is a GIS oriented towards statistics and analysis
 
@@ -25,9 +25,9 @@ long_description    SAGA - System for Automated Geoscientific Analyses - is\
 homepage            https://saga-gis.sourceforge.io/en/index.html
 master_sites        sourceforge:project/saga-gis/SAGA%20-%20[lindex [split ${version} "."] 0]/SAGA%20-%20${version}
 
-checksums           rmd160  4dc2dda39a0f0ca52b60e1bb3122f705070f61c6 \
-                    sha256  d3cda84365826b3ca7753b7cd62aa71dd177d192767e001b6a5a91748c7d0a7a \
-                    size    8392363
+checksums           rmd160  602db180673c0146ff475a87216c7bca47c4f828 \
+                    sha256  8c7662d5cd4ce5641fa819ad22f23b4bd9963579b3194b2f809202bd76d28d57 \
+                    size    8676071
 
 cmake.source_dir    ${worksrcpath}/saga-gis
 
@@ -43,7 +43,7 @@ depends_lib-append  port:${wxWidgets.port} \
                     port:gdal \
                     port:proj7 \
                     port:opencv4 \
-                    port:PDAL \
+                    port:pdal \
                     port:curl \
                     port:tiff
 
@@ -101,26 +101,10 @@ variant vigra description "Add VIGRA support" {
         }
     }
 
-    if {![catch {set result [active_variants hdf5 openmpi-devel]}]} {
-        if {$result} {
-            if {![variant_isset openmpi-devel]} {
-                return -code error "HDF5 has openmpi_devel enabled, please use the same variant."
-            }
-        }
-    }
-
     if {![catch {set result [active_variants hdf5 mpi]}]} {
         if {$result} {
             if {![variant_isset mpi]} {
                 return -code error "HDF5 has mpi enabled, please use the same variant."
-            }
-        }
-    }
-
-    if {![catch {set result [active_variants hdf5 mpich-devel]}]} {
-        if {$result} {
-            if {![variant_isset mpich-devel]} {
-                return -code error "HDF5 has mpich-devel enabled, please use the same variant."
             }
         }
     }
@@ -164,7 +148,7 @@ foreach pyver ${python_suffixes} {
         post-patch {
             reinplace \"s|@PYVER@|${py_dot_ver}|\" \
               ${worksrcpath}/saga-gis/src/saga_core/saga_api/saga_api_python/CMakeLists.txt
-    }
+        }
     "
 }
 

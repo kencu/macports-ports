@@ -3,15 +3,15 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran YuLab-SMU aplot 0.1.10
-revision            1
+R.setup             cran YuLab-SMU aplot 0.2.2
+revision            0
 maintainers         nomaintainer
 license             Artistic-2
 description         Decorate a ggplot with associated information
 long_description    {*}${description}
-checksums           rmd160  ddec26a906677e13a398fdd844658dc7d206c0d7 \
-                    sha256  d937768241f887628b88bb3b49dd6cbe9b7dae39ae7054e7380a9836721a67d1 \
-                    size    23158
+checksums           rmd160  50937f4ef844148eef64880a81305a2081091e78 \
+                    sha256  c7f163fb0010e3a2d742f79d5a220cbfa5be2a40ae577ac56c422f2f59fe8b24 \
+                    size    24184
 supported_archs     noarch
 
 depends_lib-append  port:R-ggfun \

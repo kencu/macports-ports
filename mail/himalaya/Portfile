@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           github  1.0
 PortGroup           cargo   1.0
 
-github.setup        soywod himalaya 0.8.1 v
+github.setup        soywod himalaya 0.9.0 v
 github.tarball_from archive
 revision            0
 
-homepage            https://pimalaya.org/himalaya
+homepage            https://pimalaya.org/himalaya/
 
 description         Minimalist CLI email client, written in Rust
 
@@ -32,9 +32,9 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
 build.pre_args-delete \
                     --offline --frozen
 
-checksums           rmd160  401de62288713fa2319022585004bad76fa6cac4 \
-                    sha256  0a4d6325f541e0eb1b23c2f9b6b47eb01feaf78a0eb3fd5a29624990d9ca0e23 \
-                    size    86620
+checksums           rmd160  dfec417adad61d87fa77da965c905638d04d4215 \
+                    sha256  9a5593a3a92dcce8227cea45870a88432d8df3a012636eb5461165cf599dbcbb \
+                    size    89643
 
 destroot {
     xinstall -m 0755 \

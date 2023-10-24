@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github philchalmers mirt 1.39 v
+R.setup             github philchalmers mirt 1.41 v.
 revision            0
 categories-append   math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
@@ -11,9 +11,9 @@ license             GPL-3+
 description         Multidimensional Item Response Theory
 long_description    {*}${description}
 homepage            https://github.com/philchalmers/mirt/wiki
-checksums           rmd160  434aba9fc6721a6ddf15dc6a2e7d29146601b9f6 \
-                    sha256  364026bf6fce557ba55271d184b0eab95023e7d1aec9e651128986e503aa29dc \
-                    size    647543
+checksums           rmd160  86a63d868449f06f1fbf46ee44cedb69af73ce61 \
+                    sha256  6cf326b48e087c90b1a6f6d34f7f26521eed533f0cf7921177fc291a5d2af6e7 \
+                    size    966361
 
 depends_lib-append  port:R-dcurver \
                     port:R-Deriv \

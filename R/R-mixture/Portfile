@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+R.setup             cran cran mixture 2.0.6
+revision            0
+categories-append   math
+maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
+license             GPL-2+
+description         Mixture models for clustering and classification
+long_description    {*}${description}
+checksums           rmd160  7a00c9d0efaed7ce5a6020d1ec70a2054f107c76 \
+                    sha256  2842f66d0539f6ba61f29bcb43d2bd3648c06e25799113454a7f52e7e3b7e122 \
+                    size    212859
+
+depends_lib-append  port:gsl \
+                    port:R-BH \
+                    port:R-Rcpp \
+                    port:R-RcppArmadillo \
+                    port:R-RcppGSL
+
+patchfiles          patch-fix-isnan-isinf.diff
+
+compilers.setup     require_fortran
+
+test.run            yes

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cargo   1.0
 PortGroup           github  1.0
 
-github.setup        kyoheiu felix 2.5.0 v
+github.setup        kyoheiu felix 2.8.1 v
 github.tarball_from archive
 revision            0
 
@@ -21,9 +21,9 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
 build.pre_args-delete \
                     --frozen --offline
 
-checksums           rmd160  bfe62a05f118523733266bba29c44ca9bbab9bd1 \
-                    sha256  7c38d7b70645e3f562632fd47753ed6b5adcc222eab50356bd7554a7d23d0269 \
-                    size    23293594
+checksums           rmd160  bd4db46bc885ad7334f086a8661bd07e6b47f258 \
+                    sha256  cfadcd483e3b2d89bb72c2175898cd2e0e3c7f2b911adf400869c09699f0c710 \
+                    size    13370268
 
 destroot {
     xinstall -m 0755 \

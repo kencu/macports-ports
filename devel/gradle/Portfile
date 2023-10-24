@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           java 1.0
 
 name                gradle
-version             8.2.1
+version             8.4
 revision            0
 categories          devel java groovy
 license             Apache-2
@@ -24,9 +24,9 @@ distname            ${name}-${version}-bin
 master_sites        https://services.gradle.org/distributions
 
 # Update checksums for variant when updating these!
-checksums           rmd160  d8105d38847be7dd5e58daca6635fa99d586e9c0 \
-                    sha256  03ec176d388f2aa99defcadc3ac6adf8dd2bce5145a129659537c0874dea5ad1 \
-                    size    128695158
+checksums           rmd160  e0aeaf5f7c36cec7c14dd4a931ae23d58ef2b479 \
+                    sha256  3e1af3ae886920c3ac87f7a91f816c0c7c436f276a6eefdb3da152100fef72ae \
+                    size    130979468
 
 worksrcdir          ${name}-${version}
 
@@ -62,9 +62,9 @@ destroot {
 variant all description {Install supplemental documentation and source code} {
     distname        ${name}-${version}-all
 
-    checksums       rmd160  522f0c1a6a68675ec91fbfad8e0832a6f762cd1e \
-                    sha256  7c3ad722e9b0ce8205b91560fd6ce8296ac3eadf065672242fd73c06b8eeb6ee \
-                    size    193042584
+    checksums       rmd160  790a371d9bf6b766d83d663cba64429a01a04728 \
+                    sha256  f2b9ed0faf8472cbe469255ae6c86eddb77076c75191741b4a462f33128dd419 \
+                    size    212870963
 
     post-destroot {
         xinstall -m 0755 -d ${destroot}${prefix}/share/doc/${name}

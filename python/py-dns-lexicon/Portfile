@@ -5,7 +5,7 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-dns-lexicon
-version             3.12.0
+version             3.16.1
 epoch               1
 revision            0
 categories-append   net
@@ -20,13 +20,14 @@ homepage            https://github.com/AnalogJ/lexicon
 
 distname            dns_lexicon-${version}
 
-python.versions     37 38 39 310 311
+python.versions     38 39 310 311
 python.pep517       yes
-python.pep517_backend   poetry
+python.pep517_backend   \
+                    poetry
 
-checksums           rmd160  cfe0341b419449990a35faa04435915848bac971 \
-                    sha256  13eec59c2d9364288e88506f7d2dc5c295e9d15f0ddce3137535490669bdb5ff \
-                    size    155066
+checksums           rmd160  0ed3ef61c945737a21d3b1d8243d1630f3a0d854 \
+                    sha256  ddb110f35bb8f46497b8bab9085302317442881f45b72482cb3cc45bdcae734f \
+                    size    154437
 
 if {${name} ne ${subport}} {
     depends_run-append  \

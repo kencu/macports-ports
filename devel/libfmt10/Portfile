@@ -7,12 +7,12 @@ PortGroup           compiler_blacklist_versions 1.0
 PortGroup           conflicts_build 1.0
 PortGroup           github 1.0
 
-github.setup        fmtlib fmt 10.0.0
+github.setup        fmtlib fmt 10.1.1
 name                libfmt10
 revision            0
-checksums           rmd160  49a1ba4a3612455017eaa80c248c339860b659f1 \
-                    sha256  ede1b6b42188163a3f2e0f25ad5c0637eca564bd8df74d02e31a311dd6b37ad8 \
-                    size    851582
+checksums           rmd160  6fe307eb6853ffaf4f96313f77375101344a709c \
+                    sha256  78b8c0a72b1c35e4443a7e308df52498252d1cefc2b08c9a97bc9ee6cfe61f8b \
+                    size    851454
 
 categories          devel
 license             MIT

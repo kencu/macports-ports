@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.28 5.30 5.32 5.34
-perl5.setup         Test2-Suite 0.000155 ../../authors/id/E/EX/EXODIST
+perl5.setup         Test2-Suite 0.000158 ../../authors/id/E/EX/EXODIST
 revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
@@ -14,9 +14,9 @@ long_description    {*}${description}
 platforms           {darwin any}
 supported_archs     noarch
 
-checksums           rmd160  67f04adad941a9084a536291a1cef37a47b44409 \
-                    sha256  c78e6bc4d69bc097836976863382b52b9e0c31ee185066ce60c54bd74baad53d \
-                    size    243229
+checksums           rmd160  83aaaf73f114493a973e1a86b82ff9e2c1ba7a0a \
+                    sha256  f94e4bd73b867957f3a84f94c3c6e6d219c539d345c8d7c52fe8b4e22a4b1f0b \
+                    size    242768
 
 if {${perl5.major} != ""} {
     depends_lib-append \

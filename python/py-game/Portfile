@@ -4,7 +4,7 @@ PortSystem      1.0
 PortGroup       python 1.0
 
 name            py-game
-version         2.5.0
+version         2.5.2
 categories-append     devel multimedia graphics
 license         LGPL-2.1+
 maintainers     {jmr @jmroot} openmaintainer
@@ -18,9 +18,9 @@ long_description    Pygame is a set of Python modules designed for \
 homepage        http://www.pygame.org/
 
 python.rootname pygame
-checksums       md5 2246db704e9befcf83e88f0277ebf089 \
-                rmd160 e6992dacc8f3fb089c0c14d8e0007d953050372f \
-                sha256 edd5745b79435976d92c0a7318aedcafcb7ac4567125ac6ba88aa473559ef9ab
+checksums       md5 bf45bc5288fa244a0dde60095bf4afb8 \
+                rmd160 e95b8725ee0431df1f57d100fb3e998992878ffe \
+                sha256 c1b89eb5d539e7ac5cf75513125fb5f2f0a2d918b1fd6e981f23bf0ac1b1c24a
 
 python.versions 27 36 37 38 39 310 311
 

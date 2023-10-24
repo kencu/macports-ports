@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cargo   1.0
 PortGroup           github  1.0
 
-github.setup        squidowl halloy 23.1-alpha1
+github.setup        squidowl halloy 2023.4
 github.tarball_from archive
 revision            0
 
@@ -22,9 +22,9 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
 checksums           ${distname}${extract.suffix} \
-                    rmd160  3b9ae1142d3ff909a14f2a3fe7a56470de2a5f25 \
-                    sha256  d28b4489717fb2eb62870cd0651ecabf756da94213e371d166b6d00a70d4c51a \
-                    size    8075615
+                    rmd160  a4ece4eefd51fd46a3afd8099cd7567213a45877 \
+                    sha256  a3440c82b1ec0300f206109d15c53cf23584760f3f7d547e047cf0fe592296f3 \
+                    size    10119972
 
 build.pre_args-delete \
                     --frozen --offline

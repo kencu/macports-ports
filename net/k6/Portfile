@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/k6io/k6 0.45.0 v
+go.setup            github.com/k6io/k6 0.47.0 v
 go.package          go.k6.io/k6
 github.tarball_from archive
 revision            0
@@ -25,9 +25,9 @@ maintainers         {l2dy @l2dy} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  8b01bd19b09b76bb29bd58d6c3eef7b74e8805ea \
-                    sha256  5dfddddd1eaa53986b0d5cf2358f3d5918f656a86827d26d5605a159fe0536f8 \
-                    size    8566022
+checksums           rmd160  cb8954c9b10b601129035631e8f79d7db63ab4e8 \
+                    sha256  f65abbeeafda8122fc4859940f75d953edfe69505bb62d0285820de02e6497a0 \
+                    size    8871911
 
 build.env-delete    GO111MODULE=off
 

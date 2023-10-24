@@ -7,8 +7,10 @@ PortGroup           cmake 1.1
 PortGroup           github 1.0
 PortGroup           legacysupport 1.1
 
-github.setup        m-a-d-n-e-s-s madness 22b860d2aac3dc4560ecf31b071ca336cf87130f
-version             2023.07.03
+boost.version       1.81
+
+github.setup        m-a-d-n-e-s-s madness 04cca03656627bebf8e7d4e54b52d7d101774bd7
+version             2023.09.20
 revision            0
 categories          science math
 license             GPL-2
@@ -18,9 +20,9 @@ long_description    MADNESS provides a high-level environment for the solution \
                     of integral and differential equations in many dimensions \
                     using adaptive, fast methods with guaranteed precision \
                     based on multi-resolution analysis and novel separated representations.
-checksums           rmd160  8af773f07a45e269291164911d5be83dc7ddd389 \
-                    sha256  cad07548de16931867c872aefea42991c056e5820293b25a1438b4937784cda9 \
-                    size    29147233
+checksums           rmd160  2dd850f778b7898d79578cb51cbdc7733bf14771 \
+                    sha256  db36027c369320467afeaacc70b9ef46fd8c58142eeddbc83619f3eb32853750 \
+                    size    29170385
 
 set py_ver          3.11
 set py_ver_nodot    [string map {. {}} ${py_ver}]
@@ -33,6 +35,8 @@ configure.python    ${prefix}/bin/python${py_ver}
 depends_lib-append  path:lib/libopenblas.dylib:OpenBLAS
 require_active_variants \
                     path:lib/libopenblas.dylib:OpenBLAS lapack
+
+depends_lib-append  port:gperftools
 
 patch.pre_args      -p1
 # Temporarily avoid building chemistry part:
@@ -70,7 +74,7 @@ configure.args-append \
                     -DENABLE_BOOST=ON \
                     -DENABLE_ELEMENTAL=OFF \
                     -DENABLE_GENTENSOR=OFF \
-                    -DENABLE_GPERFTOOLS=OFF \
+                    -DENABLE_GPERFTOOLS=ON \
                     -DENABLE_LIBUNWIND=OFF \
                     -DENABLE_LIBXC=OFF \
                     -DENABLE_MKL=OFF \

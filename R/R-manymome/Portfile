@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github sfcheung manymome 0.1.10 v
+R.setup             github sfcheung manymome 0.1.13 v
 revision            0
 categories-append   math
 maintainers         nomaintainer
@@ -11,12 +11,23 @@ license             GPL-3+
 description         Mediation, moderation and moderated mediation after model fitting
 long_description    {*}${description}
 homepage            https://sfcheung.github.io/manymome
-checksums           rmd160  02c696030c44fe6b2fe4814446c9f7835e77db21 \
-                    sha256  a781eb631151742aecf56243bb1180f11bc6854297fff91da0a34b50d781ff65 \
-                    size    2267477
+checksums           rmd160  8d406029650ab1e02f9569a431e811e6ee5ee797 \
+                    sha256  3f111d07dfcd3e519b635087154e5cfb2a872024b09319547b219fb95face9a1 \
+                    size    2286445
 supported_archs     noarch
 
 depends_lib-append  port:R-ggplot2 \
                     port:R-igraph \
                     port:R-lavaan \
                     port:R-pbapply
+
+depends_test-append port:R-Amelia \
+                    port:R-knitr \
+                    port:R-mice \
+                    port:R-rmarkdown \
+                    port:R-semPlot \
+                    port:R-semptools \
+                    port:R-semTools \
+                    port:R-testthat
+
+test.run            yes

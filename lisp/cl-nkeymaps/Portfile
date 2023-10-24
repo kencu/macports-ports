@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           common_lisp 1.0
+
+github.setup        atlas-engineer nkeymaps 1.1.0
+name                cl-nkeymaps
+revision            0
+
+checksums           rmd160  4da3b10a8a7c3587523780e56a6305fe4e8cdaef \
+                    sha256  ea64d2fb2c7d53c749961288f04d65438419b6a05b377016fb87092b01047c83 \
+                    size    34733
+
+categories-append   devel
+maintainers         {@catap korins.ky:kirill} openmaintainer
+license             BSD
+
+description         General-purpose keymap management à-la Emacs.
+
+long_description    {*}${description}
+
+depends_lib-append  port:cl-alexandria \
+                    port:cl-fset \
+                    port:cl-lisp-unit2 \
+                    port:cl-nasdf \
+                    port:cl-str \
+                    port:cl-trivial-package-local-nicknames
+
+# *** - EVAL: undefined function EXT::ADD-PACKAGE-LOCAL-NICKNAME
+common_lisp.clisp   no
+
+# See: https://github.com/atlas-engineer/nkeymaps/issues/16
+common_lisp.abcl    no

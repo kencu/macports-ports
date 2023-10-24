@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/superfly/flyctl 0.1.58 v
+go.setup            github.com/superfly/flyctl 0.1.109 v
+go.offline_build    no
 github.tarball_from archive
 revision            0
 
@@ -19,12 +20,9 @@ long_description    ${name} is a command-line interface for fly.io.
 
 homepage            https://fly.io
 
-checksums           rmd160  e4e2de7d01b22660b95e54b69d04bf4de72c3c36 \
-                    sha256  8c2219cb15024facb61ea6fe737ce5546dd1fe5ee6512695cc0d811a6ed6eb24 \
-                    size    1706054
-
-# Allow Go to download dependencies at runtime
-build.env-delete    GO111MODULE=off GOPROXY=off
+checksums           rmd160  5c6fdfe4407f53a737b3ab712ea4caa43399bd70 \
+                    sha256  62e9eac8a825f1e13b0d9d36ae43a1aa58ba68fe99fe8b0f763e2cc36e1fe7b0 \
+                    size    1741167
 
 build.cmd           "${go.bin} generate ./... && ${go.bin} build"
 

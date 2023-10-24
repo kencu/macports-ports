@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/rebuy-de/aws-nuke 2.23.0 v
+go.setup            github.com/rebuy-de/aws-nuke 2.25.0 v
 github.tarball_from archive
 revision            0
 
@@ -17,14 +17,14 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  60622711d7ba45c0066e785443c929f3fc52e3ad \
-                    sha256  159ac5350f6c5540e59c3a171523782e4f901d2c80bebdd6903895cd602f79c5 \
-                    size    130564
+checksums           rmd160  cc0c1e75f348f77114923b4ba676612a745b462a \
+                    sha256  8a557348f1f8775882b4818f0f2050430840cd71b6f0f052560700152e422d52 \
+                    size    137929
 
 patchfiles-append   patch-golang.mk.diff
 
 # Allow Go to fetch deps at build time
-build.env-delete    GO111MODULE=off GOPROXY=off
+go.offline_build no
 
 build.cmd           make
 build.pre_args-append \

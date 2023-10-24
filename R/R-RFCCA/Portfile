@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+# GitHub version lags behind.
+R.setup             cran calakus RFCCA 1.0.11
+revision            0
+categories-append   math
+maintainers         nomaintainer
+license             GPL-3+
+description         Random Forest with Canonical Correlation Analysis
+long_description    {*}${description}
+checksums           rmd160  2ec52ae84ea855d4b89917b31a690003996bee94 \
+                    sha256  8c9390c258cade965a8061742bc66b17f7102861b9a828c21158aace897c11d0 \
+                    size    431258
+
+depends_lib-append  port:R-CCA \
+                    port:R-PMA
+
+compilers.setup     require_fortran
+
+depends_test-append port:R-knitr \
+                    port:R-rmarkdown \
+                    port:R-testthat
+
+test.run            yes

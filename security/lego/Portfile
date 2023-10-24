@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/go-acme/lego 4.13.2 v
+go.setup            github.com/go-acme/lego 4.14.2 v
 github.tarball_from archive
 revision            0
 
@@ -25,15 +25,15 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
 # Do not restrict Go from downloading dependencies at build time.
-build.env-delete    GOPROXY=off GO111MODULE=off
+go.offline_build no
 
 build.cmd           make
 build.pre_args      VERSION=v${version}
 build.args          build
 
-checksums           rmd160  489161f686e26f0a6efbeacf7d45c536ec7819c1 \
-                    sha256  26df2e7cb2135653c0ad0acde5f11b31f1d17efa7da2b61a4b464b76fa1368b5 \
-                    size    654280
+checksums           rmd160  bf93500747e2f80f44f964ba539fb8fab2276b2f \
+                    sha256  30118c803167d7711b0a40741eef53f7a2ff40b87f4cef936adb916b09ccf3a5 \
+                    size    672197
 
 destroot {
     xinstall -m 0755 ${worksrcpath}/dist/${name} ${destroot}${prefix}/bin/

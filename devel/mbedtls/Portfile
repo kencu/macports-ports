@@ -5,7 +5,7 @@ PortGroup           cmake 1.1
 PortGroup           github 1.0
 PortGroup           compiler_blacklist_versions 1.0
 
-github.setup        ARMmbed mbedtls 2.28.3 mbedtls-
+github.setup        ARMmbed mbedtls 2.28.5 mbedtls-
 revision            0
 
 conflicts           mbedtls3
@@ -16,14 +16,13 @@ maintainers         {mps @Schamschula} openmaintainer
 description         An open source, portable, easy to use, readable and flexible SSL \
                     library.
 long_description    {*}${description}
-platforms           darwin
 
 homepage            https://tls.mbed.org
 github.tarball_from archive
 
-checksums           rmd160  641feeb83ca164dd0a3a04b14bc00ba73824fb1c \
-                    sha256  1a21008fc93e7bdce2cb40a8f2d7c7b4034d9160035382c29cf91af8f96f2cd9 \
-                    size    3952712
+checksums           rmd160  bbb6768abd37d042a62aeb3df3cf3526286b02b2 \
+                    sha256  dbd42a11c26143aa8de1c07fd6ec6765395e86b06f583f051cfa60e8f0b23125 \
+                    size    4005000
 
 variant python38 conflicts python39 python310 python311 description {Use Python 3.8} {}
 variant python39 conflicts python38 python310 python311 description {Use Python 3.9} {}
@@ -65,6 +64,10 @@ if {${os.platform} eq "darwin" && ${os.major} < 13} {
     configure.args-append \
                     -DCMAKE_RANLIB=${prefix}/bin/ranlib
 }
+
+# platform_builtin_keys.c: error: ‘for’ loop initial declaration used outside C99 mode
+configure.cflags-append \
+                    -std=c99
 
 test.run            yes
 

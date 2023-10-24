@@ -3,23 +3,23 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/gopasspw/gopass-hibp 1.15.5 v
+go.setup            github.com/gopasspw/gopass-hibp 1.15.8 v
+go.offline_build    no
 github.tarball_from archive
 revision            0
 categories          security
-maintainers         {@sikmir disroot.org:sikmir} openmaintainer
+maintainers         {@sikmir disroot.org:sikmir} \
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
 license             MIT
 
 description         Gopass haveibeenpwnd.com integration
 long_description    {*}${description}
 homepage            https://www.gopass.pw
 
-checksums           rmd160  68d9e5d046c50a51e5fe4ee54a2b68f410f28280 \
-                    sha256  812dd769b3e8d08335e92ca9ae49f76e1fc8aacdd0ef280e3c7c959d87ef8908 \
-                    size    27096
-
-
-build.env-delete    GO111MODULE=off GOPROXY=off
+checksums           rmd160  59f32593f13e8906f458767eb83fd5d7d81360a9 \
+                    sha256  860c3a6e3aa69ba119bf209a56d8219d152d14c84903ada1bf6dc35591b6362c \
+                    size    28138
 
 build.args          -ldflags '-X main.version=${version}'
 

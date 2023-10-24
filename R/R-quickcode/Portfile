@@ -3,21 +3,25 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github oobianom quickcode 0.1
+# Revert to GitHub once updated there.
+R.setup             cran oobianom quickcode 0.5
 revision            0
 maintainers         nomaintainer
 license             MIT
 description         Compilation of some frequently used R functions
 long_description    {*}${description}
-checksums           rmd160  518f52a24bf0a38bcde8bbc8c8802a6c4027dae5 \
-                    sha256  af6ead4d052a3ad46f5068c362dd8ec4f1a3058ecb5bebe8c9f90f6220b45f23 \
-                    size    9261
+homepage            https://quickcode.obi.obianom.com
+checksums           rmd160  8500d0b14793e9a826accc106c421d7ee11a75eb \
+                    sha256  50956cbd519729335dcf7c22d354b8965cc66d09e68b6dc9923c0c324b189d54 \
+                    size    90447
 supported_archs     noarch
 
-depends_lib-append  port:R-rstudioapi
+depends_lib-append  port:R-Polychrome \
+                    port:R-rstudioapi
 
 depends_test-append port:R-knitr \
                     port:R-qpdf \
-                    port:R-rmarkdown
+                    port:R-rmarkdown \
+                    port:R-testthat
 
 test.run            yes

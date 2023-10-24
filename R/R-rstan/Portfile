@@ -3,17 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran stan-dev rstan 2.21.8
-revision            2
+R.setup             cran stan-dev rstan 2.32.3
+revision            0
 categories-append   lang math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             GPL-3
 description         R interface to Stan
 long_description    {*}${description}
 homepage            https://mc-stan.org/rstan
-checksums           rmd160  1779faba2fb3c29ee851e77171d780ab97d1e027 \
-                    sha256  b2d4edc315419037970c9fa2e8740b934966d88d40548152811f3d4a28475075 \
-                    size    1203455
+checksums           rmd160  e6ae3ece29b1ed77e4298eb64a63d1ef6cc41e7a \
+                    sha256  a29d9e1abf6d7c7b5ce98e10e60f14f18bad076aff4c7affa4b6263945ba549d \
+                    size    1559234
 
 depends_lib-append  port:R-BH \
                     port:R-ggplot2 \
@@ -21,20 +21,21 @@ depends_lib-append  port:R-BH \
                     port:R-inline \
                     port:R-loo \
                     port:R-pkgbuild \
+                    port:R-QuickJSR \
                     port:R-Rcpp \
                     port:R-RcppEigen \
                     port:R-RcppParallel \
                     port:R-StanHeaders
 
-# We do not want to introduce dependency on V8, not until it is fixed anyway.
 patchfiles          patch-no-v8.diff
 
 depends_test-append port:R-bayesplot \
+                    port:R-coda \
                     port:R-knitr \
                     port:R-rmarkdown \
                     port:R-rstantools \
                     port:R-rstudioapi \
-                    port:R-RUnit \
-                    port:R-shinystan
+                    port:R-shinystan \
+                    port:R-testthat
 
 test.run            yes

@@ -8,7 +8,8 @@ github.setup        deepmind sonnet 2.0.0 v
 name                py-dm-${github.project}
 revision            0
 
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 license             Apache-2
 maintainers         nomaintainer
 
@@ -33,14 +34,11 @@ if {${name} ne ${subport}} {
                     path:${python.pkgd}/tensorflow:py${python.version}-tensorflow
 
     test.run        yes
-    test.env-append PYTHONPATH=${worksrcpath}/build/lib
-    
+
     post-destroot {
         set docdir ${prefix}/share/doc/${subport}
         xinstall -d ${destroot}${docdir}
         xinstall -m 0644 -W ${worksrcpath} LICENSE README.md \
             ${destroot}${docdir}
     }
-
-    livecheck.type  none
 }

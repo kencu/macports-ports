@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        tatami-inc tatami 1.0.0 v
+github.setup        tatami-inc tatami 2.1.2 v
 revision            0
 conflicts           tatami-devel
 categories          devel math
@@ -13,26 +13,24 @@ maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 description         C++ API for all sorts of matrices
 long_description    {*}${description}
 
-checksums           rmd160  fbe3b231823a5b85e24c5b59f70e394795730340 \
-                    sha256  0dc7c5d6c2889493db9f9ed7e43cd27b4a3a296249393deb815451d39f464566 \
-                    size    80706
+checksums           rmd160  f392407089728743a3edd41a2decba4fbe37bdd3 \
+                    sha256  a04756273cfb092e41f5464c4ac6488b2923a91013b1d913c7db0171fe370034 \
+                    size    170862
 supported_archs     noarch
 installs_libs       no
 
-subport tatami-devel {
-    github.setup    tatami-inc tatami 7b356d097d9f796d867476a2760efa04e2c9d859
-    version         2023.07.10
-    revision        0
-    conflicts       tatami
-    checksums       rmd160  93f1aeda5b990f873fbc6fd95ed5ff7ad101ea02 \
-                    sha256  552fef1b0b2ff58ff6b60af4df88e639d944436592cc77ddf962e04aafd0d90c \
-                    size    169981
-}
-
 if {${subport} ne "tatami-devel"} {
     github.tarball_from archive
-    patchfiles-append \
-                    patch-fix-includes.diff
+}
+
+subport tatami-devel {
+    github.setup    tatami-inc tatami 68eca34c243b6d228b5cac90348d92c42cbde7af
+    version         2023.09.08
+    revision        0
+    conflicts       tatami
+    checksums       rmd160  931d324dce90cb0156ada3a83b0186126928e19c \
+                    sha256  17403857a91f275c8f338bd9c380194044039560234eaa9e5659336125b24b8b \
+                    size    170958
 }
 
 set py_ver          3.11
@@ -46,12 +44,8 @@ compiler.cxx_standard 2017
 configure.args-append \
                     -DBUILD_TESTING:BOOL=ON \
                     -DCODE_COVERAGE:BOOL=OFF \
-                    -DPython_EXECUTABLE=${prefix}/bin/python${py_ver}
-
-if {${subport} eq "tatami-devel"} {
-    configure.args-append \
+                    -DPython_EXECUTABLE=${prefix}/bin/python${py_ver} \
                     -DUSE_OPENMP:BOOL=OFF
-}
 
 destroot {
     move ${worksrcpath}/include/tatami ${destroot}${prefix}/include

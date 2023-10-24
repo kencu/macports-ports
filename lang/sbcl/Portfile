@@ -11,8 +11,9 @@ name            sbcl
 #
 # Please bump the revision of math/maxima (and when it exists
 # math/maxima-devel) and fricas when this port changes.
-version         2.3.6
+version         2.3.9
 revision        0
+epoch           1
 
 categories      lang
 license         BSD
@@ -30,67 +31,50 @@ long_description \
 
 
 homepage        http://www.sbcl.org
-master_sites    sourceforge
 
-use_bzip2       yes
-
-# See: https://github.com/catap/sbcl/tree/macports
+# https://bugs.launchpad.net/sbcl/+bug/2033284
 patchfiles      0001-fix-building-when-root-directory-contain-non-ASCII-c.patch \
                 0002-add-MacPorts-XDG_DATA_DIRS.patch
 
-checksums       rmd160  b816fbf6e6557d7d347fe2334125b2f4c92fa0db \
-                sha256  b4414ca4d9a7474e8d884d7d63237e2f29ef459dfd5a848424a9c3fa551d19b9 \
-                size    7483612
+checksums       rmd160  99f0a5533c60887890775c4df4a6331a4359b432 \
+                sha256  7d289a91232022028bf0128900c32bf00e4c5430c32f28af0594c8a592a98654 \
+                size    7574665
 
-# NOTE: Historically, the last version to support x86/Darwin and ppc/Darwin was
-# 2.2.5 and 2.2.2. Here, we have backported it to nearly the latest version. On
-# such platforms, we have a different epoch and versioning.
-#
-# Please do not update it without testing.
-if {${os.platform} eq "darwin" && ${configure.build_arch} in [list ppc i386]} {
-    version     2.3.6
-    revision    0
-    epoch       [ expr ${epoch} + 1 ]
+if {${name} eq ${subport}} {
+    master_sites \
+                sourceforge
 
-    checksums   rmd160  b816fbf6e6557d7d347fe2334125b2f4c92fa0db \
-                sha256  b4414ca4d9a7474e8d884d7d63237e2f29ef459dfd5a848424a9c3fa551d19b9 \
-                size    7483612
+    use_bzip2   yes
 
-    # See: https://github.com/catap/sbcl/tree/macports-legacy
-    patchfiles-append \
-                1001-x86-Darwin-Revert-x86-darwin-files.patch \
-                1002-x86-Darwin-Revert-Perform-darwin-related-housekeepin.patch \
-                1003-x86-Darwin-Remove-mach-exception-handler.patch \
-                1004-Darwin-use-libc-nanosleep-before-10.6-and-on-PPC.patch \
-                1005-Darwin-recovery-support-non-dispatch-semaphores.patch \
-                1006-x86-Darwin-mask-out-O_LARGEFILE-in-fcntl.1-test.patch \
-                1007-x86-Darwin-revert-OS_THREAD_STACK.patch \
-                1008-x86-Darwin-fix-build-by-old-preprocessor.patch \
-                1009-x86-Darwin-disable-failing-stat-mode-tests.patch \
-                1010-x86-Darwin-add-missed-OS_CONTEXT_PC.patch \
-                1011-x86-Darwin-fix-syntax-typos.patch \
-                1012-ppc-Darwin-Revert-Delete-support-for-and-darwin-ppc.patch \
-                1013-ppc-Darwin-Config.ppc-follow-up-changes.patch \
-                1014-ppc-Darwin-ppc-assem.S-fix-wrong-assembler-code-chun.patch \
-                1015-ppc-Darwin-Misc-fixes-for-PPC.patch \
-                1016-ppc-Darwin-ppc-assem-a-minor-fix-to-assembler-syntax.patch \
-                1017-Fix-building-by-lisp-without-endian-features.patch \
-                1018-ppc-Darwin-fix-threads-support.patch
+    distfiles   ${name}-${version}-source${extract.suffix}
+    worksrcdir  ${name}-${version}
 }
 
-distfiles       ${name}-${version}-source${extract.suffix}
-worksrcdir      ${name}-${version}
+conflicts       sbcl-devel
 
-depends_build-append \
-                port:sbcl-bootstrap
-depends_skip_archcheck-append \
-                sbcl-bootstrap
+subport sbcl-devel {
+    PortGroup   github  1.0
 
-# clock_gettime
-legacysupport.newest_darwin_requires_legacy 15
-# NOTE: check that it can be removed
-patchfiles-append \
-                0003-Use-CLOCK_MONOTONIC-when-CLOCK_PROCESS_CPUTIME_ID-un.patch
+    github.setup \
+                sbcl sbcl 58d78cbdf279ddf71fdf15751723a12aa2807782
+    version     20230928
+    revision    0
+
+    conflicts   sbcl
+
+    checksums   rmd160  72c233558a3f0e1cf9f1baf08faad5f87b680d3b \
+                sha256  dd5cc585a7466b21e406614f60a415e4967e589978770ae287d47d9be2562323 \
+                size    9662352
+
+    pre-build {
+        system -W ${worksrcpath} "echo '\"${version}\"' > version.lisp-expr"
+    }
+}
+
+if {${name} eq ${subport}} {
+    # clock_gettime
+    legacysupport.newest_darwin_requires_legacy 15
+}
 
 # Uses: __attribute__((aligned(8)))
 # See: https://bugs.launchpad.net/sbcl/+bug/1991485
@@ -116,6 +100,16 @@ post-patch {
     }
 }
 
+# SBCL records used compiler inside lib/sbcl/sbcl.mk which may lead to not working sb-grovel
+if { [string match macports-clang-* ${configure.compiler}] } {
+    depends_run-append \
+                    port:[string map {"macports-" ""} ${configure.compiler}]
+}
+if { [string match macports-gcc-* ${configure.compiler}] } {
+    depends_run-append \
+                   port:[string map {"macports-gcc-" "gcc"} ${configure.compiler}]
+}
+
 use_configure   no
 
 pre-build {
@@ -136,8 +130,25 @@ use_parallel_build  no
 build.cmd       sh
 build.target    make.sh
 build.args-append \
-                --prefix=${prefix} \
+                --prefix=${prefix}
+
+# unfortunately sbcl-bootstrap doesn't support macOS Sonoma yet, use ECL instead
+# See: https://trac.macports.org/ticket/68271
+if {${os.major} >= 23} {
+    depends_build-append \
+                path:bin/ecl:ecl-devel
+
+    build.args-append \
+                --xc-host=${prefix}/bin/ecl
+} else {
+    depends_build-append \
+                port:sbcl-bootstrap
+    depends_skip_archcheck-append \
+                sbcl-bootstrap
+
+    build.args-append \
                 --xc-host=${prefix}/libexec/sbcl-bootstrap/bin/sbcl
+}
 
 if {${configure.build_arch} eq "i386"} {
     build.args-append \
@@ -206,5 +217,7 @@ destroot.env    INSTALL_ROOT=${destroot}${prefix}
 destroot.target install.sh
 destroot.destdir
 
-livecheck.url   http://sourceforge.net/api/file/index/project-id/1373/rss?path=%2F${name}
-livecheck.regex guid.*${name}-(\\d+(\\.\\d+)+)-source
+if {${name} eq ${subport}} {
+    livecheck.url   http://sourceforge.net/api/file/index/project-id/1373/rss?path=%2F${name}
+    livecheck.regex guid.*${name}-(\\d+(\\.\\d+)+)-source
+}

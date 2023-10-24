@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/projectdiscovery/proxify 0.0.9  v
+go.setup            github.com/projectdiscovery/proxify 0.0.12 v
 github.tarball_from archive
 revision            0
 
@@ -25,14 +25,14 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  3e39b14335ac98f008357193528e2b8c6dd205ee \
-                    sha256  c6df5fe88429208b480d94b5e1fd19f9b065174a8ffc605532b18ca746fa9f23 \
-                    size    559749
+checksums           rmd160  62c38f0bcc70d770ad175ae1bd81a12ef3ff00c3 \
+                    sha256  ed58d5e2cf5d25f7f067e5b9d9b6c5de82d6d989dd04c7be40b4aef0beddb1ed \
+                    size    553079
 
 set _dist_path      ${workpath}/dist
 
 # Allow Go to fetch deps at build time
-build.env-delete    GO111MODULE=off GOPROXY=off
+go.offline_build no
 
 build.pre_args      -o ${_dist_path}
 build.args          ./cmd/...

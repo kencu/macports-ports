@@ -5,11 +5,11 @@ PortGroup           active_variants 1.1
 PortGroup           conflicts_build 1.0
 
 name                magic
-version             8.3.413
+version             8.3.440
 revision            0
-checksums           rmd160  99631158acf7f537f47a35ef6380da5e5c2973fc \
-                    sha256  127c98d7038ef55b5d6ce78d71da971fccff8ce83ffb827b727d23d4cc235230 \
-                    size    4216803
+checksums           rmd160  c21f294534c2c86fa111329d218805d19e23a67e \
+                    sha256  74f7076d9484143590f606c9c2b56c0b236a1d016c51f09c180eff5fb9641611 \
+                    size    4222370
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          science
@@ -52,12 +52,15 @@ configure.dir       ${worksrcpath}/scripts
 if {${os.platform} eq "darwin" && ${os.major} < 19} {
     depends_build-append \
                     port:python311
-    configure.args-append \
-                    ac_cv_path_PYTHON3=${prefix}/bin/python3.11
+    configure.python \
+                    ${prefix}/bin/python3.11
 } else {
-    configure.args-append \
-                    ac_cv_path_PYTHON3=/usr/bin/python3
+    configure.python \
+                    /usr/bin/python3
 }
+
+configure.args-append \
+                    ac_cv_path_PYTHON3=${configure.python}
 
 use_parallel_build  no
 

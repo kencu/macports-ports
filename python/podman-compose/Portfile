@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                podman-compose
 version             1.0.6
-revision            1
+revision            0
 
 categories-append   devel
 supported_archs     noarch
@@ -35,14 +35,14 @@ depends_run-append \
 subport podman-compose-devel {
     PortGroup           github 1.0
 
-    github.setup        containers podman-compose 3890eacf57c0643cad6911a0ab23e7e6220c7468
+    github.setup        containers podman-compose bce40c2db30fb0ffb9264b5f51535c26f48fe983
     name                podman-compose-devel
-    version             2023-06-16
+    version             2023-08-11
     revision            0
 
     conflicts           podman-compose
 
-    checksums           rmd160  2157af93e6fc03c7ea1c11047bb6d4a585b9212d \
-                        sha256  2eb0e741dbacc1bbb39522d7a76dbd0279468c5962e3f6c83ffbdb14b838048b \
-                        size    63259
+    checksums           rmd160  4aa0a73cd2a350d5564e219d91741be704e638c0 \
+                        sha256  13e5a1f15aaef0ee7af7bdabecf45556de79acac65d6663e1acdb1896b0c74c1 \
+                        size    65515
 }

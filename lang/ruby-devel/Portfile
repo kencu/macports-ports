@@ -1,23 +1,27 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           select 1.0
-PortGroup           openssl 1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           conflicts_build 1.0
 PortGroup           github 1.0
 PortGroup           legacysupport 1.1
+PortGroup           openssl 1.0
+PortGroup           select 1.0
 
 # MAP_ANONYMOUS
+# TODO: submit a fix to the upstream.
 legacysupport.newest_darwin_requires_legacy 14
 
-github.setup        ruby ruby 4fbfc116ca375ba8ae3747fcf32fdb85c48683c9
+# ruby/openssl since ruby-3.2 supports openssl-3
+openssl.branch      3
+
+github.setup        ruby ruby e7d845b1d0154651962f34eefb37ffb0ac0c4e0a
 
 set ruby_ver        3.3
 set ruby_patch      0
 set ruby_ver_nodot  [string map {. {}} ${ruby_ver}]
 name                ruby-devel
-version             2023.07.12
+version             2023.10.23
 revision            0
 
 categories          lang ruby
@@ -30,17 +34,15 @@ long_description    Ruby is the interpreted scripting language \
                     and to do system management tasks (as in Perl). \
                     It is simple, straight-forward, extensible and portable.
 
-homepage            https://www.ruby-lang.org/
+homepage            https://www.ruby-lang.org
 license             {Ruby BSD}
 
-checksums           rmd160  334287e2c827832ed4d7b842c003445ae2c219d5 \
-                    sha256  719240ec8ed3658753b90acf522d8462ebea611f414fb093816dba01e36727db \
-                    size    15905316
+checksums           rmd160  209df6cb3672a5c772de0e89bc6ed7035933db4e \
+                    sha256  3348a9a7fc33720ebfa30dceba3b35e6e2787bc09e156213edc46b053ab1ba80 \
+                    size    16229301
+github.tarball_from archive
 
 universal_variant   no
-
-# ruby/openssl since ruby-3.2 supports openssl-3
-openssl.branch      3
 
 # We need baseruby to build from upstream/master.
 # Minimum required version is 2.7. However ruby27 is broken on PPC: https://trac.macports.org/ticket/64906

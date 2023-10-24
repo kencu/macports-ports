@@ -4,7 +4,7 @@ PortSystem              1.0
 PortGroup               python 1.0
 
 name                    jc
-version                 1.23.3
+version                 1.23.5
 revision                0
 
 homepage                https://pypi.org/project/jc
@@ -23,9 +23,9 @@ maintainers             {gmail.com:herby.gillot @herbygillot} \
 supported_archs         noarch
 platforms               {darwin any}
 
-checksums               rmd160  4f29740311377ed90e0fae3220f5c130e5bc6d3c \
-                        sha256  e91097121b8f5a553dbb948d1fcc46d220d9b62236d73016eb0d8dad3cd9dc36 \
-                        size    443755
+checksums               rmd160  9eb42296e78555503285706eb96e62dfc83786e8 \
+                        sha256  bba586461f5cb4b11ac8b66a5827a26f8521f1973b28b55a45049c12b720f6fd \
+                        size    452162
 
 python.default_version  311
 

@@ -1,12 +1,12 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           qt5 1.0
 PortGroup           cmake 1.1
+PortGroup           qt6 1.0
 PortGroup           compiler_blacklist_versions 1.0
 
 name                qbs
-version             2.0.2
+version             2.1.2
 revision            0
 
 categories          devel
@@ -21,11 +21,11 @@ homepage            https://wiki.qt.io/Qbs
 distname            qbs-src-${version}
 master_sites        https://download.qt.io/official_releases/qbs/${version}/
 
-checksums           rmd160  ea1e9b089b87dea46ee910fcb624120e1b2546e2 \
-                    sha256  ddef1a6bfa6c7bf52b9f87a8cb0f1a940973031ad408529156070411beb9c19b \
-                    size    5520758
+checksums           rmd160  d6d42274259935e3ff470be45f9acf004e0ee3a2 \
+                    sha256  465d398ba3ac2bf157c4c32118e7ea55759050550e5e2babff091b000f2c27c9 \
+                    size    5517145
 
-qt5.min_version     5.14.0
+qt6.depends_lib qt5compat
 
 compiler.cxx_standard 2017
 # requires std::optional, above is not enough :(
@@ -55,7 +55,7 @@ subport ${name}-docs {
 
     universal_variant  no
     supported_archs    noarch
-    qt5.depends_build_component sqlite-plugin qttools
+    qt6.depends_build qt5compat sqlite-plugin qttools
     depends_build-append       port:python${py_ver_nodot} \
                                port:py${py_ver_nodot}-beautifulsoup4 \
                                port:py${py_ver_nodot}-lxml

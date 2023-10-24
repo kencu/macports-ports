@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-platformdirs
-version             3.9.1
+version             3.11.0
 revision            0
 
 categories-append   devel
@@ -14,29 +14,24 @@ license             MIT
 maintainers         {reneeotten @reneeotten} openmaintainer
 
 description         A small Python module for determining appropriate platform-specific dirs
-long_description    ${description}, e.g. a \"user data dir\".
+long_description    {*}${description}, e.g. a \"user data dir\".
 
 homepage            https://github.com/platformdirs/platformdirs
 
-checksums           rmd160  f20ebb00bddc800d6c8bf56f18656b5bba5e4be5 \
-                    sha256  1b42b450ad933e981d56e59f1b97495428c9bd60698baab9f3eb3d00d5822421 \
-                    size    18836
+checksums           rmd160  0e3ddfc9c6e77337fae08e44efad467093e8e604 \
+                    sha256  cf8ee52a3afdb965072dcc652433e0c7e3e40cf5ea1477cd4b3b1d2eb75495b3 \
+                    size    19914
 
 # keep all these Python versions, port is a dependency of py-virtualenv
-python.versions     27 35 36 37 38 39 310 311
+# See <https://trac.macports.org/wiki/Python#VersionPolicy>
+python.versions     27 37 38 39 310 311
 
 if {${name} ne ${subport}} {
     depends_build-append \
                     port:py${python.version}-setuptools \
                     port:py${python.version}-setuptools_scm
 
-    if {${python.version} == 36} {
-        version     2.4.0
-        revision    0
-        checksums   rmd160  4dbcd578204ea2114f6ff5eb72fb5a4a860fd5ec \
-                    sha256  367a5e80b3d04d2428ffa76d33f124cf11e8fff2acdaa9b43d545f5c7d661ef2 \
-                    size    24051
-    } elseif {${python.version} <= 35} {
+    if {${python.version} <= 35} {
         version     2.0.2
         epoch       1
         revision    0

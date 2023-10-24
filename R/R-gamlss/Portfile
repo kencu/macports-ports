@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran gamlss 5.4-12
+R.setup             cran mstasinopoulos gamlss 5.4-20
 revision            0
 categories-append   math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
@@ -11,11 +11,13 @@ license             {GPL-2 GPL-3}
 description         Generalised Additive Models for Location Scale and Shape
 long_description    {*}${description}
 homepage            https://www.gamlss.com
-checksums           rmd160  8bce7aac7113a84c2fb84176140676676d695224 \
-                    sha256  9f791039f7e5c3cf3f6a2da955994a8c41c43044a2d77d99b289e4f82118a6f0 \
-                    size    334035
+checksums           rmd160  d24900d324ecfd5e3413c323b2e3a653287308f3 \
+                    sha256  a60c1e20e173f909a0df344016e64381e45a098b60f07f80fd2802bfba086873 \
+                    size    337250
 
 depends_lib-append  port:R-gamlss.data \
                     port:R-gamlss.dist 
+
+depends_test-append port:R-distributions3
 
 test.run            yes

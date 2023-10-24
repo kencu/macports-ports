@@ -3,16 +3,16 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran kzst nda 0.1.11
+R.setup             cran kzst nda 0.1.13
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             GPL-2+
 description         Generalized network-based dimensionality reduction and analysis
 long_description    {*}${description}
-checksums           rmd160  5146d04130aa542ad20142b69f5292b4c08660c9 \
-                    sha256  1435429f3e2176fbdf802e47f73d3fa614f9757e6d86a2bed8cbb1db9e84f3d7 \
-                    size    1554621
+checksums           rmd160  86abcc371b586cca5bc620bb9595559997551973 \
+                    sha256  eca205df5fdd4b2787646ab3830239d7ac42bb3e5de370d0d872830db07476ec \
+                    size    1555497
 supported_archs     noarch
 
 depends_lib-append  port:R-energy \

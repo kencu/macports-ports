@@ -3,15 +3,15 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran eventPred 0.1.5
+R.setup             cran kaifenglu eventPred 0.2.1
 revision            0
 maintainers         nomaintainer
 license             GPL-2+
 description         Event Prediction
 long_description    {*}${description}
-checksums           rmd160  ad8bab40403f79398df71a9c96689a9c72da88be \
-                    sha256  59376f0e65ebb7e75f357871c112e5c813d96fa3ff50d8b741471fddc7e571ac \
-                    size    46320
+checksums           rmd160  adebcb066c3a7fb70176fc2a7593064dfe3d291f \
+                    sha256  f1c12951ca9b10af44c3e60825e2b7834662ec85d3071902a5c95d2f1619407d \
+                    size    52025
 supported_archs     noarch
 
 depends_lib-append  port:R-dplyr \

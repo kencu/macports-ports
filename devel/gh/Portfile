@@ -2,7 +2,7 @@
 
 PortSystem          1.0
 
-version             2.32.0
+version             2.37.0
 revision            0
 
 # Github CLI is failing to build on 10.12 and below.
@@ -46,7 +46,7 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
 
 if ${source_build} {
     # Allow Go to fetch dependencies at build time
-    build.env-delete    GO111MODULE=off GOPROXY=off
+    go.offline_build no
     build.cmd           make
     build.pre_args-append \
                         GH_VERSION=${version}
@@ -54,9 +54,9 @@ if ${source_build} {
 
     use_parallel_build  no
 
-    checksums           rmd160  04218f8804c57c2a86ce9cfc12b1fb0da33b9918 \
-                        sha256  d6c332518d38f4b73fef37f3970ef91f05769f4a2ccf84e660a39d2138073cba \
-                        size    898491
+    checksums           rmd160  13942b2c20c93dd32cc08eff7fe74c9361047e3c \
+                        sha256  527ca3aeaf6a565a0b058825748683ec5f5e199d5754466943c1f5c69a7d5bfe \
+                        size    900623
 
     github.tarball_from archive
 
@@ -76,9 +76,9 @@ if ${source_build} {
 
     distname        gh_${version}_macOS_amd64
 
-    checksums       rmd160  361bed3accd54b432c33a5a010b625de9a468a97 \
-                    sha256  e6dd7cb61338c6aab27dfc744bf74817f26a938e505a8e817316513ebf02eb57 \
-                    size    10957234
+    checksums       rmd160  65ddfaf953da3558f3aa441e796a2ca2da7673aa \
+                    sha256  0eecb97c52a90f86bd4466a63610cd27e10ea9714b88ee4ee86fdeb1f000e974 \
+                    size    11372232
 
     use_configure   no
     use_zip         yes

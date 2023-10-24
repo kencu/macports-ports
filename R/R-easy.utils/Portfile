@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           R 1.0
+
+R.setup             cran ycli1995 easy.utils 0.0.3
+revision            0
+maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
+license             MIT
+description         Frequently used functions for easy R programming
+long_description    {*}${description}
+checksums           rmd160  ec7d127a21f3e11f6eeb6b22eab78aaffc153dd6 \
+                    sha256  6fc93820003c03300f589bbc3867dceebe5c9441db6b280f612e350cfff52f92 \
+                    size    13761
+supported_archs     noarch
+
+depends_lib-append  port:R-dplyr \
+                    port:R-fastmatch \
+                    port:R-Polychrome \
+                    port:R-rlang \
+                    port:R-scales
+
+# https://github.com/ycli1995/easy.utils/issues/1
+patchfiles          patch-no-randomcoloR.diff
+
+test.run            yes

@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/anchore/quill 0.2.0 v
+go.setup            github.com/anchore/quill 0.4.1 v
 github.tarball_from archive
 revision            0
 
@@ -17,11 +17,11 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  74ef129f893b479326d7fcdc10ee3b08c88fa7fa \
-                    sha256  f84cc6e5ce59db7c7e25e077e601c78fbb109740405279be3bf05762c505063f \
-                    size    137640
+checksums           rmd160  6857aaa3d62abbc29a67c5a43de757f0f216d879 \
+                    sha256  8748fda02404711af62d839058e67927afa0eef810227e274f8cc24e07ca5d08 \
+                    size    169422
 
-build.env-delete    GO111MODULE=off GOPROXY=off
+go.offline_build no
 
 build.pre_args-append \
     -ldflags \" \
